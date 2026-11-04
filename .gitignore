@@ -1,0 +1,17 @@
+# Dependensi
+node_modules/
+bem-fe/node_modules/
+bem-be/vendor/
+
+# Build & Cache
+bem-fe/dist/
+bem-fe/.astro/
+bem-be/bootstrap/cache/
+bem-be/storage/*.key
+
+# Environment & Keamanan
+.env
+bem-fe/.env
+bem-be/.env
+.DS_Store
+Thumbs.db
