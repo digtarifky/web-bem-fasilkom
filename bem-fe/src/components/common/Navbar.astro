@@ -1,0 +1,255 @@
+---
+// src/components/common/Navbar.astro
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { name: 'Beranda', href: '#beranda', id: 'beranda' },
+  { name: 'Sambutan', href: '#sambutan', id: 'sambutan' },
+  { name: 'Filosofi Logo', href: '#filosofi', id: 'filosofi' },
+  { name: 'Profil & Misi', href: '#profil-misi', id: 'profil-misi' },
+];
+---
+
+<header id="navbar-container" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-5 px-3 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <nav 
+      id="main-nav"
+      class="bg-white/95 backdrop-blur-md border border-zinc-200/80 shadow-md shadow-zinc-900/5 rounded-full px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300"
+    >
+      <!-- Logo & Kabinet Name -->
+      <a href="#beranda" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-full pr-2">
+        <div class="relative w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+          <img 
+            src="/assets/logo/bem-fasilkom-logo.svg" 
+            alt="Logo BEM FASILKOM UPNVJT" 
+            class="w-full h-full object-contain"
+            width="40"
+            height="40"
+          />
+        </div>
+        <div class="flex flex-col text-left">
+          <span class="text-xs sm:text-sm font-extrabold tracking-tight text-zinc-900 leading-none group-hover:text-orange-600 transition-colors">
+            BEM FASILKOM <span class="text-orange-500">2026</span>
+          </span>
+          <span class="text-[9px] sm:text-[10px] font-bold tracking-widest text-orange-600 uppercase mt-0.5">
+            Kabinet Aetherion
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <div class="hidden md:flex items-center gap-1.5 lg:gap-2">
+        {navLinks.map((link, idx) => (
+          <a
+            href={link.href}
+            data-nav-id={link.id}
+            class:list={[
+              'nav-link px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
+              idx === 0
+                ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
+                : 'text-zinc-600 hover:text-orange-600 hover:bg-orange-50'
+            ]}
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+
+      <!-- Action Button / Aduan Center & Mobile Hamburger -->
+      <div class="flex items-center gap-2">
+        <!-- Aduan Center Button -->
+        <a 
+          href="#aduan" 
+          class="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-black text-white text-xs font-semibold tracking-wide shadow-sm hover:shadow transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+        >
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+          </span>
+          <span>Aduan Center</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Buka Menu Navigasi"
+          aria-expanded="false"
+          class="md:hidden p-2 rounded-full text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+        >
+          <svg id="hamburger-icon" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Dropdown Menu -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden mt-2 bg-white/95 backdrop-blur-xl border border-zinc-200 rounded-3xl p-4 shadow-xl shadow-zinc-900/10 transition-all duration-300 transform origin-top opacity-0 scale-95"
+    >
+      <div class="flex flex-col gap-1">
+        {navLinks.map((link, idx) => (
+          <a
+            href={link.href}
+            data-nav-id={link.id}
+            class:list={[
+              'mobile-nav-link px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200',
+              idx === 0
+                ? 'bg-orange-500 text-white'
+                : 'text-zinc-700 hover:bg-orange-50 hover:text-orange-600'
+            ]}
+          >
+            {link.name}
+          </a>
+        ))}
+        <div class="border-t border-zinc-100 my-2 pt-2">
+          <a
+            href="#aduan"
+            class="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-semibold hover:bg-black transition-colors"
+          >
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            <span>Aduan Center 24/7</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initDynamicNavbar() {
+    const navbarContainer = document.getElementById('navbar-container');
+    const mainNav = document.getElementById('main-nav');
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    // Scroll state handler
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      
+      if (scrollY > 30) {
+        navbarContainer?.classList.remove('sm:py-5');
+        navbarContainer?.classList.add('sm:py-2.5');
+        mainNav?.classList.add('shadow-lg', 'border-zinc-300/90', 'bg-white/98');
+        mainNav?.classList.remove('bg-white/95');
+      } else {
+        navbarContainer?.classList.add('sm:py-5');
+        navbarContainer?.classList.remove('sm:py-2.5');
+        mainNav?.classList.remove('shadow-lg', 'border-zinc-300/90', 'bg-white/98');
+        mainNav?.classList.add('bg-white/95');
+      }
+
+      lastScrollY = scrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Active Section Tracking via Intersection Observer
+    const sections = ['beranda', 'sambutan', 'filosofi', 'profil-misi'];
+    const sectionElements = sections
+      .map(id => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const currentId = entry.target.id;
+            
+            navLinks.forEach((link) => {
+              const targetId = link.getAttribute('data-nav-id');
+              if (targetId === currentId) {
+                link.className = 'nav-link px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 focus:outline-none bg-orange-500 text-white shadow-sm shadow-orange-500/30';
+              } else {
+                link.className = 'nav-link px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 focus:outline-none text-zinc-600 hover:text-orange-600 hover:bg-orange-50';
+              }
+            });
+
+            mobileNavLinks.forEach((link) => {
+              const targetId = link.getAttribute('data-nav-id');
+              if (targetId === currentId) {
+                link.className = 'mobile-nav-link px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-orange-500 text-white';
+              } else {
+                link.className = 'mobile-nav-link px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-zinc-700 hover:bg-orange-50 hover:text-orange-600';
+              }
+            });
+          }
+        });
+      },
+      {
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0
+      }
+    );
+
+    sectionElements.forEach((el) => observer.observe(el));
+
+    // Mobile Menu Toggle
+    let isMenuOpen = false;
+
+    const toggleMenu = (open?: boolean) => {
+      isMenuOpen = typeof open === 'boolean' ? open : !isMenuOpen;
+      mobileBtn?.setAttribute('aria-expanded', String(isMenuOpen));
+
+      if (isMenuOpen) {
+        mobileMenu?.classList.remove('hidden');
+        // trigger animation
+        requestAnimationFrame(() => {
+          mobileMenu?.classList.remove('opacity-0', 'scale-95');
+          mobileMenu?.classList.add('opacity-100', 'scale-100');
+        });
+        hamburgerIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+      } else {
+        mobileMenu?.classList.remove('opacity-100', 'scale-100');
+        mobileMenu?.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+          if (!isMenuOpen) mobileMenu?.classList.add('hidden');
+        }, 200);
+        hamburgerIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+      }
+    };
+
+    mobileBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close mobile menu on link click
+    mobileNavLinks.forEach((link) => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !navbarContainer?.contains(e.target as Node)) {
+        toggleMenu(false);
+      }
+    });
+  }
+
+  // Run on first load and on client-side navigation (Astro view transitions if used)
+  document.addEventListener('DOMContentLoaded', initDynamicNavbar);
+  document.addEventListener('astro:page-load', initDynamicNavbar);
+</script>
+

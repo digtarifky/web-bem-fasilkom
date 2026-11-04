@@ -1,0 +1,149 @@
+---
+// src/components/common/Footer.astro
+const quickLinks = [
+  { name: 'Beranda', href: '#beranda' },
+  { name: 'Sambutan Pres & Wapres', href: '#sambutan' },
+  { name: 'Makna Filosofi Logo', href: '#filosofi' },
+  { name: 'Company Profile Video', href: '#profil-misi' },
+  { name: 'Program Kerja Unggulan', href: '#proker' },
+];
+
+const bottomLinks = [
+  { name: 'Panduan Organisasi', href: '#' },
+  { name: 'Transparansi Anggaran', href: '#' },
+  { name: 'Kanal Advokasi', href: '#aduan' },
+];
+---
+
+<footer class="bg-[#090A0F] text-zinc-300 pt-16 pb-12 border-t border-zinc-800/80 relative overflow-hidden">
+  <!-- Subtle ambient background glow -->
+  <div class="absolute -top-32 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 right-1/4 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+    <!-- 3-Column Editorial Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-12">
+      
+      <!-- Column 1: Identity & Editorial Statement (5 cols on md) -->
+      <div class="md:col-span-5 flex flex-col justify-between">
+        <div>
+          <!-- Brand Logo & Name -->
+          <div class="flex items-center gap-3.5 mb-5">
+            <div class="w-10 h-10 flex-shrink-0">
+              <img 
+                src="/assets/logo/bem-fasilkom-logo.svg" 
+                alt="Logo BEM FASILKOM UPNVJT" 
+                class="w-full h-full object-contain"
+                width="40"
+                height="40"
+              />
+            </div>
+            <div class="flex flex-col text-left">
+              <span class="text-base font-extrabold tracking-tight text-white leading-none">
+                BEM FASILKOM <span class="text-orange-500">UPNVJT</span>
+              </span>
+              <span class="text-[10px] font-bold tracking-widest text-orange-500 uppercase mt-1">
+                KABINET AETHERION 2026
+              </span>
+            </div>
+          </div>
+
+          <!-- Editorial Description -->
+          <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+            Badan Eksekutif Mahasiswa Fakultas Ilmu Komputer Universitas Pembangunan Nasional "Veteran" Jawa Timur. Menyulutkan karsa, merajut inovasi tanpa batas.
+          </p>
+        </div>
+
+        <!-- Tagline / Hashtag Badge -->
+        <div class="mt-6 pt-4 border-t border-zinc-800/60 inline-flex items-center gap-2">
+          <span class="text-xs font-bold tracking-wider uppercase text-amber-500">
+            KOLABORASI BERKELANJUTAN
+          </span>
+          <span class="text-zinc-600">•</span>
+          <span class="text-xs font-semibold tracking-wider text-orange-400">
+            #AetherionBergerak
+          </span>
+        </div>
+      </div>
+
+      <!-- Column 2: Tautan Cepat (3 cols on md) -->
+      <div class="md:col-span-3">
+        <h3 class="text-xs font-bold tracking-widest uppercase text-amber-500 mb-5 flex items-center gap-2">
+          <span>TAUTAN CEPAT</span>
+        </h3>
+        <ul class="space-y-3">
+          {quickLinks.map((link) => (
+            <li>
+              <a 
+                href={link.href} 
+                class="text-sm text-zinc-400 hover:text-white transition-colors duration-200 inline-flex items-center gap-1.5 group"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-orange-500 transition-colors"></span>
+                <span class="group-hover:translate-x-0.5 transition-transform">{link.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Sekretariat & Layanan Informasi (4 cols on md) -->
+      <div class="md:col-span-4">
+        <h3 class="text-xs font-bold tracking-widest uppercase text-amber-500 mb-5 flex items-center gap-2">
+          <span>SEKRETARIAT & LAYANAN INFORMASI</span>
+        </h3>
+        <ul class="space-y-4">
+          <!-- Alamat -->
+          <li class="flex items-start gap-3 text-sm text-zinc-400 group">
+            <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="leading-snug">
+              Gedung Giri Pustaka Lt. 2, UPN "Veteran" Jawa Timur, Jl. Rungkut Madya No. 1, Surabaya 60294
+            </span>
+          </li>
+
+          <!-- Email -->
+          <li class="flex items-center gap-3 text-sm text-zinc-400">
+            <svg class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <a href="mailto:bem.fasilkom@upnjatim.ac.id" class="hover:text-orange-400 transition-colors">
+              bem.fasilkom@upnjatim.ac.id
+            </a>
+          </li>
+
+          <!-- Phone / WhatsApp -->
+          <li class="flex items-center gap-3 text-sm text-zinc-400">
+            <svg class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <a href="tel:+6282134567890" class="hover:text-orange-400 transition-colors">
+              +62 821-3456-7890 (Deva/Sekretaris)
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Editorial Bottom Bar -->
+    <div class="border-t border-zinc-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+      <p class="text-center sm:text-left">
+        &copy; 2026 BEM FASILKOM UPN "Veteran" Jawa Timur. All Rights Reserved.
+      </p>
+
+      <div class="flex items-center flex-wrap justify-center gap-3 sm:gap-5 text-zinc-400">
+        {bottomLinks.map((item, idx) => (
+          <div class="flex items-center gap-3 sm:gap-5">
+            {idx > 0 && <span class="text-zinc-700">•</span>}
+            <a href={item.href} class="hover:text-orange-400 transition-colors">
+              {item.name}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
