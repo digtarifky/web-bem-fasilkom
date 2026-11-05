@@ -8,7 +8,7 @@ const { currentPath = '/' } = Astro.props;
 
 const navLinks = [
   { name: 'Beranda', href: '/' },
-  { name: 'Struktur', href: '/struktur' },
+  { name: 'Struktur', href: '/struktur-kabinet' },
   { name: 'Berita', href: '/berita' },
   { name: 'Advo Center', href: '/advo' },
 ];
@@ -142,82 +142,121 @@ const navLinks = [
 </style>
 
 <script>
-  // A. Scroll Detection & Class Switcher
-  const nav = document.getElementById('nav-liquid');
-  const mobileToggle = document.getElementById('mobile-toggle');
-  const mobileDrawer = document.getElementById('mobile-drawer');
+  function initNavbar() {
+    const nav = document.getElementById('nav-liquid');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const indicator = document.getElementById('sliding-indicator');
+    const navItems = document.querySelectorAll<HTMLAnchorElement>('[data-nav-item]');
 
-  mobileToggle?.addEventListener('click', () => {
-    mobileDrawer?.classList.toggle('hidden');
-  });
-
-  let isFloating = false;
-  let ticking = false;
-
-  const updateNavbar = () => {
     if (!nav) return;
-    const scrollY = window.scrollY;
 
-    // Hysteresis yang stabil: Aktif saat scroll > 20px, reset saat mentok ke atas (<= 5px)
-    if (scrollY > 20 && !isFloating) {
-      isFloating = true;
-      nav.classList.remove('nav-top');
-      nav.classList.add('nav-scrolled');
-      // Perbarui posisi indicator saat navbar mengecil
-      setTimeout(initIndicator, 200);
-    } else if (scrollY <= 5 && isFloating) {
-      isFloating = false;
-      nav.classList.remove('nav-scrolled');
-      nav.classList.add('nav-top');
-      // Perbarui posisi indicator saat navbar melebar penuh
-      setTimeout(initIndicator, 150);
-    }
+    // 1. Mobile Drawer Toggle
+    mobileToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileDrawer?.classList.toggle('hidden');
+    });
 
-    ticking = false;
-  };
+    // 2. Sliding Indicator Position
+    const moveIndicator = (target: HTMLElement | null) => {
+      if (!target || !indicator) return;
+      indicator.style.width = `${target.offsetWidth}px`;
+      indicator.style.transform = `translateX(${target.offsetLeft}px)`;
+      indicator.style.opacity = '1';
+    };
 
-  window.addEventListener(
-    'scroll',
-    () => {
+    const updateIndicatorToActive = () => {
+      const activeItem = (document.querySelector('[data-nav-item].is-active') as HTMLElement) || (navItems[0] as HTMLElement);
+      moveIndicator(activeItem);
+    };
+
+    // 3. Sinkronisasi Tautan Aktif Berdasarkan URL Terkini
+    const syncActiveNavLink = () => {
+      const currentPath = window.location.pathname;
+      navItems.forEach((item) => {
+        const href = item.getAttribute('href');
+        const isActive = href === currentPath || (href !== '/' && href !== '' && currentPath.startsWith(href || ''));
+        if (isActive) {
+          item.classList.add('text-neutral-950', 'font-bold', 'is-active');
+          item.classList.remove('text-neutral-600');
+        } else {
+          item.classList.remove('text-neutral-950', 'font-bold', 'is-active');
+          item.classList.add('text-neutral-600');
+        }
+      });
+      updateIndicatorToActive();
+    };
+
+    // 4. Update Status Navbar (Liquid Scrolled vs Top)
+    // Cek langsung class DOM agar kebal bug desinkronisasi BFCache / History Back-Forward
+    const updateNavbarState = () => {
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      const isCurrentlyScrolled = nav.classList.contains('nav-scrolled');
+
+      if (scrollY > 20 && !isCurrentlyScrolled) {
+        nav.classList.remove('nav-top');
+        nav.classList.add('nav-scrolled');
+        setTimeout(updateIndicatorToActive, 180);
+      } else if (scrollY <= 10 && isCurrentlyScrolled) {
+        nav.classList.remove('nav-scrolled');
+        nav.classList.add('nav-top');
+        setTimeout(updateIndicatorToActive, 140);
+      }
+    };
+
+    // 5. Scroll Handler dengan Throttling via requestAnimationFrame yang Aman
+    let ticking = false;
+    const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateNavbar);
+        window.requestAnimationFrame(() => {
+          updateNavbarState();
+          ticking = false;
+        });
         ticking = true;
       }
-    },
-    { passive: true }
-  );
+    };
 
-  updateNavbar();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', updateIndicatorToActive);
 
-  // B. Sliding Pill Indicator Logic
-  const indicator = document.getElementById('sliding-indicator');
-  const navItems = document.querySelectorAll<HTMLAnchorElement>('[data-nav-item]');
-
-  const moveIndicator = (target: HTMLElement | null) => {
-    if (!target || !indicator) return;
-    indicator.style.width = `${target.offsetWidth}px`;
-    indicator.style.transform = `translateX(${target.offsetLeft}px)`;
-    indicator.style.opacity = '1';
-  };
-
-  const initIndicator = () => {
-    const activeItem = (document.querySelector('[data-nav-item].is-active') as HTMLElement) || (navItems[0] as HTMLElement);
-    moveIndicator(activeItem);
-  };
-
-  initIndicator();
-
-  navItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      navItems.forEach((el) => {
-        el.classList.remove('text-neutral-950', 'font-bold', 'is-active');
-        el.classList.add('text-neutral-600');
+    // Click handler untuk nav items
+    navItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        navItems.forEach((el) => {
+          el.classList.remove('text-neutral-950', 'font-bold', 'is-active');
+          el.classList.add('text-neutral-600');
+        });
+        item.classList.add('text-neutral-950', 'font-bold', 'is-active');
+        item.classList.remove('text-neutral-600');
+        moveIndicator(item);
       });
-      item.classList.add('text-neutral-950', 'font-bold', 'is-active');
-      item.classList.remove('text-neutral-600');
-      moveIndicator(item);
     });
-  });
 
-  window.addEventListener('resize', initIndicator);
+    // 6. Penanganan Khusus BFCache (Back/Forward Cache Browser) & History Popstate
+    // Saat user menekan tombol 'Back' browser, event ini WAJIB mereset ticking dan menyelaraskan class
+    const handleNavigationRestore = () => {
+      ticking = false;
+      syncActiveNavLink();
+      updateNavbarState();
+      // Browser sering merestorasi scroll position secara asinkron
+      setTimeout(updateNavbarState, 60);
+      setTimeout(updateNavbarState, 200);
+      setTimeout(updateIndicatorToActive, 250);
+    };
+
+    window.addEventListener('pageshow', handleNavigationRestore);
+    window.addEventListener('popstate', handleNavigationRestore);
+    document.addEventListener('astro:page-load', handleNavigationRestore);
+
+    // Initial run saat halaman pertama dimuat
+    syncActiveNavLink();
+    updateNavbarState();
+  }
+
+  // Jalankan saat script dimuat
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavbar);
+  } else {
+    initNavbar();
+  }
 </script>
