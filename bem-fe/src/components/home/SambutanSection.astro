@@ -1,0 +1,291 @@
+---
+// src/components/home/SambutanSection.astro
+---
+
+<!-- Outer Pin Container (250vh untuk memberikan ruang scrolling running text yang presisi) -->
+<section id="sambutan-trigger" class="relative w-full h-[250vh] bg-[#FAFAFA] text-neutral-900 border-y border-neutral-200">
+  
+  <!-- Sticky Viewport Container -->
+  <div id="sambutan-pin" class="sticky top-0 left-0 w-full h-screen flex items-center justify-center overflow-hidden px-6 md:px-12">
+    
+    <!-- Background Ambient Subtil -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-sunset-orange/5 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-warm-gold/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center relative z-10">
+      
+      <!-- ================= KIRI: 3D CARD SHUFFLE ================= -->
+      <div class="lg:col-span-5 relative flex justify-center items-center h-[380px] sm:h-[460px] perspective-[1200px]">
+        
+        <!-- CARD 1: KETUA BEM -->
+        <div
+          id="card-ketua"
+          class="absolute w-64 sm:w-72 h-[360px] sm:h-[420px] rounded-2xl bg-neutral-950 border-2 border-sunset-orange p-3 shadow-2xl will-change-transform z-20"
+          style="transform: translate3d(0, 0, 0) rotate(-4deg);"
+        >
+          <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center pb-16">
+              <div class="w-28 h-28 rounded-full bg-neutral-800 border-2 border-white/10 flex items-center justify-center text-4xl shadow-inner">
+                👔
+              </div>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+            
+            <div class="relative z-20 space-y-1">
+              <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sunset-orange text-white tracking-wider">
+                KETUA BEM
+              </span>
+              <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Esko Pratama, S.Kom.</h4>
+              <p class="text-xs text-gray-400 font-mono">Informatika '22</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: WAKIL KETUA -->
+        <div
+          id="card-wakil"
+          class="absolute w-64 sm:w-72 h-[360px] sm:h-[420px] rounded-2xl bg-neutral-950 border border-white/20 p-3 shadow-2xl will-change-transform z-10 opacity-70"
+          style="transform: translate3d(45px, 25px, -50px) rotate(6deg);"
+        >
+          <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center pb-16">
+              <div class="w-28 h-28 rounded-full bg-neutral-800 border-2 border-white/10 flex items-center justify-center text-4xl shadow-inner">
+                💼
+              </div>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+            
+            <div class="relative z-20 space-y-1">
+              <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-warm-gold text-neutral-950 tracking-wider">
+                WAKIL KETUA BEM
+              </span>
+              <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Julia Putri</h4>
+              <p class="text-xs text-gray-400 font-mono">Sistem Informasi '22</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= KANAN: TEXT RUNNING REVEAL & SIDE INDICATOR ================= -->
+      <div class="lg:col-span-7 space-y-4">
+        
+        <!-- Header (Badge Nomor Dihapus untuk Tampilan Lebih Bersih & Minimalis) -->
+        <div class="border-b border-neutral-200 pb-3">
+          <div class="space-y-1">
+            <span class="text-[11px] font-mono uppercase tracking-widest text-sunset-orange font-bold">
+              BEM FASILKOM UPNVJT 2026
+            </span>
+            
+            <!-- Kontainer Judul Fleksibel: Menghindari teks terpotong -->
+            <div class="relative min-h-[3rem] sm:min-h-[3.5rem] flex items-center">
+              <h2 
+                id="title-ketua" 
+                class="text-2xl sm:text-4xl font-serif font-extrabold text-neutral-900 uppercase tracking-tight absolute inset-0 flex items-center leading-tight whitespace-nowrap will-change-transform"
+              >
+                SAMBUTAN KETUA
+              </h2>
+              <h2 
+                id="title-wakil" 
+                class="text-2xl sm:text-4xl font-serif font-extrabold text-neutral-900 uppercase tracking-tight absolute inset-0 flex items-center leading-tight whitespace-nowrap opacity-0 translate-y-8 will-change-transform"
+              >
+                SAMBUTAN WAKIL KETUA
+              </h2>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-1 h-3.5 bg-sunset-orange rounded-full"></span>
+              <p id="sub-role" class="text-xs text-neutral-600 font-mono tracking-wide">
+                Nakhoda Kabinet Aetherion 2026
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN CONTENT AREA DENGAN SIDE SCROLLING INDICATOR DI SAMPING -->
+        <div class="relative flex items-stretch gap-4 sm:gap-6 py-2">
+          
+          <!-- Running Text Container -->
+          <div class="relative flex-1 min-h-[200px] overflow-hidden">
+            
+            <!-- BLOK TEKS 1: KETUA BEM -->
+            <div id="text-block-ketua" class="space-y-3.5 text-sm sm:text-base leading-relaxed transition-all">
+              <p class="read-step-1 text-neutral-300 transition-colors duration-200">
+                Selamat datang di gerbang pergerakan <strong class="text-neutral-900">BEM FASILKOM 2026</strong>. Melalui <strong class="text-sunset-orange">Kabinet Aetherion</strong>, kami mendedikasikan seluruh daya kreasi dan komitmen untuk menghadirkan kepengurusan yang tidak hanya adaptif terhadap akselerasi teknologi, namun berakar kuat pada nilai kemanusiaan dan kemanfaatan nyata bagi civitas akademika.
+              </p>
+              <p class="read-step-1 text-neutral-300 transition-colors duration-200">
+                Fakultas Ilmu Komputer adalah kawah candradimuka inovator muda. Bersama 10 bidang dan biro strategis, kami siap menjadi jembatan perubahan teknologi yang progresif, wadah riset kolaboratif, serta rumah yang ramah bagi seluruh aspirasi mahasiswa UPN "Veteran" Jawa Timur.
+              </p>
+              <blockquote class="read-step-1 text-neutral-300 italic font-serif text-sm border-l-2 border-sunset-orange pl-3 transition-colors duration-200">
+                "Menyulutkan Karsa, Merajut Inovasi Tanpa Batas"
+              </blockquote>
+            </div>
+
+            <!-- BLOK TEKS 2: WAKIL KETUA BEM -->
+            <div id="text-block-wakil" class="space-y-3.5 text-sm sm:text-base leading-relaxed transition-all absolute inset-0 opacity-0 pointer-events-none translate-y-6">
+              <p class="read-step-2 text-neutral-300 transition-colors duration-200">
+                Harmonisasi dan sinergitas internal adalah pondasi utama ketangguhan organisasi. Di <strong class="text-sunset-orange">Kabinet Aetherion</strong>, kami memastikan setiap pengurus, fungsionaris, dan elemen kelembagaan mahasiswa memiliki ruang kolaborasi yang sehat, suportif, dan inklusif.
+              </p>
+              <p class="read-step-2 text-neutral-300 transition-colors duration-200">
+                Kepemimpinan yang bermakna lahir dari empati dan kesediaan mendengar. Bersama seluruh mahasiswa Fasilkom, kami berikhtiar mengawal setiap denyut aspirasi menjadi program nyata yang terukur, responsif, dan berkelanjutan bagi almamater tercinta.
+              </p>
+              <blockquote class="read-step-2 text-neutral-300 italic font-serif text-sm border-l-2 border-warm-gold pl-3 transition-colors duration-200">
+                "Sinergi Nyata, Mengukir Jejak Bermakna"
+              </blockquote>
+            </div>
+
+          </div>
+
+          <!-- TANDA SCROLLING DI SAMPING (Vertical Reading Progress Track) -->
+          <div class="w-1.5 sm:w-2 rounded-full bg-neutral-200 relative overflow-hidden shrink-0 self-stretch my-1">
+            <!-- Progress Fill Bar -->
+            <div
+              id="side-progress-fill"
+              class="w-full bg-gradient-to-b from-sunset-orange to-amber-500 rounded-full h-0 transition-all duration-75"
+            ></div>
+          </div>
+
+        </div>
+
+        <!-- Interactive Scroll Hint Footer -->
+        <div class="pt-2 flex items-center justify-between border-t border-neutral-200 text-xs font-mono">
+          <div class="flex items-center gap-2 text-neutral-700 font-semibold">
+            <span id="scroll-arrow" class="inline-block text-sunset-orange animate-bounce">↓</span>
+            <span id="scroll-hint">Scroll ke bawah untuk Sambutan Wakil Ketua</span>
+          </div>
+          <span class="text-neutral-400">Surabaya, 2026</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initSambutan() {
+    const cardKetua = document.getElementById('card-ketua');
+    const cardWakil = document.getElementById('card-wakil');
+    const titleKetua = document.getElementById('title-ketua');
+    const titleWakil = document.getElementById('title-wakil');
+    const subRole = document.getElementById('sub-role');
+    const textKetua = document.getElementById('text-block-ketua');
+    const textWakil = document.getElementById('text-block-wakil');
+    const stepsKetua = document.querySelectorAll('.read-step-1');
+    const stepsWakil = document.querySelectorAll('.read-step-2');
+    const progressFill = document.getElementById('side-progress-fill');
+    const scrollArrow = document.getElementById('scroll-arrow');
+    const scrollHint = document.getElementById('scroll-hint');
+
+    if (!cardKetua || !cardWakil || !titleKetua || !titleWakil) return;
+
+    // Bersihkan instance lama saat Astro navigation
+    ScrollTrigger.getAll().forEach((st) => {
+      if (st.vars.trigger === '#sambutan-trigger') {
+        st.kill();
+      }
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#sambutan-trigger',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.5,
+        onUpdate: (self) => {
+          const progress = self.progress;
+
+          // Sinkronisasi teks petunjuk & sub-role saat scrolling dua arah (maju/mundur)
+          if (progress >= 0.5) {
+            if (subRole) subRole.textContent = 'Harmonisasi Internal & Sinergi Strategis';
+            if (scrollArrow) {
+              scrollArrow.textContent = '↑';
+              scrollArrow.className = 'inline-block text-warm-gold animate-bounce';
+            }
+            if (scrollHint) scrollHint.textContent = 'Scroll ke atas untuk Sambutan Ketua';
+          } else {
+            if (subRole) subRole.textContent = 'Nakhoda Kabinet Aetherion 2026';
+            if (scrollArrow) {
+              scrollArrow.textContent = '↓';
+              scrollArrow.className = 'inline-block text-sunset-orange animate-bounce';
+            }
+            if (scrollHint) scrollHint.textContent = 'Scroll ke bawah untuk Sambutan Wakil Ketua';
+          }
+        },
+      },
+    });
+
+    // ================= FASE 1: RUNNING TEXT KETUA (0.0 -> 0.45) =================
+    // Kalimat 1 menyala
+    tl.to(stepsKetua[0], { color: '#171717', duration: 0.3 }, 0.05)
+      .to(progressFill, { height: '35%', duration: 0.3 }, 0.05);
+
+    // Kalimat 2 menyala
+    tl.to(stepsKetua[1], { color: '#171717', duration: 0.3 }, 0.2)
+      .to(progressFill, { height: '70%', duration: 0.3 }, 0.2);
+
+    // Kutipan menyala
+    tl.to(stepsKetua[2], { color: '#b45309', duration: 0.2 }, 0.35)
+      .to(progressFill, { height: '100%', duration: 0.2 }, 0.35);
+
+    // ================= FASE 2: PERGANTIAN KE WAKIL KETUA (0.45 -> 0.6) =================
+    // 3D Card Shuffle
+    tl.to(cardKetua, {
+      x: -55,
+      y: 35,
+      z: -60,
+      rotation: -9,
+      scale: 0.9,
+      opacity: 0.45,
+      borderColor: 'rgba(255, 255, 255, 0.1)',
+      zIndex: 10,
+      duration: 0.5,
+      ease: 'power2.inOut',
+    }, 0.45)
+    .to(cardWakil, {
+      x: 0,
+      y: 0,
+      z: 0,
+      rotation: 3,
+      scale: 1.02,
+      opacity: 1,
+      borderColor: 'rgba(212, 175, 55, 0.9)',
+      boxShadow: '0 25px 50px -12px rgba(212, 175, 55, 0.35)',
+      zIndex: 20,
+      duration: 0.5,
+      ease: 'power2.inOut',
+    }, 0.45);
+
+    // Swap Judul Tanpa Potongan Teks
+    tl.to(titleKetua, { y: -30, opacity: 0, duration: 0.3 }, 0.45)
+      .to(titleWakil, { y: 0, opacity: 1, duration: 0.3 }, 0.5);
+
+    // Swap Konten Teks
+    tl.to(textKetua, { y: -20, opacity: 0, pointerEvents: 'none', duration: 0.3 }, 0.45)
+      .to(textWakil, { y: 0, opacity: 1, pointerEvents: 'auto', duration: 0.3 }, 0.5);
+
+    // Reset Progress Bar Samping untuk Babak 2
+    tl.to(progressFill, { height: '0%', duration: 0.1 }, 0.5);
+
+    // ================= FASE 3: RUNNING TEXT WAKIL KETUA (0.6 -> 1.0) =================
+    // Kalimat 1 menyala
+    tl.to(stepsWakil[0], { color: '#171717', duration: 0.3 }, 0.62)
+      .to(progressFill, { height: '40%', duration: 0.3 }, 0.62);
+
+    // Kalimat 2 menyala
+    tl.to(stepsWakil[1], { color: '#171717', duration: 0.3 }, 0.77)
+      .to(progressFill, { height: '75%', duration: 0.3 }, 0.77);
+
+    // Kutipan menyala
+    tl.to(stepsWakil[2], { color: '#b45309', duration: 0.2 }, 0.9)
+      .to(progressFill, { height: '100%', duration: 0.2 }, 0.9);
+  }
+
+  document.addEventListener('DOMContentLoaded', initSambutan);
+  document.addEventListener('astro:page-load', initSambutan);
+</script>
