@@ -15,12 +15,12 @@
     <div class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center relative z-10">
       
       <!-- ================= KIRI: 3D CARD SHUFFLE ================= -->
-      <div class="lg:col-span-5 relative flex justify-center items-center h-[380px] sm:h-[460px] perspective-[1200px]">
+      <div class="lg:col-span-5 relative flex justify-center items-center h-95 sm:h-115 perspective-distant">
         
         <!-- CARD 1: KETUA BEM -->
         <div
           id="card-ketua"
-          class="absolute w-64 sm:w-72 h-[360px] sm:h-[420px] rounded-2xl bg-neutral-950 border-2 border-sunset-orange p-3 shadow-2xl will-change-transform z-20"
+          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 border-2 border-sunset-orange p-3 shadow-2xl will-change-transform z-20"
           style="transform: translate3d(0, 0, 0) rotate(-4deg);"
         >
           <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
@@ -29,7 +29,7 @@
                 👔
               </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-linier-to-t from-black via-black/40 to-transparent z-10"></div>
             
             <div class="relative z-20 space-y-1">
               <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sunset-orange text-white tracking-wider">
@@ -44,7 +44,7 @@
         <!-- CARD 2: WAKIL KETUA -->
         <div
           id="card-wakil"
-          class="absolute w-64 sm:w-72 h-[360px] sm:h-[420px] rounded-2xl bg-neutral-950 border border-white/20 p-3 shadow-2xl will-change-transform z-10 opacity-70"
+          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 border border-white/20 p-3 shadow-2xl will-change-transform z-10 opacity-70"
           style="transform: translate3d(45px, 25px, -50px) rotate(6deg);"
         >
           <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
@@ -53,7 +53,7 @@
                 💼
               </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-linier-to-t from-black via-black/40 to-transparent z-10"></div>
             
             <div class="relative z-20 space-y-1">
               <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-warm-gold text-neutral-950 tracking-wider">
@@ -73,12 +73,9 @@
         <!-- Header (Badge Nomor Dihapus untuk Tampilan Lebih Bersih & Minimalis) -->
         <div class="border-b border-neutral-200 pb-3">
           <div class="space-y-1">
-            <span class="text-[11px] font-mono uppercase tracking-widest text-sunset-orange font-bold">
-              BEM FASILKOM UPNVJT 2026
-            </span>
             
             <!-- Kontainer Judul Fleksibel: Menghindari teks terpotong -->
-            <div class="relative min-h-[3rem] sm:min-h-[3.5rem] flex items-center">
+            <div class="relative min-h-12 sm:min-h-14 flex items-center">
               <h2 
                 id="title-ketua" 
                 class="text-2xl sm:text-4xl font-serif font-extrabold text-neutral-900 uppercase tracking-tight absolute inset-0 flex items-center leading-tight whitespace-nowrap will-change-transform"
@@ -106,7 +103,7 @@
         <div class="relative flex items-stretch gap-4 sm:gap-6 py-2">
           
           <!-- Running Text Container -->
-          <div class="relative flex-1 min-h-[200px] overflow-hidden">
+          <div class="relative flex-1 min-h-50 overflow-hidden">
             
             <!-- BLOK TEKS 1: KETUA BEM -->
             <div id="text-block-ketua" class="space-y-3.5 text-sm sm:text-base leading-relaxed transition-all">
@@ -153,7 +150,6 @@
             <span id="scroll-arrow" class="inline-block text-sunset-orange animate-bounce">↓</span>
             <span id="scroll-hint">Scroll ke bawah untuk Sambutan Wakil Ketua</span>
           </div>
-          <span class="text-neutral-400">Surabaya, 2026</span>
         </div>
 
       </div>
