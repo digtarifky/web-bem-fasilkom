@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Navbar from '../components/common/Navbar.astro';
 import Footer from '../components/common/Footer.astro';
 import SambutanSection from '../components/home/SambutanSection.astro';
+import VideoSection from '../components/home/VideoSection.astro';
 
 const marqueeItems = [
   { badge: '128 ANGGOTA' },
@@ -70,7 +71,7 @@ const prokerList = [
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet" />
 
-    <meta name="theme-color" content="#090A0F" />
+    <meta name="theme-color" content="#FAF9F6" />
   </head>
   <body class="bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-orange-500 selection:text-white flex flex-col min-h-screen">
     
@@ -79,28 +80,28 @@ const prokerList = [
 
     <main class="grow">
       <!-- ========================================== -->
-      <!-- 1. HERO SECTION & STATS BAR                -->
+      <!-- 1. HERO SECTION                            -->
       <!-- ========================================== -->
-      <section id="beranda" class="relative bg-obsidian text-white pt-28 sm:pt-36 pb-20 sm:pb-28 overflow-hidden">
-        <!-- Dynamic Ambient Glows & Tech Grid Background -->
-        <div class="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] bg-size-[24px_24px] opacity-25"></div>
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-orange-600/20 via-amber-500/15 to-transparent blur-[120px] pointer-events-none rounded-full"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <section id="beranda" class="relative bg-aetherion-light text-neutral-900 pt-28 sm:pt-36 pb-20 sm:pb-28 overflow-hidden">
+        <!-- Dynamic Warm Ambient Glows -->
+        <div class="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-sunset-orange/15 via-amber-400/10 to-transparent blur-[120px] pointer-events-none rounded-full"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-sunset-orange/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div class="max-w-3xl">
             <!-- Pill Badge -->
-            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm shadow-inner shadow-amber-500/10">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span>BEM FASILKOM UPNVJT</span>
-              <span class="text-amber-500/60">•</span>
-              <span>KABINET AETHERION 2026</span>
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-neutral-200/80 text-sunset-orange text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse"></span>
+              <span class="text-neutral-900 font-bold">BEM FASILKOM UPNVJT</span>
+              <span class="text-neutral-300">•</span>
+              <span class="text-sunset-orange font-bold">KABINET AETHERION 2026</span>
             </div>
 
             <!-- Main Headline -->
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-neutral-950">
               Selamat datang di<br />
-              <span class="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-amber-400 to-yellow-400">
+              <span class="text-transparent bg-clip-text bg-linear-to-r from-sunset-orange via-amber-500 to-sunset-orange">
                 BEM FASILKOM
               </span>{" "}
               UPNVJT<br />
@@ -108,7 +109,7 @@ const prokerList = [
             </h1>
 
             <!-- Subtitle Description -->
-            <p class="mt-6 text-zinc-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-normal">
+            <p class="mt-6 text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-normal">
               Mewujudkan Badan Eksekutif Mahasiswa Fakultas Ilmu Komputer yang kreatif, adaptif, dan kolaboratif terhadap seluruh organisasi mahasiswa di UPN "Veteran" Jawa Timur yang berlandaskan Tri Dharma Perguruan Tinggi.
             </p>
 
@@ -116,7 +117,7 @@ const prokerList = [
             <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
               <a
                 href="#proker"
-                class="px-6 py-3.5 rounded-xl bg-linear-to-r from-amber-500 via-orange-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-zinc-950 font-bold text-sm tracking-wide shadow-lg shadow-orange-500/25 flex items-center gap-2.5 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+                class="px-6 py-3.5 rounded-xl bg-linear-to-r from-sunset-orange to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm tracking-wide shadow-lg shadow-sunset-orange/25 flex items-center gap-2.5 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
               >
                 <span>Lihat Program Kerja</span>
                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,7 +127,7 @@ const prokerList = [
 
               <a
                 href="#sambutan"
-                class="px-6 py-3.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/60 font-semibold text-sm tracking-wide flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                class="px-6 py-3.5 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-200/80 shadow-xs hover:shadow-md font-semibold text-sm tracking-wide flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>Tentang Kami</span>
               </a>
@@ -169,99 +170,15 @@ const prokerList = [
       <SambutanSection />
 
       <!-- ========================================== -->
-      <!-- 3. VIDEO PROFIL & MISI STRATEGIS           -->
-      <!-- (3 Kartu di bawahnya telah dihapus)        -->
+      <!-- 3. VIDEO PROFIL & MISI STRATEGIS (3D CINEMA)-->
       <!-- ========================================== -->
-      <section id="profil-misi" class="py-20 sm:py-28 bg-[#F8F9FA] relative overflow-hidden border-b border-zinc-200/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-          
-          <!-- Section Header (Centered) -->
-          <div class="text-center max-w-2xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-950 text-white text-xs font-semibold tracking-wider uppercase mb-4 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-              <span>TAYANGAN PERDANA KABINET AETHERION 2026</span>
-            </div>
-
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-zinc-950 tracking-tight leading-tight">
-              Video Profil & <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Misi Strategis</span>
-            </h2>
-
-            <p class="mt-3 text-zinc-600 text-sm sm:text-base leading-relaxed">
-              Kenali lebih dekat energi kabinet, nilai pergerakan, dan arah transformasi kami selama satu periode kepengurusan.
-            </p>
-          </div>
-
-          <!-- Video Teaser Mockup Player -->
-          <div class="mt-12 max-w-4xl mx-auto">
-            <div 
-              id="video-player-container"
-              class="relative aspect-video rounded-2xl sm:rounded-3xl bg-zinc-950 border border-zinc-800 shadow-2xl shadow-zinc-950/20 overflow-hidden group cursor-pointer"
-            >
-              <div class="absolute inset-0 bg-gradient-to-tr from-black via-zinc-900 to-zinc-950"></div>
-              <div class="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:28px_28px] opacity-15"></div>
-              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-600/20 rounded-full blur-3xl pointer-events-none group-hover:bg-orange-600/30 transition-colors duration-500"></div>
-
-              <!-- Top Header Overlay -->
-              <div class="absolute top-0 left-0 right-0 p-4 sm:p-6 flex items-center justify-between z-20">
-                <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-700/60 backdrop-blur-md">
-                  <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
-                  <span class="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-200 uppercase">
-                    AETHERION OFFICIAL TEASER
-                  </span>
-                </div>
-
-                <div class="text-[10px] sm:text-xs font-mono text-zinc-400 bg-zinc-900/60 px-2.5 py-1 rounded-md border border-zinc-800">
-                  PREVIEW ONLY
-                </div>
-              </div>
-
-              <!-- Center Glowing Interactive Play Button -->
-              <div class="absolute inset-0 flex items-center justify-center z-20">
-                <button 
-                  type="button"
-                  id="play-teaser-btn"
-                  aria-label="Putar Video Profil BEM FASILKOM 2026"
-                  class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 group-hover:bg-orange-500 backdrop-blur-md border border-white/20 group-hover:border-orange-400 text-white flex items-center justify-center shadow-xl transition-all duration-300 group-hover:scale-110 active:scale-95 focus:outline-none"
-                >
-                  <span class="absolute inset-0 rounded-full border border-orange-500/40 animate-ping opacity-75"></span>
-                  <svg class="w-7 h-7 sm:w-8 sm:h-8 ml-1 text-white group-hover:text-zinc-950 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Bottom Controls Overlay -->
-              <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black via-black/80 to-transparent z-20">
-                <div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden mb-3 relative cursor-pointer">
-                  <div class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full w-[44%] relative">
-                    <span class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"></span>
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between text-[10px] sm:text-xs font-mono text-zinc-400">
-                  <span class="text-zinc-300 font-semibold">01:12 / 02:45</span>
-                  <div class="flex items-center gap-2">
-                    <span class="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">1080p</span>
-                    <span>•</span>
-                    <span>60FPS</span>
-                    <span>•</span>
-                    <span class="text-amber-400 font-bold">KABINET AETHERION</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CATATAN: 3 kartu di bawah video teaser telah dihapus sesuai permintaan -->
-
-        </div>
-      </section>
+      <VideoSection />
 
       <!-- ========================================== -->
       <!-- 4. PROGRAM KERJA UNGGULAN                  -->
       <!-- ========================================== -->
       <section id="proker" class="py-20 sm:py-28 bg-white relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -278,7 +195,7 @@ const prokerList = [
 
             <a 
               href="#" 
-              class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-orange-600 hover:text-orange-700 group transition-colors flex-shrink-0"
+              class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-orange-600 hover:text-orange-700 group transition-colors shrink-0"
             >
               <span>Lihat Seluruh 42 Program Kerja</span>
               <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,30 +204,21 @@ const prokerList = [
             </a>
           </div>
 
-          <!-- 4 Cards Grid -->
+          <!-- 4 Cards Grid: Proporsi Seimbang -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {prokerList.map((item) => (
-              <div class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-3.5 flex flex-col justify-between group">
-                <div>
+              <div class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between min-h-90 sm:min-h-93.75 group">
+                <div class="grow flex flex-col">
+                  <!-- Thumbnail Proporsional: Tinggi Pas (antara 144px lama & 224px sebelumnya) -->
                   <div class:list={[
-                    'relative h-36 rounded-xl overflow-hidden p-3.5 flex flex-col justify-between mb-4 border border-zinc-800/80',
+                    'relative h-44 sm:h-46 rounded-xl overflow-hidden p-4 flex flex-col justify-end mb-4 border border-zinc-800/80',
                     item.gradient
                   ]}>
                     <div class="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] opacity-10"></div>
-                    
-                    <div class="relative z-10 flex items-center justify-between">
-                      <span class:list={[
-                        'px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shadow-sm',
-                        item.tagColor
-                      ]}>
-                        {item.tag}
-                      </span>
 
-                      <span class="w-2 h-2 rounded-full" style={`background-color: ${item.accentColor}; box-shadow: 0 0 8px ${item.accentColor}`}></span>
-                    </div>
-
+                    <!-- Bottom Accent & Edition Meta -->
                     <div class="relative z-10 flex items-end justify-between">
-                      <svg class="w-8 h-8 opacity-40 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg class="w-7 h-7 opacity-40 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                       <span class="text-[9px] font-mono text-zinc-400 uppercase tracking-widest">
@@ -319,18 +227,18 @@ const prokerList = [
                     </div>
                   </div>
 
-                  <h3 class="text-base font-black text-zinc-950 group-hover:text-orange-600 transition-colors leading-snug">
+                  <h3 class="text-base sm:text-lg font-black text-zinc-950 group-hover:text-sunset-orange transition-colors leading-snug">
                     {item.title}
                   </h3>
 
-                  <p class="mt-2 text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  <p class="mt-2 text-xs sm:text-sm text-zinc-600 leading-relaxed grow">
                     {item.description}
                   </p>
                 </div>
 
-                <div class="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+                <div class="mt-4 pt-3.5 border-t border-zinc-100 flex items-center justify-between text-xs">
                   <span class="text-zinc-600 text-[11px] font-medium">{item.category}</span>
-                  <span class="text-orange-600 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center">
+                  <span class="text-sunset-orange font-bold group-hover:translate-x-1 transition-transform inline-flex items-center">
                     Detail &rarr;
                   </span>
                 </div>
@@ -403,7 +311,7 @@ const prokerList = [
         </button>
 
         <div class="flex items-center gap-4 mb-6">
-          <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 p-2 flex items-center justify-center flex-shrink-0">
+          <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 p-2 flex items-center justify-center shrink-0">
             <img src="/assets/logo/bem-fasilkom-logo.svg" alt="Logo Aetherion" class="w-full h-full object-contain" />
           </div>
           <div>
@@ -414,21 +322,21 @@ const prokerList = [
 
         <div class="space-y-4 text-xs sm:text-sm text-zinc-300 leading-relaxed border-t border-zinc-800/80 pt-5">
           <div class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-orange-500 mt-1.5 flex-shrink-0"></div>
+            <div class="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0"></div>
             <p>
               <strong class="text-white">Cincin Orbit Melingkar:</strong> Melambangkan sinergi tanpa batas antarcivitas akademika dan tekad untuk terus berevolusi mengikuti percepatan teknologi dunia.
             </p>
           </div>
 
           <div class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
+            <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></div>
             <p>
               <strong class="text-white">Inti Api Aetherion:</strong> Representasi karsa, keberanian berinovasi, serta daya juang mahasiswa Fakultas Ilmu Komputer yang senantiasa menyala untuk kebermanfaatan umat.
             </p>
           </div>
 
           <div class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-yellow-400 mt-1.5 flex-shrink-0"></div>
+            <div class="w-2 h-2 rounded-full bg-yellow-400 mt-1.5 shrink-0"></div>
             <p>
               <strong class="text-white">Gradasi Oranye & Emas:</strong> Simbol optimisme, kehangatan kepemimpinan yang inklusif, dan dedikasi luhur bagi almamater UPN "Veteran" Jawa Timur.
             </p>
@@ -463,7 +371,7 @@ const prokerList = [
         </button>
 
         <div class="flex items-center gap-3.5 mb-6">
-          <div class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 shrink-0">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
@@ -536,8 +444,8 @@ const prokerList = [
     <script>
       function initIndexPage() {
         // Video Modal
-        const playBtn = document.getElementById('play-teaser-btn');
-        const playerContainer = document.getElementById('video-player-container');
+        const playBtn = document.getElementById('video-play-btn') || document.getElementById('play-teaser-btn');
+        const playerContainer = document.getElementById('video-card-frame') || document.getElementById('video-player-container');
         const videoModal = document.getElementById('video-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
 

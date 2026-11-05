@@ -54,3 +54,12 @@ html {
 .animate-marquee-infinite:hover {
   animation-play-state: paused;
 }
+
+/* Warm Ivory Mesh Gradient Theme for Hero */
+.bg-aetherion-light {
+  background-color: #FAF9F6;
+  background-image: 
+    radial-gradient(circle at 90% 40%, rgba(254, 215, 170, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 10% 15%, rgba(255, 237, 213, 0.30) 0%, transparent 35%),
+    radial-gradient(circle at 85% 85%, rgba(253, 230, 138, 0.25) 0%, transparent 40%);
+}
