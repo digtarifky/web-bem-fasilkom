@@ -1,9 +1,10 @@
 ---
 // src/components/struktur/FilosofiLogo.astro
-// Kiri : "Crest Specimen" yang gambarnya berganti mengikuti kartu aktif.
+// Kiri : logo (transparan, tanpa kartu) yang gambarnya berganti mengikuti kartu aktif.
 // Kanan: kartu makna logo.
 //
-// Desktop ≥1024px + motion (pola SambutanSection): section menempel (sticky) selama di-scroll,
+// Desktop ≥1024px + motion (pola SambutanSection): konten menempel (sticky, tepat di bawah navbar)
+//   selama spacer di bawahnya di-scroll,
 //   kartu bergulir seperti drum 3D. Kartu aktif di tengah, tetangganya di atas/bawah miring
 //   (rotateX), mundur ke belakang (z), redup + blur. Saat di-scroll, kartu aktif naik dan
 //   "tenggelam" ke belakang, kartu berikutnya naik ke tengah. Bar progres di samping.
@@ -17,30 +18,22 @@ const LOGO_PENUH = '/assets/logo/logo-kabinet.svg';
 const LABEL_CREST = 'Logo Kabinet Aetherion';
 /** Jarak scroll per pergantian kartu (svh). */
 const SVH_PER_KARTU = 60;
-const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh)`;
+const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
 ---
 
-<div data-filosofi class="filosofi-root" style={`--filosofi-h: ${tinggiGulir}`}>
+<div data-filosofi class="filosofi-root">
   <div class="filosofi-pin">
-    <div data-reveal-group class="grid lg:grid-cols-12 gap-10 w-full items-center">
-      <!-- ================= KIRI: CREST SPECIMEN ================= -->
+    <div data-reveal-group class="grid lg:grid-cols-12 gap-10 xl:gap-16 w-full items-center">
+      <!-- ================= KIRI: LOGO (tanpa kartu, transparan di atas background section) ================= -->
       <div class="filosofi-crest-col lg:col-span-5 lg:sticky lg:top-28 self-start">
-        <figure class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-5 sm:p-6 max-w-md mx-auto lg:max-w-none">
-          <div class="flex items-center justify-between gap-4 text-[10px] font-mono font-bold tracking-wider text-neutral-400">
-            <span>ARTIFACT NO. 001</span>
-            <span>SVG-VECT.2026</span>
-          </div>
-
           <div
             id="filosofi-crest"
             data-filosofi-crest
             data-label={LABEL_CREST}
-            class="relative mt-4 aspect-square rounded-2xl bg-aetherion-light overflow-hidden border border-neutral-200/60"
+            class="filosofi-crest relative aspect-square w-full max-w-md mx-auto lg:max-w-none"
             role="img"
             aria-label={LABEL_CREST}
           >
-            <div class="absolute inset-0 m-auto w-2/3 h-2/3 rounded-full bg-sunset-orange/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
-
             <!-- Logo penuh: cadangan jika data filosofi kosong -->
             <img
               data-filosofi-full
@@ -49,7 +42,7 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
               alt=""
               aria-hidden="true"
               decoding="async"
-              class="absolute inset-0 w-full h-full object-contain p-8 transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
+              class="absolute inset-0 w-full h-full object-contain transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
             />
 
             <!-- Bagian logo per kartu -->
@@ -62,30 +55,19 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
                 aria-hidden="true"
                 loading={i === 0 ? 'eager' : 'lazy'}
                 decoding="async"
-                class="absolute inset-0 w-full h-full object-contain p-8 transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
+                class="absolute inset-0 w-full h-full object-contain transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
               />
             ))}
           </div>
-
-          <figcaption class="mt-5">
-            <p class="font-serif font-bold text-xl text-neutral-900">Crest Specimen</p>
-            <p class="mt-1 text-xs font-extrabold tracking-widest text-orange-700 uppercase">Sayap Elang &amp; Bintang Bercahaya</p>
-            <div class="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between gap-4 text-[10px] font-mono font-bold tracking-wider">
-              <span class="text-neutral-400">UPNV JAWA TIMUR</span>
-              <span class="text-orange-700">FASILKOM</span>
-            </div>
-          </figcaption>
-        </figure>
       </div>
 
       <!-- ================= KANAN: KARTU MAKNA ================= -->
       <div class="lg:col-span-7">
-        <p class="mb-4 text-xs font-mono font-bold tracking-wider text-neutral-500 uppercase">
-          <span class="filosofi-hint-static">Klik kartu lain untuk menyorot bagian logo</span>
-          <span class="filosofi-hint-roll">Scroll untuk menelusuri makna logo</span>
+        <p class="filosofi-hint mb-4 text-xs font-mono font-bold tracking-wider text-neutral-500 uppercase">
+          Klik kartu lain untuk menyorot bagian logo
         </p>
 
-        <div class="flex items-stretch gap-4 sm:gap-6">
+        <div class="flex items-stretch gap-4 sm:gap-6 lg:max-w-[36rem] lg:mx-auto">
           <!-- Viewport drum -->
           <div data-filosofi-viewport class="filosofi-viewport relative flex-1">
             <ol class="filosofi-list space-y-6">
@@ -99,9 +81,9 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
                       data-judul={item.judul}
                       data-active={String(i === 0)}
                       data-dim="false"
-                      aria-pressed={String(i === 0)}
+                      aria-pressed={i === 0 ? 'true' : 'false'}
                       aria-controls="filosofi-crest"
-                      class="group block w-full text-left cursor-pointer bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-6 sm:p-8
+                      class="group block w-full text-left cursor-pointer bg-white rounded-2xl lg:rounded-3xl border border-zinc-200/90 shadow-sm p-6 sm:p-8 lg:p-7 xl:p-9
                              transition-all duration-500 motion-reduce:transition-none
                              hover:border-orange-200 hover:shadow-md
                              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange
@@ -117,8 +99,8 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
                           {nomor} / {item.label}
                         </span>
                       </span>
-                      <span class="block mt-4 font-serif font-bold text-2xl text-neutral-900 tracking-tight">{item.judul}</span>
-                      <span class="block mt-3 text-neutral-600 text-sm sm:text-base leading-relaxed">{item.deskripsi}</span>
+                      <span class="block mt-4 font-serif font-bold text-2xl lg:text-3xl xl:text-4xl text-neutral-900 tracking-tight">{item.judul}</span>
+                      <span class="block mt-3 text-neutral-600 text-sm sm:text-base lg:text-sm xl:text-base leading-relaxed">{item.deskripsi}</span>
                     </button>
                   </li>
                 );
@@ -128,55 +110,52 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
 
           <!-- Bar progres samping (mode gulir) -->
           <div class="filosofi-rail flex-col items-center gap-3 shrink-0" aria-hidden="true">
-            <span data-filosofi-count class="text-[11px] font-mono font-bold text-orange-700 tabular-nums">01</span>
-            <div class="relative w-1.5 sm:w-2 flex-1 rounded-full bg-neutral-200 overflow-hidden">
+            <span data-filosofi-count class="text-sm font-mono font-bold text-orange-700 tabular-nums">01</span>
+            <div class="relative w-2 flex-1 rounded-full bg-neutral-200 overflow-hidden">
               <div data-filosofi-fill class="absolute inset-0 origin-top scale-y-0 rounded-full bg-linear-to-b from-sunset-orange to-amber-500"></div>
             </div>
-            <span class="text-[11px] font-mono font-bold text-neutral-400 tabular-nums">{String(filosofi.length).padStart(2, '0')}</span>
+            <span class="text-sm font-mono font-bold text-neutral-400 tabular-nums">{String(filosofi.length).padStart(2, '0')}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- Spacer: jarak scroll selama konten menempel (mode gulir saja) -->
+  <div data-filosofi-spacer class="filosofi-spacer" aria-hidden="true" style={`height: ${jarakGulir}`}></div>
 </div>
 
 <style>
   /* ---------- Mode statis (default) ---------- */
-  .filosofi-hint-roll,
-  .filosofi-rail {
+  .filosofi-rail,
+  .filosofi-spacer {
     display: none;
   }
 
   /* ---------- Mode gulir 3D (diaktifkan JS: data-roll) ---------- */
-  [data-roll] {
-    height: var(--filosofi-h);
-  }
+  /* Konten menempel tepat di bawah navbar (bukan dipusatkan di 100svh), jadi jarak ke judul section tetap rapat. */
   [data-roll] .filosofi-pin {
     position: sticky;
-    top: 0;
-    height: 100svh;
-    display: flex;
-    align-items: center;
-    padding-top: 5rem; /* ruang navbar */
+    top: 6rem;
+  }
+  [data-roll] .filosofi-spacer {
+    display: block;
   }
   [data-roll] .filosofi-crest-col {
     position: static;
     align-self: center;
   }
-  [data-roll] .filosofi-crest-col figure {
-    max-width: 22rem;
+  /* Logo sebesar kolom, dibatasi tinggi layar agar tetap utuh terlihat saat menempel */
+  [data-roll] .filosofi-crest {
+    max-width: min(100%, calc(100svh - 9rem));
   }
-  [data-roll] .filosofi-hint-static {
+  [data-roll] .filosofi-hint {
     display: none;
-  }
-  [data-roll] .filosofi-hint-roll {
-    display: inline;
   }
   [data-roll] .filosofi-rail {
     display: flex;
   }
   [data-roll] .filosofi-viewport {
-    height: min(30rem, calc(100svh - 12rem));
+    height: min(33rem, calc(100svh - 8rem));
     perspective: 1200px;
     /* clip (bukan hidden) agar fokus keyboard tidak menggeser isi viewport */
     overflow: clip;
@@ -232,6 +211,8 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
     const viewport = root.querySelector<HTMLElement>('[data-filosofi-viewport]');
     const fill = root.querySelector<HTMLElement>('[data-filosofi-fill]');
     const count = root.querySelector<HTMLElement>('[data-filosofi-count]');
+    const pin = root.querySelector<HTMLElement>('.filosofi-pin');
+    const spacer = root.querySelector<HTMLElement>('[data-filosofi-spacer]');
     const crestLabel = crest?.dataset.label ?? '';
     const last = items.length - 1;
 
@@ -287,7 +268,7 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
 
       /** p = posisi gulir kontinu (0 … last); kartu i berjarak d = i − p dari tengah. */
       const layout = () => {
-        const gap = viewport.clientHeight * 0.4;
+        const gap = viewport.clientHeight * 0.42;
         slots.forEach((slot, i) => {
           const d = i - state.p;
           const a = Math.abs(d);
@@ -319,9 +300,10 @@ const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_
         ease: 'none',
         onUpdate: layout,
         scrollTrigger: {
+          // Mulai saat konten mencapai posisi sticky-nya, selesai saat spacer habis (konten lepas)
           trigger: root,
-          start: 'top top',
-          end: 'bottom bottom',
+          start: () => `top ${pin ? parseFloat(getComputedStyle(pin).top) || 0 : 0}px`,
+          end: () => `+=${spacer?.offsetHeight ?? 0}`,
           scrub: 0.6,
           snap: { snapTo: 1 / last, inertia: false, duration: { min: 0.2, max: 0.6 }, delay: 0.12, ease: 'power1.inOut' },
           invalidateOnRefresh: true,
