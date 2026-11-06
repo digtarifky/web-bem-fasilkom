@@ -1,0 +1,46 @@
+---
+// src/components/struktur/BidangCard.astro
+// Kartu Bidang/Bagian di halaman Departemen/Biro (§6.2 no. 3).
+// Gaya meniru kartu "Bidang Lain" di navigasi halaman Bidang, versi vertikal yang lebih lengkap.
+// Seluruh kartu adalah satu link ke /struktur-kabinet/{unit}/{bidang}.
+import { ArrowRight } from 'lucide-react';
+import { getIcon } from './icons';
+import { sebutanSubUnit, hitungAnggota, type Unit, type Bidang } from '../../data/struktur';
+
+interface Props {
+  unit: Unit;
+  bidang: Bidang;
+  class?: string;
+}
+
+const { unit, bidang, class: className = '' } = Astro.props;
+const Icon = getIcon(bidang.ikon);
+---
+
+<a
+  href={`/struktur-kabinet/${unit.slug}/${bidang.slug}`}
+  class:list={[
+    'group flex flex-col h-full bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-5 sm:p-6 hover:border-sunset-orange/40 hover:shadow-md transition-[border-color,box-shadow] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange',
+    className,
+  ]}
+>
+  <span class="w-11 h-11 shrink-0 rounded-xl bg-orange-50 border border-orange-200/70 text-sunset-orange flex items-center justify-center">
+    <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+  </span>
+
+  <span class="mt-5 block text-[10px] font-mono font-bold uppercase tracking-wider text-orange-700">
+    {sebutanSubUnit(unit)} {unit.kode}
+  </span>
+  <span class="mt-1 block font-serif font-bold text-xl text-neutral-900 leading-snug">{bidang.namaPendek}</span>
+  <span class="mt-3 block text-sm text-neutral-600 leading-relaxed line-clamp-3">{bidang.ringkas}</span>
+
+  <span class="mt-auto pt-5">
+    <span class="flex items-center justify-between gap-3 pt-4 border-t border-zinc-100">
+      <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-500">{hitungAnggota(bidang)} Anggota</span>
+      <span class="inline-flex items-center gap-1.5 text-sm font-bold text-orange-700 group-hover:text-sunset-orange">
+        Lihat Struktur
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={2} aria-hidden="true" />
+      </span>
+    </span>
+  </span>
+</a>
