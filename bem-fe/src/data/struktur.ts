@@ -61,8 +61,9 @@ export interface Unit {
   nama: string; // "Departemen Pengembangan Sumber Daya Mahasiswa (PSDM)"
   ikon: string;
   deskripsi: string;
-  kepala?: Person;
+  kepala?: Person; // Kepala Departemen / Kepala Biro
   wakil?: Person;
+  sekretaris?: Person;
   bidang: Bidang[]; // untuk biro, isinya "Bagian"
 }
 
@@ -163,7 +164,7 @@ export const bph: BPH = {
 // ============================================================
 // UNIT & BIDANG
 // Urutan tampil di pohon: MEDFO → HDK → SOSPOL → PSDM.
-// {{TODO: apakah tiap unit punya Kepala & Wakil Kepala? Jika ya, isi field `kepala`/`wakil` pada unit}}
+// Pimpinan unit (kepala, wakil, sekretaris) masih DUMMY — ganti dengan data resmi.
 // {{TODO: jumlah staf sebenarnya per bidang}}
 // ============================================================
 
@@ -178,6 +179,10 @@ export const units: Unit[] = [
     ikon: 'Megaphone',
     deskripsi:
       'Humas digital, kurasi konten publikasi, rekayasa visual multimedia, dan penjaga identitas visual Kabinet Aetherion di seluruh kanal siber.',
+    // DUMMY — {{TODO: pimpinan biro MEDFO resmi}}
+    kepala: { nama: 'Nabila Kusumawardani', jabatan: 'Kepala Biro MEDFO', prodi: 'Sistem Informasi', angkatan: '23' },
+    wakil: { nama: 'Rafi Ardiansyah', jabatan: 'Wakil Kepala Biro MEDFO', prodi: 'Informatika', angkatan: '24' },
+    sekretaris: { nama: 'Salsa Nurhaliza', jabatan: 'Sekretaris Biro MEDFO', prodi: 'Bisnis Digital', angkatan: '24' },
     bidang: [
       // DUMMY
       {
@@ -189,7 +194,7 @@ export const units: Unit[] = [
         ringkas: 'Produksi aset grafis, videografi dokumenter, live streaming kegiatan, dan penataan feed visual.',
         deskripsi:
           'Studio kreatif kabinet yang memproduksi aset grafis, videografi dokumenter, dan siaran langsung kegiatan, sekaligus menjaga konsistensi identitas visual Aetherion di seluruh kanal.',
-        kepala: { nama: 'Ishna Shetia Shahadatina', jabatan: 'Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '23' },
+        kepala: { nama: 'Ariel Ardinnansyah', jabatan: 'Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '24' },
         wakil: { nama: 'Muhammad Ihsanul Fikri', jabatan: 'Wakil Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '24' },
         sekretaris: { nama: 'Tasya kalimarensyia br sinaga ', jabatan: 'Sekretaris Bagian Multimedia', prodi: 'Informatika', angkatan: '24' },
         staf: [
@@ -220,7 +225,9 @@ export const units: Unit[] = [
         wakil: { nama: 'Thalita Bella Vania', jabatan: 'Wakil Kepala Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '24' },
         staf: [
           { nama: 'Regina Putri Gundani', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '24' },
-          { nama: 'Zahra Aulia', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '25' },
+          { nama: 'Ahmad Tauhid Fadila', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Sistem Informasi', angkatan: '24' },
+          { nama: 'Chelsea de Trully Piris', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Sains Data', angkatan: '25' },
+          { nama: 'Calista Maharani Mashar', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Sistem Informasi', angkatan: '25' },
         ],
         proker: [
           {
@@ -245,6 +252,10 @@ export const units: Unit[] = [
     ikon: 'Network',
     deskripsi:
       'Fasilitator diplomasi institusi, perluasan kemitraan industri teknologi skala global, serta konsolidasi sinergis lintas ormawa sekawasan.',
+    // DUMMY — {{TODO: pimpinan departemen HDK resmi}}
+    kepala: { nama: 'Bayu Anggara', jabatan: 'Kepala Departemen HDK', prodi: 'Informatika', angkatan: '23' },
+    wakil: { nama: 'Aulia Rahmawati', jabatan: 'Wakil Kepala Departemen HDK', prodi: 'Sistem Informasi', angkatan: '24' },
+    sekretaris: { nama: 'Cahya Purnamasari', jabatan: 'Sekretaris Departemen HDK', prodi: 'Sains Data', angkatan: '24' },
     bidang: [
       // DUMMY
       {
@@ -275,9 +286,9 @@ export const units: Unit[] = [
       },
       // DUMMY
       {
-        slug: 'dagni',
+        slug: 'dagri',
         nama: 'Bidang Dalam Negeri (Dagri)',
-        namaPendek: 'Dagni',
+        namaPendek: 'Dagri',
         judulHero: 'DALAM NEGERI',
         ikon: 'Handshake',
         ringkas: 'Forum keakraban himpunan mahasiswa prodi (HIMA), kolaborasi UKM, dan audiensi pimpinan dekanat.',
@@ -313,6 +324,10 @@ export const units: Unit[] = [
     ikon: 'Gavel',
     deskripsi:
       'Garda pembela hak-hak mahasiswa, pengawal isu kebangsaan dan kebijakan kampus, serta penggerak aksi kepedulian sosial kemasyarakatan.',
+    // DUMMY — {{TODO: pimpinan departemen SOSPOL resmi}}
+    kepala: { nama: 'Hendra Wijaya', jabatan: 'Kepala Departemen SOSPOL', prodi: 'Sistem Informasi', angkatan: '23' },
+    wakil: { nama: 'Fitri Handayani', jabatan: 'Wakil Kepala Departemen SOSPOL', prodi: 'Informatika', angkatan: '24' },
+    sekretaris: { nama: 'Lutfi Hakim', jabatan: 'Sekretaris Departemen SOSPOL', prodi: 'Bisnis Digital', angkatan: '24' },
     bidang: [
       // DUMMY
       {
@@ -381,6 +396,10 @@ export const units: Unit[] = [
     ikon: 'BrainCog',
     deskripsi:
       'Inkubator talenta, pembinaan kader berkepribadian luhur, riset inovasi teknologi, serta optimalisasi potensi minat-bakat fungsionaris.',
+    // DUMMY — {{TODO: pimpinan departemen PSDM resmi}}
+    kepala: { nama: 'Naufal Alfarizi', jabatan: 'Kepala Departemen PSDM', prodi: 'Informatika', angkatan: '23' },
+    wakil: { nama: 'Kirana Larasati', jabatan: 'Wakil Kepala Departemen PSDM', prodi: 'Sains Data', angkatan: '24' },
+    sekretaris: { nama: 'Puspita Ayuningtyas', jabatan: 'Sekretaris Departemen PSDM', prodi: 'Sistem Informasi', angkatan: '24' },
     bidang: [
       // DUMMY
       {
@@ -536,7 +555,7 @@ export const hitungFungsionaris = () =>
   units.reduce(
     (total, u) =>
       total +
-      [u.kepala, u.wakil].filter(Boolean).length +
+      [u.kepala, u.wakil, u.sekretaris].filter(Boolean).length +
       u.bidang.reduce((sum, b) => sum + hitungAnggota(b), 0),
     0,
   );
