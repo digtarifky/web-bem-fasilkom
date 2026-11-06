@@ -113,6 +113,7 @@ const heroPills = [
           variant="featured"
           badge="KETUA UMUM"
           nomor="NO. 01 / PRESIDENCY"
+          zoom
           class="w-full max-w-sm mx-auto"
         />
         <PersonCard
@@ -120,6 +121,7 @@ const heroPills = [
           variant="featured-gold"
           badge="WAKIL KETUA UMUM"
           nomor="NO. 02 / VICE PRESIDENCY"
+          zoom
           class="w-full max-w-sm mx-auto"
         />
       </div>
@@ -127,7 +129,7 @@ const heroPills = [
       <!-- Baris 2: Sekum 1–2, Bendum 1–2 (badge = jabatan masing-masing) -->
       <div data-reveal-group class="bph-grid grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10">
         {bph.anggota.map((person) => (
-          <PersonCard person={person} variant="standard" badge={person.jabatan.toUpperCase()} />
+          <PersonCard person={person} variant="standard" badge={person.jabatan.toUpperCase()} zoom />
         ))}
       </div>
     </div>

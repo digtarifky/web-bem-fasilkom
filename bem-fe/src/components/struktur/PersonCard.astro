@@ -20,6 +20,8 @@ interface Props {
   nomor?: string;
   /** Teks header kartu staff. Default "Staf Bidang" */
   staffLabel?: string;
+  /** Kartu membesar halus saat di-hover (dipakai kartu BPH). Mati jika prefers-reduced-motion. */
+  zoom?: boolean;
   class?: string;
 }
 
@@ -31,15 +33,22 @@ const {
   code,
   nomor,
   staffLabel = 'Staf Bidang',
+  zoom = false,
   class: className = '',
 } = Astro.props;
 
 const angkatan = labelAngkatan(person);
 const isGold = variant === 'featured-gold';
+
+// Easing "ease-out-expo": cepat di awal, melambat halus di akhir. Kartu yang membesar naik di atas tetangganya.
+const SMOOTH = 'duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]';
+const ZOOM = 'relative hover:z-10 motion-safe:hover:scale-105';
+/** Transisi kartu putih: versi zoom menganimasikan scale bersama translate & bayangan. */
+const cardTransition = zoom ? `${ZOOM} transition-[scale,translate,box-shadow] ${SMOOTH}` : 'transition-all duration-300';
 ---
 
 {(variant === 'featured' || variant === 'featured-gold') && (
-  <article class:list={['person-card relative', topLabel && 'pt-3', className]}>
+  <article class:list={['person-card relative', topLabel && 'pt-3', zoom && `${ZOOM} transition-[scale] ${SMOOTH}`, className]}>
     {topLabel && (
       <span class="absolute top-0 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap px-3 py-1 rounded-full bg-linear-to-r from-sunset-orange to-amber-500 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-lg">
         {topLabel}
@@ -47,7 +56,8 @@ const isGold = variant === 'featured-gold';
     )}
     <div
       class:list={[
-        'rounded-2xl bg-neutral-950 border-2 p-3 shadow-2xl transition-all duration-300 hover:-translate-y-1.5',
+        'rounded-2xl bg-neutral-950 border-2 p-3 shadow-2xl hover:-translate-y-1.5',
+        zoom ? `transition-[translate,box-shadow] ${SMOOTH}` : 'transition-all duration-300',
         isGold
           ? 'border-warm-gold hover:shadow-[0_25px_50px_-12px_rgba(245,158,11,0.35)]'
           : 'border-sunset-orange hover:shadow-[0_25px_50px_-12px_rgba(234,88,12,0.35)]',
@@ -86,7 +96,8 @@ const isGold = variant === 'featured-gold';
 {variant === 'standard' && (
   <article
     class:list={[
-      'person-card bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-3',
+      'person-card bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 p-3',
+      cardTransition,
       className,
     ]}
   >
