@@ -1,0 +1,221 @@
+---
+// src/pages/struktur-kabinet/index.astro
+import PageLayout from '../../layouts/PageLayout.astro';
+import SectionHeading from '../../components/struktur/SectionHeading.astro';
+import VisiMisi from '../../components/struktur/VisiMisi.astro';
+import PersonCard from '../../components/struktur/PersonCard.astro';
+import ArsitekturDepartemen from '../../components/struktur/ArsitekturDepartemen.astro';
+import FilosofiLogo from '../../components/struktur/FilosofiLogo.astro';
+import { bph } from '../../data/struktur';
+
+const heroPills = [
+  { label: 'Siklus Bakti: 2026/2027', dot: 'bg-warm-gold' },
+  { label: 'Inovasi Berkelanjutan', dot: 'bg-sunset-orange' },
+  { label: 'Integritas Tri Dharma', dot: 'bg-neutral-400' },
+];
+---
+
+<PageLayout
+  title="Struktur Kabinet | BEM FASILKOM UPNVJT 2026"
+  description="Struktur organisasi Kabinet Aetherion BEM FASILKOM UPNVJT 2026: visi & misi, filosofi logo, Badan Pengurus Harian, dan arsitektur departemen."
+>
+  <!-- ========================================== -->
+  <!-- 1. HERO                                    -->
+  <!-- ========================================== -->
+  <section data-struktur-page aria-labelledby="hero-title" class="relative bg-aetherion-light pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-sunset-orange/15 via-amber-400/10 to-transparent blur-[120px] rounded-full pointer-events-none" aria-hidden="true"></div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
+      <!-- Logo kabinet versi penuh; wrapper dianimasikan reveal GSAP, img memantul berkala (CSS) -->
+      <div data-hero-reveal class="mx-auto w-44 sm:w-56 md:w-64">
+        <img
+          src="/assets/logo/logo-kabinet.svg"
+          alt="Logo Kabinet Aetherion"
+          width="2999"
+          height="3168"
+          decoding="async"
+          fetchpriority="high"
+          class="hero-logo w-full h-auto drop-shadow-[0_18px_30px_rgba(234,88,12,0.25)]"
+        />
+      </div>
+
+      <!-- Wordmark -->
+      <h1 id="hero-title" data-hero-reveal class="mt-8 font-serif font-extrabold text-5xl min-[400px]:text-6xl sm:text-8xl tracking-tight text-neutral-950 leading-none">
+        <span class="sr-only">Struktur Kabinet </span>aetherion
+      </h1>
+      <p data-hero-reveal class="mt-4 text-sm sm:text-base font-bold tracking-[0.5em] text-sunset-orange pl-[0.5em]">
+        BEM FASILKOM 2026
+      </p>
+
+      <p data-hero-reveal class="mt-6 text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+        Manifestasi akselerasi keilmuan, kepemimpinan adaptif berintegritas, dan pergerakan kolaboratif mahasiswa Fakultas Ilmu Komputer menuju peradaban berdampak.
+      </p>
+
+      <ul data-hero-reveal class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {heroPills.map((pill) => (
+          <li class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-neutral-800 uppercase tracking-wider shadow-xs">
+            <span class:list={['w-2 h-2 rounded-full', pill.dot]} aria-hidden="true"></span>
+            {pill.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- {{TODO: marquee setelah hero (§6.1) — Chris pilih pakai/tidak}} -->
+
+  <!-- ========================================== -->
+  <!-- 2. VISI & MISI                             -->
+  <!-- ========================================== -->
+  <section aria-labelledby="visi-misi-title" class="py-20 sm:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <SectionHeading
+        id="visi-misi-title"
+        eyebrow="Kompas Haluan Organisasi"
+        title='Visi &amp; Misi <span class="text-sunset-orange">BEM FASILKOM 2026</span>'
+      />
+      <VisiMisi />
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 3. MAKNA & FILOSOFI LOGO                   -->
+  <!-- Tanpa overflow-hidden agar crest sticky     -->
+  <!-- ========================================== -->
+  <section aria-labelledby="filosofi-title" class="py-20 sm:py-28 bg-[#FAFAFA] border-y border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <SectionHeading
+        id="filosofi-title"
+        eyebrow="Semiotika Visual"
+        title='Makna &amp; <span class="text-sunset-orange">Filosofi Logo</span>'
+        description="Simbolisme terstruktur yang merangkum ruh perjuangan, etika akademis, dan aspirasi kolektif Aetherion."
+      />
+      <FilosofiLogo />
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 4. BADAN PENGURUS HARIAN                   -->
+  <!-- ========================================== -->
+  <section aria-labelledby="bph-title" class="py-20 sm:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <SectionHeading
+        id="bph-title"
+        title='Badan Pengurus <span class="text-sunset-orange">Harian</span>'
+        description="Pilar kepemimpinan utama yang menahkodai orkestrasi pergerakan, ketertiban manajerial, dan transparansi tata kelola kabinet."
+      />
+
+      <!-- Baris 1: Ketum & Waketum -->
+      <div data-reveal-group class="bph-grid grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <PersonCard
+          person={bph.ketua}
+          variant="featured"
+          badge="KETUA UMUM"
+          nomor="NO. 01 / PRESIDENCY"
+          class="w-full max-w-sm mx-auto transition-transform duration-300 lg:-rotate-2 lg:hover:rotate-0"
+        />
+        <PersonCard
+          person={bph.wakil}
+          variant="featured-gold"
+          badge="WAKIL KETUA UMUM"
+          nomor="NO. 02 / VICE PRESIDENCY"
+          class="w-full max-w-sm mx-auto transition-transform duration-300 lg:rotate-2 lg:hover:rotate-0"
+        />
+      </div>
+
+      <!-- Baris 2: Sekum 1–2, Bendum 1–2 (badge = jabatan masing-masing) -->
+      <div data-reveal-group class="bph-grid grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10">
+        {bph.anggota.map((person) => (
+          <PersonCard person={person} variant="standard" badge={person.jabatan.toUpperCase()} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 5. ARSITEKTUR DEPARTEMEN                   -->
+  <!-- ========================================== -->
+  <ArsitekturDepartemen />
+</PageLayout>
+
+<script>
+  // Animasi halaman Struktur Kabinet (§6.1 poin 5, §8).
+  // Semua animasi hanya aktif jika prefers-reduced-motion: no-preference.
+  // Catatan: Tailwind v4 memakai properti CSS `translate`/`rotate` terpisah, jadi transform dari GSAP
+  // tidak menimpa rotasi kartu BPH. Section Arsitektur Departemen punya animasinya sendiri (ArsitekturDepartemen.astro).
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const ID_PREFIX = 'struktur-';
+  const FADE = { duration: 0.7, ease: 'power2.out', clearProps: 'transform,opacity' } as const;
+  let mm: gsap.MatchMedia | null = null;
+
+  function initStruktur() {
+    // Bersihkan animasi & trigger lama sebelum init ulang
+    mm?.revert();
+    mm = null;
+    ScrollTrigger.getAll()
+      .filter((st) => String(st.vars.id ?? '').startsWith(ID_PREFIX))
+      .forEach((st) => st.kill());
+
+    if (!document.querySelector('[data-struktur-page]')) return;
+
+    mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // 1. Hero: muncul berurutan saat halaman dibuka
+      gsap.from('[data-hero-reveal]', { ...FADE, y: 20, opacity: 0, stagger: 0.08 });
+
+      // 2. Header section: fade-up (pola VideoSection)
+      gsap.utils.toArray<HTMLElement>('.section-heading').forEach((el, i) => {
+        gsap.from(el, {
+          ...FADE,
+          y: 25,
+          opacity: 0,
+          scrollTrigger: { id: `${ID_PREFIX}heading-${i}`, trigger: el, start: 'top 85%' },
+        });
+      });
+
+      // 3. Grid kartu: anak langsung muncul berurutan (stagger 0.08)
+      // Kartu memakai transition-all/transition-transform dari Tailwind; dimatikan selama tween
+      // agar tidak "melawan" GSAP, lalu dikembalikan lewat clearProps.
+      gsap.utils.toArray<HTMLElement>('[data-reveal-group]').forEach((group, i) => {
+        const cards = Array.from(group.children) as HTMLElement[];
+        gsap.set(cards, { transition: 'none' });
+        gsap.from(cards, {
+          ...FADE,
+          clearProps: 'transform,opacity,transition',
+          duration: 0.6,
+          y: 30,
+          opacity: 0,
+          stagger: 0.08,
+          scrollTrigger: { id: `${ID_PREFIX}group-${i}`, trigger: group, start: 'top 85%' },
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initStruktur);
+  document.addEventListener('astro:page-load', initStruktur);
+</script>
+
+<style>
+  /* Logo hero memantul sekali setiap ±4 detik (jeda diam di antara pantulan). */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-logo {
+      transform-origin: 50% 100%;
+      animation: hero-logo-bounce 4s ease-in-out 1.2s infinite;
+    }
+  }
+
+  @keyframes hero-logo-bounce {
+    0%, 62%, 100% { transform: translateY(0) scale(1, 1); }
+    68% { transform: translateY(0) scale(1.06, 0.94); }   /* ancang-ancang */
+    76% { transform: translateY(-30px) scale(0.97, 1.03); } /* melompat */
+    84% { transform: translateY(0) scale(1.04, 0.96); }    /* mendarat */
+    90% { transform: translateY(-10px) scale(1, 1); }      /* pantulan kecil */
+    96% { transform: translateY(0) scale(1, 1); }
+  }
+</style>

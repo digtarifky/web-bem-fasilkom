@@ -1,0 +1,52 @@
+---
+// src/components/struktur/SectionHeading.astro
+// Pill badge (eyebrow) → H2 → deskripsi → garis aksen. Pola header VideoSection / Proker Beranda.
+interface Props {
+  /** Teks pill badge di atas judul. Kosongkan untuk menyembunyikan pill. */
+  eyebrow?: string;
+  /** Boleh HTML, mis. 'Visi & Misi <span class="text-sunset-orange">BEM</span>' */
+  title: string;
+  description?: string;
+  align?: 'center' | 'left';
+  /** id untuk H2, dipakai section sebagai aria-labelledby */
+  id?: string;
+  /** Garis aksen oranye di bawah judul/deskripsi. Default true. */
+  accent?: boolean;
+  class?: string;
+}
+
+const { eyebrow, title, description, align = 'center', id, accent = true, class: className = '' } = Astro.props;
+const isCenter = align === 'center';
+---
+
+{isCenter ? (
+  <div class:list={['section-heading max-w-2xl mx-auto text-center mb-12 md:mb-16', className]}>
+    {eyebrow && (
+      <span class="inline-flex items-center gap-2 px-3.5 py-1 mb-4 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-orange-700 uppercase tracking-wider shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse" aria-hidden="true"></span>
+        {eyebrow}
+      </span>
+    )}
+    <h2 id={id} class="text-3xl sm:text-5xl font-serif font-extrabold text-neutral-900 tracking-tight" set:html={title} />
+    {description && (
+      <p class="mt-4 text-neutral-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">{description}</p>
+    )}
+    {accent && <div class="mt-6 w-12 h-1 rounded-full bg-linear-to-r from-sunset-orange to-warm-gold mx-auto" aria-hidden="true"></div>}
+  </div>
+) : (
+  <div class:list={['section-heading mb-10 md:mb-14 md:flex md:items-end md:justify-between md:gap-10', className]}>
+    <div class="max-w-2xl">
+      {eyebrow && (
+        <span class="inline-flex items-center gap-2 px-3.5 py-1 mb-4 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-orange-700 uppercase tracking-wider shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse" aria-hidden="true"></span>
+          {eyebrow}
+        </span>
+      )}
+      <h2 id={id} class="text-3xl sm:text-5xl font-serif font-extrabold text-neutral-900 tracking-tight" set:html={title} />
+      {accent && <div class="mt-5 w-12 h-1 rounded-full bg-linear-to-r from-sunset-orange to-warm-gold" aria-hidden="true"></div>}
+    </div>
+    {description && (
+      <p class="mt-5 md:mt-0 md:max-w-md text-neutral-600 text-sm sm:text-base leading-relaxed">{description}</p>
+    )}
+  </div>
+)}
