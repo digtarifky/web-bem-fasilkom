@@ -1,140 +1,76 @@
 ---
 // src/components/struktur/PersonCard.astro
-// Varian:
-//   featured / featured-gold → kartu gelap ala SambutanSection (Ketum, Waketum, Kepala)
-//   standard                 → kartu putih (Sekum, Bendum, Wakil/Sekretaris bidang)
-//   staff                    → kartu putih ringkas dengan kode S-01
+// Satu desain kartu foto untuk semua jabatan (kartu putih → foto 4:5 → kotak info), font Helvetica.
+// Kotak info: nama lengkap, jabatan, dan prodi'angkatan (mis. "SI '24").
+//
+// Varian hanya membedakan aksen bingkai:
+//   featured       → bingkai oranye (Ketum, Kepala)
+//   featured-gold  → bingkai emas (Waketum)
+//   standard/staff → bingkai netral
+// Semua kartu sama ukuran: lebar diatur pemanggil (lihat CARD_W), tinggi menyamakan baris (flex stretch).
+// Props `code`, `nomor`, `staffLabel` masih diterima agar pemanggil lama tetap kompatibel,
+// tetapi tidak ditampilkan di desain ini.
 import PersonPhoto from './PersonPhoto.astro';
 import { labelAngkatan, type Person } from '../../data/struktur';
 
 interface Props {
   person: Person;
   variant: 'featured' | 'featured-gold' | 'standard' | 'staff';
-  /** Teks badge jabatan. Default: jabatan dalam huruf besar. */
+  /** Teks jabatan di kotak info. Default: jabatan dalam huruf besar. */
   badge?: string;
-  /** Pill di atas kartu featured, mis. "Ketua Bidang" */
+  /** Pill di atas kartu, mis. "Kepala Bidang" */
   topLabel?: string;
-  /** Kode staf, mis. "S-01" */
+  /** @deprecated tidak ditampilkan */
   code?: string;
-  /** Nomor di pojok kiri atas kartu featured, mis. "NO. 01 / PRESIDENCY" */
+  /** @deprecated tidak ditampilkan */
   nomor?: string;
-  /** Teks header kartu staff. Default "Staf Bidang" */
+  /** @deprecated tidak ditampilkan */
   staffLabel?: string;
-  /** Kartu membesar halus saat di-hover (dipakai kartu BPH). Mati jika prefers-reduced-motion. */
+  /** @deprecated efek zoom kini aktif di semua kartu */
   zoom?: boolean;
   class?: string;
 }
 
-const {
-  person,
-  variant,
-  badge = person.jabatan.toUpperCase(),
-  topLabel,
-  code,
-  nomor,
-  staffLabel = 'Staf Bidang',
-  zoom = false,
-  class: className = '',
-} = Astro.props;
+const { person, variant, badge = person.jabatan.toUpperCase(), topLabel, class: className = '' } = Astro.props;
 
 const angkatan = labelAngkatan(person);
-const isGold = variant === 'featured-gold';
+
+// Efek hover sama untuk semua kartu (pola kartu Ketum/Waketum):
+// seluruh kartu (termasuk pill topLabel) naik + membesar 1.05, bingkai & bayangan bercahaya.
+// Waketum memakai cahaya emas, kartu lain cahaya oranye. Zoom mati jika prefers-reduced-motion.
+const GLOW_ORANGE = 'group-hover:shadow-[0_25px_50px_-12px_rgba(234,88,12,0.35)]';
+const GLOW_GOLD = 'group-hover:shadow-[0_25px_50px_-12px_rgba(245,158,11,0.35)]';
+const ACCENT = {
+  featured: `border-sunset-orange/70 ${GLOW_ORANGE}`,
+  'featured-gold': `border-warm-gold/80 ${GLOW_GOLD}`,
+  standard: `border-zinc-200/90 group-hover:border-sunset-orange/70 ${GLOW_ORANGE}`,
+  staff: `border-zinc-200/90 group-hover:border-sunset-orange/70 ${GLOW_ORANGE}`,
+}[variant];
 
 // Easing "ease-out-expo": cepat di awal, melambat halus di akhir. Kartu yang membesar naik di atas tetangganya.
 const SMOOTH = 'duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]';
-const ZOOM = 'relative hover:z-10 motion-safe:hover:scale-105';
-/** Transisi kartu putih: versi zoom menganimasikan scale bersama translate & bayangan. */
-const cardTransition = zoom ? `${ZOOM} transition-[scale,translate,box-shadow] ${SMOOTH}` : 'transition-all duration-300';
 ---
 
-{(variant === 'featured' || variant === 'featured-gold') && (
-  <article class:list={['person-card relative', topLabel && 'pt-3', zoom && `${ZOOM} transition-[scale] ${SMOOTH}`, className]}>
-    {topLabel && (
-      <span class="absolute top-0 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap px-3 py-1 rounded-full bg-linear-to-r from-sunset-orange to-amber-500 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-lg">
-        {topLabel}
-      </span>
-    )}
-    <div
-      class:list={[
-        'rounded-2xl bg-neutral-950 border-2 p-3 shadow-2xl hover:-translate-y-1.5',
-        zoom ? `transition-[translate,box-shadow] ${SMOOTH}` : 'transition-all duration-300',
-        isGold
-          ? 'border-warm-gold hover:shadow-[0_25px_50px_-12px_rgba(245,158,11,0.35)]'
-          : 'border-sunset-orange hover:shadow-[0_25px_50px_-12px_rgba(234,88,12,0.35)]',
-      ]}
-    >
-      <div class="relative rounded-xl overflow-hidden border border-white/10">
-        <PersonPhoto person={person} />
-        <div class="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent pointer-events-none" aria-hidden="true"></div>
+<article
+  class:list={[
+    'person-card group relative font-helvetica flex flex-col hover:z-10 hover:-translate-y-1.5 motion-safe:hover:scale-105',
+    `transition-[scale,translate] ${SMOOTH}`,
+    className,
+  ]}
+>
+  {topLabel && (
+    <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 whitespace-nowrap px-3 py-1 rounded-full bg-linear-to-r from-sunset-orange to-amber-500 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg">
+      {topLabel}
+    </span>
+  )}
 
-        <div class="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
-          {nomor ? (
-            <span class="text-[10px] font-mono font-bold text-white/60 tracking-wider leading-tight">{nomor}</span>
-          ) : <span></span>}
-          <span class="shrink-0 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-white/90 text-neutral-800 border border-neutral-200">
-            {angkatan}
-          </span>
-        </div>
-
-        <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5 space-y-1.5">
-          <span
-            class:list={[
-              'inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full tracking-wider',
-              isGold ? 'bg-warm-gold text-neutral-950' : 'bg-sunset-orange text-white',
-            ]}
-          >
-            {badge}
-          </span>
-          <h3 class="text-lg sm:text-xl font-serif font-bold text-white leading-snug">{person.nama}</h3>
-          <p class="text-xs font-mono text-neutral-400">{person.prodi} '{person.angkatan}</p>
-        </div>
-      </div>
-    </div>
-  </article>
-)}
-
-{variant === 'standard' && (
-  <article
-    class:list={[
-      'person-card bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 p-3',
-      cardTransition,
-      className,
-    ]}
-  >
-    <div class="relative rounded-xl overflow-hidden">
-      <PersonPhoto person={person} />
-      <div class="absolute inset-x-2 top-2 flex items-start justify-between gap-2">
-        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/90 text-orange-700 tracking-wider leading-tight">
-          {badge}
-        </span>
-        <span class="shrink-0 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-white/90 text-neutral-800 border border-neutral-200">
-          {angkatan}
-        </span>
-      </div>
-    </div>
-    <div class="px-1.5 pt-4 pb-2">
-      <p class="text-[10px] font-mono font-bold text-amber-700 tracking-wider">BEM FASILKOM UPNVJT 2026</p>
-      <h3 class="mt-1 font-serif font-bold text-base sm:text-lg text-neutral-900 leading-snug">{person.nama}</h3>
-      <p class="mt-0.5 text-xs sm:text-sm font-semibold text-orange-700">{person.jabatan}</p>
-    </div>
-  </article>
-)}
-
-{variant === 'staff' && (
-  <article
-    class:list={[
-      'person-card bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-3',
-      className,
-    ]}
-  >
-    <div class="flex items-center justify-between gap-2 px-1 pb-2.5">
-      <span class="text-[10px] font-mono font-bold text-orange-700 uppercase tracking-wider">{staffLabel}</span>
-      {code && <span class="text-[10px] font-mono font-bold text-neutral-400">{code}</span>}
-    </div>
+  <div class:list={['flex-1 flex flex-col bg-white rounded-2xl border-2 shadow-sm p-2.5 sm:p-3', `transition-[box-shadow,border-color] ${SMOOTH}`, ACCENT]}>
     <PersonPhoto person={person} class="rounded-xl" />
-    <div class="mt-3 rounded-xl bg-neutral-50 border border-neutral-200/80 py-3 px-2 text-center">
-      <h3 class="font-serif font-bold text-sm sm:text-base text-neutral-900 leading-snug">{person.nama}</h3>
-      <p class="mt-0.5 text-[11px] font-mono uppercase text-neutral-500">{person.prodi} '{person.angkatan}</p>
+
+    <div class="mt-2.5 sm:mt-3 flex-1 flex flex-col justify-center rounded-xl bg-neutral-50 border border-neutral-200/80 px-2 py-3 sm:py-3.5 text-center">
+      <h3 class="font-bold text-sm sm:text-base lg:text-lg text-neutral-900 leading-snug">{person.nama}</h3>
+      <p class="mt-1 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-orange-700 leading-snug">{badge}</p>
+      <p class="mt-0.5 text-[10px] sm:text-[11px] font-bold tracking-wider text-orange-700">{angkatan}</p>
     </div>
-  </article>
-)}
+  </div>
+</article>
