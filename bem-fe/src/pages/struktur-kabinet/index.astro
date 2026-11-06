@@ -22,11 +22,11 @@ const heroPills = [
   <!-- ========================================== -->
   <!-- 1. HERO                                    -->
   <!-- ========================================== -->
-  <section data-struktur-page aria-labelledby="hero-title" class="relative bg-aetherion-light pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
+  <section data-struktur-page aria-labelledby="hero-title" class="relative bg-aetherion-light min-h-svh flex flex-col justify-center pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" aria-hidden="true"></div>
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-sunset-orange/15 via-amber-400/10 to-transparent blur-[120px] rounded-full pointer-events-none" aria-hidden="true"></div>
 
-    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
+    <div class="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
       <!-- Logo kabinet versi penuh; wrapper dianimasikan reveal GSAP, img memantul berkala (CSS) -->
       <div data-hero-reveal class="mx-auto w-44 sm:w-56 md:w-64">
         <img
@@ -113,14 +113,14 @@ const heroPills = [
           variant="featured"
           badge="KETUA UMUM"
           nomor="NO. 01 / PRESIDENCY"
-          class="w-full max-w-sm mx-auto transition-transform duration-300 lg:-rotate-2 lg:hover:rotate-0"
+          class="w-full max-w-sm mx-auto"
         />
         <PersonCard
           person={bph.wakil}
           variant="featured-gold"
           badge="WAKIL KETUA UMUM"
           nomor="NO. 02 / VICE PRESIDENCY"
-          class="w-full max-w-sm mx-auto transition-transform duration-300 lg:rotate-2 lg:hover:rotate-0"
+          class="w-full max-w-sm mx-auto"
         />
       </div>
 
@@ -142,8 +142,7 @@ const heroPills = [
 <script>
   // Animasi halaman Struktur Kabinet (§6.1 poin 5, §8).
   // Semua animasi hanya aktif jika prefers-reduced-motion: no-preference.
-  // Catatan: Tailwind v4 memakai properti CSS `translate`/`rotate` terpisah, jadi transform dari GSAP
-  // tidak menimpa rotasi kartu BPH. Section Arsitektur Departemen punya animasinya sendiri (ArsitekturDepartemen.astro).
+  // Section Arsitektur Departemen & Filosofi Logo punya animasinya sendiri (komponen masing-masing).
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
