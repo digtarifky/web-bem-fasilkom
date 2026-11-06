@@ -103,15 +103,17 @@ const breadcrumb = [
         {unit.deskripsi}
       </p>
 
-      <!-- Statistik ringkas -->
-      <p data-hero-reveal class="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-500">
-        {statistik.map((s, i) => (
-          <>
-            {i > 0 && <span class="text-neutral-300" aria-hidden="true">&middot;</span>}
-            <span><span class="text-orange-700">{s.angka}</span> {s.label}</span>
-          </>
-        ))}
-      </p>
+      <!-- Statistik ringkas (tidak ditampilkan di halaman Biro) -->
+      {unit.tipe !== 'biro' && (
+        <p data-hero-reveal class="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-500">
+          {statistik.map((s, i) => (
+            <>
+              {i > 0 && <span class="text-neutral-300" aria-hidden="true">&middot;</span>}
+              <span><span class="text-orange-700">{s.angka}</span> {s.label}</span>
+            </>
+          ))}
+        </p>
+      )}
 
       <!-- Pemisah berlian -->
       <div data-hero-reveal class="mt-10 flex items-center justify-center gap-4 max-w-md mx-auto" aria-hidden="true">
