@@ -17,7 +17,7 @@ const navLinks = [
 <header class="fixed top-0 left-0 w-full z-50 pointer-events-none flex justify-center">
   <div
     id="nav-liquid"
-    class="pointer-events-auto w-full nav-top flex items-center justify-between text-black"
+    class="pointer-events-auto w-full nav-top flex items-center justify-between text-neutral-900"
   >
     <div class="max-w-7xl mx-auto flex items-center justify-between w-full">
       
@@ -26,10 +26,10 @@ const navLinks = [
         <img 
           src="/assets/logo/logo-bem.svg" 
           alt="Logo BEM FASILKOM" 
-          class="w-9 h-9 object-contain group-hover:scale-105 transition-transform" 
+          class="w-9 h-9 object-contain group-hover:scale-105 transition-transform drop-shadow-xs" 
         />
         <div class="flex flex-col font-helvetica">
-          <span class="font-bold text-sm md:text-base tracking-wide leading-tight text-sunset-orange drop-shadow-sm">
+          <span class="font-bold text-sm md:text-base tracking-wide leading-tight text-sunset-orange drop-shadow-xs">
             BEM FASILKOM <span class="text-sunset-orange">2026</span>
           </span>
           <div class="inline-flex items-baseline">
@@ -45,10 +45,10 @@ const navLinks = [
 
       <!-- Menu Navigasi Bersih -->
       <nav id="nav-menu" class="hidden lg:flex relative items-center">
-        <!-- Kotak Rounded Aktif Meluncur -->
+        <!-- Kotak Rounded Aktif Meluncur (Pure Glass Pebble) -->
         <div
           id="sliding-indicator"
-          class="absolute top-0 bottom-0 left-0 rounded-full bg-white shadow-xs border border-neutral-200/80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none opacity-0"
+          class="absolute top-0 bottom-0 left-0 rounded-full bg-white/90 backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] border border-white/70 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none opacity-0"
         ></div>
 
         {navLinks.map((link) => {
@@ -58,7 +58,7 @@ const navLinks = [
               href={link.href}
               data-nav-item
               class={`nav-link-btn relative z-10 px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-200 select-none ${
-                isActive ? 'text-neutral-950 font-bold is-active' : 'text-neutral-600 hover:text-neutral-950'
+                isActive ? 'text-neutral-950 font-bold is-active' : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
               {link.name}
@@ -68,7 +68,7 @@ const navLinks = [
       </nav>
 
       <!-- Mobile Button -->
-      <button id="mobile-toggle" class="lg:hidden p-2 rounded-lg text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 transition-colors" aria-label="Menu">
+      <button id="mobile-toggle" class="lg:hidden p-2.5 rounded-xl text-neutral-800 hover:text-neutral-950 bg-white/40 hover:bg-white/70 border border-white/50 backdrop-blur-md shadow-xs transition-all" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -78,11 +78,11 @@ const navLinks = [
   </div>
 
   <!-- Mobile Drawer -->
-  <div id="mobile-drawer" class="hidden lg:hidden fixed top-16 left-4 right-4 rounded-2xl bg-white/95 backdrop-blur-2xl border border-neutral-200/80 p-4 flex-col gap-2 shadow-2xl pointer-events-auto">
+  <div id="mobile-drawer" class="hidden lg:hidden fixed top-18 left-4 right-4 rounded-3xl bg-white/80 backdrop-blur-2xl border border-white/60 p-4 flex-col gap-2 shadow-[0_20px_50px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.8)] pointer-events-auto">
     {navLinks.map((link) => (
       <a
         href={link.href}
-        class="px-4 py-2.5 text-sm font-medium rounded-xl text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 transition-colors"
+        class="px-4 py-2.5 text-sm font-medium rounded-xl text-neutral-700 hover:text-neutral-950 hover:bg-white/60 transition-colors"
       >
         {link.name}
       </a>
@@ -97,12 +97,14 @@ const navLinks = [
     width: 100% !important;
     transform: translate3d(0, 0, 0) !important;
     border-radius: 0px !important;
-    padding: 1.15rem 2.5rem;
-    background-color: rgba(250, 249, 246, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: none;
+    padding: 1.1rem 2.5rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.45) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.03),
+      0 4px 24px -4px rgba(0, 0, 0, 0.04);
     will-change: transform, max-width, border-radius, padding;
     /* Transisi kembali ke atas: Cepat & Natural (0.22s) */
     transition: 
@@ -110,24 +112,27 @@ const navLinks = [
       max-width 0.22s cubic-bezier(0, 0, 0.2, 1),
       border-radius 0.22s cubic-bezier(0, 0, 0.2, 1),
       padding 0.2s ease,
-      background-color 0.2s ease,
-      border-color 0.2s ease;
+      background 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
   }
 
-  /* 2. STATE SCROLLED: LIQUID GLASS LEGA & ULTRA SMOOTH */
+  /* 2. STATE SCROLLED: PURE GLASSMORPHISM PILL (Sesuai Referensi Gambar) */
   .nav-scrolled {
-    max-width: 1200px !important; /* Ukuran ideal: tidak terlalu sempit */
-    width: 94% !important;
+    max-width: 1120px !important; /* Proporsi kapsul elegan */
+    width: 92% !important;
     transform: translate3d(0, 16px, 0) !important;
     border-radius: 9999px !important;
-    padding: 0.85rem 2.25rem !important; /* Proporsi tinggi lebih nyaman */
-    background-color: rgba(255, 255, 255, 0.88) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    padding: 0.75rem 2.25rem !important; /* Proporsi tinggi ramping & presisi */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.25) 100%) !important;
+    backdrop-filter: blur(24px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
     box-shadow: 
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.8),
-      0 12px 30px -8px rgba(0, 0, 0, 0.08) !important;
+      inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 1px 0 rgba(255, 255, 255, 0.3),
+      0 20px 40px -12px rgba(0, 0, 0, 0.12),
+      0 4px 12px -2px rgba(0, 0, 0, 0.04) !important;
     will-change: transform, max-width, border-radius, padding;
     /* Transisi scroll ke bawah: Ultra Smooth, Mewah & Mengalir (0.55s) */
     transition: 
@@ -135,7 +140,7 @@ const navLinks = [
       max-width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
       border-radius 0.55s cubic-bezier(0.22, 1, 0.36, 1),
       padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.35s ease,
+      background 0.35s ease,
       border-color 0.35s ease,
       box-shadow 0.55s ease;
   }
