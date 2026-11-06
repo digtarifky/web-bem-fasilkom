@@ -1,0 +1,56 @@
+---
+// src/components/struktur/ProkerCard.astro
+// Kartu proker (§5.7). Struktur disalin dari kartu Proker Beranda (index.astro), dengan perbaikan:
+//  - Thumbnail tanpa gambar memakai `bg-linear-to-br ...` (di Beranda kelas ini tidak ada → thumbnail putih).
+//  - Jika `gambar` ada → <img> menutup thumbnail + overlay gelap di bawah.
+// Halaman /proker belum ada, jadi kartu bukan link dan "Baca Telusur" non-aktif.
+// {{TODO: hubungkan ke /proker/[slug]}}
+import { ArrowRight, Zap } from 'lucide-react';
+import type { Proker } from '../../data/struktur';
+
+interface Props {
+  proker: Proker;
+  class?: string;
+}
+
+const { proker, class: className = '' } = Astro.props;
+---
+
+<article
+  class:list={[
+    'proker-card group flex flex-col h-full bg-white rounded-2xl border border-zinc-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-4 sm:p-5',
+    className,
+  ]}
+>
+  <!-- Thumbnail -->
+  <div class="relative h-44 sm:h-46 rounded-xl overflow-hidden mb-4 border border-zinc-800/80 bg-linear-to-br from-sunset-orange/30 via-zinc-900 to-black">
+    {proker.gambar ? (
+      <>
+        <img src={proker.gambar} alt="" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true"></div>
+      </>
+    ) : (
+      <div class="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-size-[16px_16px] opacity-10" aria-hidden="true"></div>
+    )}
+
+    <span class="absolute top-3 left-3 z-10 max-w-[calc(100%-1.5rem)] truncate bg-white/90 text-neutral-900 text-[10px] font-mono font-bold rounded-full px-2.5 py-0.5 tracking-wider">
+      {proker.tag}
+    </span>
+
+    <div class="absolute inset-x-3 bottom-3 z-10 flex items-end justify-between gap-2">
+      <Zap className="w-6 h-6 shrink-0 text-white/40" strokeWidth={1.5} aria-hidden="true" />
+      <span class="bg-black/60 text-white text-[11px] rounded-full px-2.5 py-0.5 whitespace-nowrap">{proker.tanggal}</span>
+    </div>
+  </div>
+
+  <h3 class="font-serif font-bold text-lg text-neutral-950 leading-snug line-clamp-2">{proker.judul}</h3>
+  <p class="mt-2 text-sm text-zinc-600 leading-relaxed line-clamp-3 grow">{proker.ringkasan}</p>
+
+  <div class="mt-4 pt-3.5 border-t border-zinc-100 flex items-center justify-between gap-3 text-xs">
+    <span class="text-[11px] font-mono font-semibold uppercase tracking-wider text-zinc-600">{proker.kategori}</span>
+    <span role="link" aria-disabled="true" title="Halaman detail program kerja segera hadir" class="shrink-0 inline-flex items-center gap-1 font-bold text-orange-700 opacity-60 cursor-not-allowed">
+      Baca Telusur
+      <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} aria-hidden="true" />
+    </span>
+  </div>
+</article>
