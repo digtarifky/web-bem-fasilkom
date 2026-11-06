@@ -189,9 +189,9 @@ export const units: Unit[] = [
         ringkas: 'Produksi aset grafis, videografi dokumenter, live streaming kegiatan, dan penataan feed visual.',
         deskripsi:
           'Studio kreatif kabinet yang memproduksi aset grafis, videografi dokumenter, dan siaran langsung kegiatan, sekaligus menjaga konsistensi identitas visual Aetherion di seluruh kanal.',
-        kepala: { nama: 'Alya Kirana', jabatan: 'Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '24' },
-        wakil: { nama: 'Raka Aditya', jabatan: 'Wakil Kepala Bagian Multimedia', prodi: 'Informatika', angkatan: '24' },
-        sekretaris: { nama: 'Nadia Putri', jabatan: 'Sekretaris Bagian Multimedia', prodi: 'Bisnis Digital', angkatan: '24' },
+        kepala: { nama: 'Ishna Shetia Shahadatina', jabatan: 'Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '23' },
+        wakil: { nama: 'Muhammad Ihsanul Fikri', jabatan: 'Wakil Kepala Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '24' },
+        sekretaris: { nama: 'Tasya kalimarensyia br sinaga ', jabatan: 'Sekretaris Bagian Multimedia', prodi: 'Informatika', angkatan: '24' },
         staf: [
           { nama: 'Fikri Hidayat', jabatan: 'Staf Bagian Multimedia', prodi: 'Informatika', angkatan: '25' },
           { nama: 'Salma Azzahra', jabatan: 'Staf Bagian Multimedia', prodi: 'Sistem Informasi', angkatan: '25' },
@@ -216,11 +216,10 @@ export const units: Unit[] = [
         ringkas: 'Penyusunan press release, manajemen siaran portal web resmi, dan diseminasi buletin berkala.',
         deskripsi:
           'Pusat arus informasi kabinet yang menyusun press release, mengelola siaran portal web resmi, dan mendistribusikan buletin berkala kepada seluruh sivitas Fasilkom.',
-        kepala: { nama: 'Yusuf Maulana', jabatan: 'Kepala Bagian Publikasi & Informasi', prodi: 'Informatika', angkatan: '24' },
-        wakil: { nama: 'Citra Lestari', jabatan: 'Wakil Kepala Bagian Publikasi & Informasi', prodi: 'Sistem Informasi', angkatan: '24' },
-        sekretaris: { nama: 'Intan Permata', jabatan: 'Sekretaris Bagian Publikasi & Informasi', prodi: 'Sains Data', angkatan: '24' },
+        kepala: { nama: 'Muhammad Jazuli', jabatan: 'Kepala Bagian Publikasi & Informasi', prodi: 'Sains Data', angkatan: '24' },
+        wakil: { nama: 'Thalita Bella Vania', jabatan: 'Wakil Kepala Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '24' },
         staf: [
-          { nama: 'Hafiz Ramadhan', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Informatika', angkatan: '25' },
+          { nama: 'Regina Putri Gundani', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '24' },
           { nama: 'Zahra Aulia', jabatan: 'Staf Bagian Publikasi & Informasi', prodi: 'Bisnis Digital', angkatan: '25' },
         ],
         proker: [
