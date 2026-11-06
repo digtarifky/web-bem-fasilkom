@@ -1,6 +1,6 @@
 ---
 // src/components/struktur/PersonPhoto.astro
-// Foto rasio 3:4. Jika `person.foto` kosong → placeholder gelap dengan inisial (tanpa emoji).
+// Foto rasio 4:5 (disarankan 1080×1350 px). Jika `person.foto` kosong → placeholder gelap dengan inisial (tanpa emoji).
 import { User } from 'lucide-react';
 import type { Person } from '../../data/struktur';
 
@@ -20,7 +20,7 @@ const inisial = person.nama
   .join('');
 ---
 
-<div class:list={['relative aspect-3/4 overflow-hidden', className]}>
+<div class:list={['relative aspect-4/5 overflow-hidden', className]}>
   {person.foto ? (
     <img
       src={person.foto}

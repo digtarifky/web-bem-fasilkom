@@ -481,7 +481,6 @@ export const units: Unit[] = [
           },
         ],
       },
-      // DUMMY
       {
         slug: 'pengmas',
         nama: 'Bidang Pengabdian Masyarakat',
@@ -492,19 +491,18 @@ export const units: Unit[] = [
         deskripsi:
           'Menghadirkan dampak nyata keilmuan komputer bagi masyarakat melalui bina desa teknologi terapan, aksi tanggap bencana, dan literasi digital sekolah pesisir.',
         // foto: /assets/pengurus/sospol/pengmas/kepala.webp
-        kepala: { nama: 'Hana Safitri', jabatan: 'Kepala Bidang Pengmas', prodi: 'Sistem Informasi', angkatan: '24' },
+        kepala: { nama: 'Gilang Yudha Satriawan', jabatan: 'Kepala Bidang Pengmas', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/sospol/pengmas/wakil.webp
-        wakil: { nama: 'Ilham Kurniawan', jabatan: 'Wakil Kepala Bidang Pengmas', prodi: 'Informatika', angkatan: '24' },
+        wakil: { nama: 'Dian Indri Eklesia Lumban Tobing', jabatan: 'Wakil Kepala Bidang Pengmas', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/sospol/pengmas/sekretaris.webp
-        sekretaris: { nama: 'Rosa Amelia', jabatan: 'Sekretaris Bidang Pengmas', prodi: 'Bisnis Digital', angkatan: '24' },
+        sekretaris: { nama: 'Kiki Heldiani Alifia', jabatan: 'Sekretaris Bidang Pengmas', prodi: 'Sains Data', angkatan: '25' },
         staf: [
           // foto: /assets/pengurus/sospol/pengmas/staf-01.webp
-          { nama: 'Yoga Firmansyah', jabatan: 'Staf Bidang Pengmas', prodi: 'Sains Data', angkatan: '25' },
+          { nama: 'Julyandra Andi Santoso', jabatan: 'Staf Bidang Pengmas', prodi: 'Sistem Informasi', angkatan: '24' },
           // foto: /assets/pengurus/sospol/pengmas/staf-02.webp
-          { nama: 'Sekar Ayu', jabatan: 'Staf Bidang Pengmas', prodi: 'Informatika', angkatan: '25' },
-          // DUMMY
+          { nama: 'Adelia Syifa Bunga Nirwana', jabatan: 'Staf Bidang Pengmas', prodi: 'Informatika', angkatan: '25' },
           // foto: /assets/pengurus/sospol/pengmas/staf-03.webp
-          { nama: 'Taufik Hidayat', jabatan: 'Staf Bidang Pengmas', prodi: 'Informatika', angkatan: '25' },
+          { nama: 'Muhammad Anggara Saputra', jabatan: 'Staf Bidang Pengmas', prodi: 'Informatika', angkatan: '25' },
         ],
         proker: [
           {
@@ -545,15 +543,13 @@ export const units: Unit[] = [
     ikon: 'BrainCog',
     deskripsi:
       'Inkubator talenta, pembinaan kader berkepribadian luhur, riset inovasi teknologi, serta optimalisasi potensi minat-bakat fungsionaris.',
-    // DUMMY — {{TODO: pimpinan departemen PSDM resmi}}
     // foto: /assets/pengurus/psdm/kepala.webp
-    kepala: { nama: 'Naufal Alfarizi', jabatan: 'Kepala Departemen PSDM', prodi: 'Informatika', angkatan: '23' },
+    kepala: { nama: 'Demas Zhafran Zharif', jabatan: 'Kepala Departemen PSDM', prodi: 'Sistem Informasi', angkatan: '23' },
     // foto: /assets/pengurus/psdm/wakil.webp
-    wakil: { nama: 'Kirana Larasati', jabatan: 'Wakil Kepala Departemen PSDM', prodi: 'Sains Data', angkatan: '24' },
+    wakil: { nama: 'Tiara Audrey Anugerah Hadin', jabatan: 'Wakil Kepala Departemen PSDM', prodi: 'Sains Data', angkatan: '23' },
     // foto: /assets/pengurus/psdm/sekretaris.webp
-    sekretaris: { nama: 'Puspita Ayuningtyas', jabatan: 'Sekretaris Departemen PSDM', prodi: 'Sistem Informasi', angkatan: '24' },
+    sekretaris: { nama: 'Balqis Adiratna', jabatan: 'Sekretaris Departemen PSDM', prodi: 'Sistem Informasi', angkatan: '23' },
     bidang: [
-      // DUMMY
       {
         slug: 'kaderisasi',
         nama: 'Bidang Kaderisasi',
@@ -564,19 +560,18 @@ export const units: Unit[] = [
         deskripsi:
           'Menjaga keberlangsungan regenerasi kepemimpinan melalui LKMM-TD, orientasi mahasiswa baru, dan pembinaan kader yang berintegritas.',
         // foto: /assets/pengurus/psdm/kaderisasi/kepala.webp
-        kepala: { nama: 'Reza Pahlevi', jabatan: 'Kepala Bidang Kaderisasi', prodi: 'Informatika', angkatan: '24' },
+        kepala: { nama: 'Erren Betrisia Nabila', jabatan: 'Kepala Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/psdm/kaderisasi/wakil.webp
-        wakil: { nama: 'Anindya Safira', jabatan: 'Wakil Kepala Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '24' },
+        wakil: { nama: 'Muhammad Rasya Dzikri Subagio', jabatan: 'Wakil Kepala Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/psdm/kaderisasi/sekretaris.webp
-        sekretaris: { nama: 'Melati Kusuma', jabatan: 'Sekretaris Bidang Kaderisasi', prodi: 'Sains Data', angkatan: '24' },
+        sekretaris: { nama: 'Fiska Aulia Putri', jabatan: 'Sekretaris Bidang Kaderisasi', prodi: 'Informatika', angkatan: '24' },
         staf: [
           // foto: /assets/pengurus/psdm/kaderisasi/staf-01.webp
-          { nama: 'Aditya Pratama', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Informatika', angkatan: '25' },
+          { nama: 'Maulidya Miftahul Magfiroh', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Sains Data', angkatan: '25' },
           // foto: /assets/pengurus/psdm/kaderisasi/staf-02.webp
-          { nama: 'Farah Diba', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '25' },
-          // DUMMY
+          { nama: 'Nadya Karenina Cisevi Girsang', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '25' },
           // foto: /assets/pengurus/psdm/kaderisasi/staf-03.webp
-          { nama: 'Gilang Ramadhan', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Sains Data', angkatan: '25' },
+          { nama: 'Billy Norris Aritonang', jabatan: 'Staf Bidang Kaderisasi', prodi: 'Sistem Informasi', angkatan: '25' },
         ],
         proker: [
           {
@@ -655,7 +650,6 @@ export const units: Unit[] = [
           },
         ],
       },
-      // DUMMY
       {
         slug: 'kewirausahaan',
         nama: 'Bidang Kewirausahaan',
@@ -666,19 +660,18 @@ export const units: Unit[] = [
         deskripsi:
           'Menumbuhkan jiwa wirausaha dan kemandirian finansial kabinet melalui merchandise resmi, inkubasi tech-startup mahasiswa, dan program pendanaan mandiri.',
         // foto: /assets/pengurus/psdm/kewirausahaan/kepala.webp
-        kepala: { nama: 'Kevin Hartono', jabatan: 'Kepala Bidang Kewirausahaan', prodi: 'Bisnis Digital', angkatan: '24' },
+        kepala: { nama: 'Aurelia Salsabiila Putri', jabatan: 'Kepala Bidang Kewirausahaan', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/psdm/kewirausahaan/wakil.webp
-        wakil: { nama: 'Shafa Kamila', jabatan: 'Wakil Kepala Bidang Kewirausahaan', prodi: 'Sistem Informasi', angkatan: '24' },
+        wakil: { nama: 'Muhammad Ariel Eka Ramadani', jabatan: 'Wakil Kepala Bidang Kewirausahaan', prodi: 'Informatika', angkatan: '24' },
         // foto: /assets/pengurus/psdm/kewirausahaan/sekretaris.webp
-        sekretaris: { nama: 'Ratna Dewi', jabatan: 'Sekretaris Bidang Kewirausahaan', prodi: 'Bisnis Digital', angkatan: '24' },
+        sekretaris: { nama: 'Rachel Mutya Shifa', jabatan: 'Sekretaris Bidang Kewirausahaan', prodi: 'Bisnis Digital', angkatan: '24' },
         staf: [
           // foto: /assets/pengurus/psdm/kewirausahaan/staf-01.webp
-          { nama: 'Andre Wijaya', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Bisnis Digital', angkatan: '25' },
+          { nama: 'Laudya Meitaneia Sianturi', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Sains Data', angkatan: '24' },
           // foto: /assets/pengurus/psdm/kewirausahaan/staf-02.webp
-          { nama: 'Bella Oktavia', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Informatika', angkatan: '25' },
-          // DUMMY
+          { nama: 'Jihan Aulia Alvira Putri', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Sistem Informasi', angkatan: '25' },
           // foto: /assets/pengurus/psdm/kewirausahaan/staf-03.webp
-          { nama: 'Dewa Putra', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Sains Data', angkatan: '25' },
+          { nama: 'Ayubi Al Muarif', jabatan: 'Staf Bidang Kewirausahaan', prodi: 'Sistem Informasi', angkatan: '25' },
         ],
         proker: [
           {
@@ -706,7 +699,6 @@ export const units: Unit[] = [
           },
         ],
       },
-      // DUMMY
       {
         slug: 'senor',
         nama: 'Bidang Seni & Olahraga',
@@ -717,21 +709,20 @@ export const units: Unit[] = [
         deskripsi:
           'Ruang ekspresi dan sportivitas mahasiswa melalui FASILKOM Cup, wadah E-Sports, komunitas musik, dan program kebugaran yang menjunjung kebersamaan.',
         // foto: /assets/pengurus/psdm/senor/kepala.webp
-        kepala: { nama: 'Rangga Saputra', jabatan: 'Kepala Bidang Senor', prodi: 'Informatika', angkatan: '24' },
+        kepala: { nama: 'Nabil Afsar Riswanda', jabatan: 'Kepala Bidang Senor', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/psdm/senor/wakil.webp
-        wakil: { nama: 'Clarissa Wenas', jabatan: 'Wakil Kepala Bidang Senor', prodi: 'Sains Data', angkatan: '24' },
+        wakil: { nama: 'Icha Leona Ardianti', jabatan: 'Wakil Kepala Bidang Senor', prodi: 'Sistem Informasi', angkatan: '24' },
         // foto: /assets/pengurus/psdm/senor/sekretaris.webp
-        sekretaris: { nama: 'Dinda Maharani', jabatan: 'Sekretaris Bidang Senor', prodi: 'Sistem Informasi', angkatan: '24' },
+        sekretaris: { nama: 'Gizzella Razwa Dhanty Azzahra', jabatan: 'Sekretaris Bidang Senor', prodi: 'Informatika', angkatan: '24' },
         staf: [
           // foto: /assets/pengurus/psdm/senor/staf-01.webp
-          { nama: 'Ferdi Ananda', jabatan: 'Staf Bidang Senor', prodi: 'Informatika', angkatan: '25' },
+          { nama: 'Muhammad Frandi Irmansyah', jabatan: 'Staf Bidang Senor', prodi: 'Sistem Informasi', angkatan: '24' },
           // foto: /assets/pengurus/psdm/senor/staf-02.webp
-          { nama: 'Gita Savitri', jabatan: 'Staf Bidang Senor', prodi: 'Bisnis Digital', angkatan: '25' },
-          // DUMMY
+          { nama: 'Putri Ayu Dita Widya', jabatan: 'Staf Bidang Senor', prodi: 'Sains Data', angkatan: '25' },
           // foto: /assets/pengurus/psdm/senor/staf-03.webp
-          { nama: 'Hafiz Maulana', jabatan: 'Staf Bidang Senor', prodi: 'Sistem Informasi', angkatan: '25' },
+          { nama: 'Arnaldo Given Tedjasukmana', jabatan: 'Staf Bidang Senor', prodi: 'Informatika', angkatan: '25' },
           // foto: /assets/pengurus/psdm/senor/staf-04.webp
-          { nama: 'Jessica Tanoto', jabatan: 'Staf Bidang Senor', prodi: 'Sains Data', angkatan: '25' },
+          { nama: 'Salsabila Alsafah', jabatan: 'Staf Bidang Senor', prodi: 'Sistem Informasi', angkatan: '25' },
         ],
         proker: [
           {

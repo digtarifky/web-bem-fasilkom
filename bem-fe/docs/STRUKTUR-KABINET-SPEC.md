@@ -40,7 +40,7 @@ Total halaman yang di-generate: 1 + 4 unit + 10 bidang = **15 halaman**, semuany
 |---|---|---|
 | Font judul halaman (H1) | Playfair Display | `font-sans font-black tracking-tight` (sama dengan H1 hero Beranda) |
 | Font judul section (H2) | Playfair Display | `font-serif font-extrabold tracking-tight` + kata kunci `text-sunset-orange` (sama dengan `VideoSection`) |
-| Nama orang di kartu | Playfair italic | `font-serif font-bold` |
+| Teks kartu orang (nama, jabatan, prodi) | Playfair italic | `font-helvetica` (token `--font-helvetica` di `global.css`), §5.4 |
 | Label kecil / kode / angkatan | Sans uppercase | `font-mono` (sama dengan badge Sambutan & Video) |
 | Warna oranye | `#FF6B00` / orange-600 | token `sunset-orange` (#EA580C), `warm-gold` (#F59E0B), `obsidian` (#090A0F) |
 | Netral | slate / stone | `neutral-*` dan `zinc-*` (mengikuti Beranda) |
@@ -48,8 +48,7 @@ Total halaman yang di-generate: 1 + 4 unit + 10 bidang = **15 halaman**, semuany
 | Navbar | pill + tombol "Layanan Terpadu"/avatar | komponen `Navbar.astro` yang ada, apa adanya |
 | Link "Jelajahi Program" ungu | `#6155F5` underline | `text-sunset-orange font-bold` + panah, pola "Detail →" Beranda |
 | Logo di hero | phoenix di kartu glow | sama (phoenix `makna-logo/logo-3.svg`), dibungkus kartu glow gaya Beranda |
-| Kartu Ketum/Waketum/Kepala | kartu putih + foto | **kartu gelap** ala `SambutanSection` (bg `neutral-950`, border oranye/emas) |
-| Kartu staf & BPH lain | kartu putih | kartu putih ala kartu Proker Beranda |
+| Kartu orang (semua jabatan) | kartu putih + foto | **satu desain** kartu putih: foto 4:5 + kotak info. Ketum/Kepala bingkai oranye, Waketum bingkai emas, lainnya bingkai netral (§5.4) |
 | Garis pohon organisasi | zig-zag 3px oranye | tulang punggung vertikal bergradasi oranye→emas (§6.1.5) |
 | Section divider | tidak ada | boleh memakai pola marquee Beranda (opsional, §6.1) |
 | Label BPH semua "KETUA UMUM" | salah di mockup | label sesuai jabatan masing-masing |
@@ -69,7 +68,7 @@ src/
 │       ├── SectionHeading.astro
 │       ├── Breadcrumb.astro
 │       ├── PersonPhoto.astro    # foto atau placeholder inisial
-│       ├── PersonCard.astro     # varian: featured | standard | staff
+│       ├── PersonCard.astro     # satu desain; varian = warna bingkai
 │       ├── UnitNode.astro       # kartu unit + anak bidang (pohon organisasi)
 │       ├── BidangCard.astro     # kartu bidang di halaman unit
 │       ├── ProkerCard.astro     # kartu proker (gaya Beranda, gradasi diperbaiki)
@@ -216,7 +215,7 @@ public/assets/pengurus/
 └── {unit}/{bidang}/kepala.webp, wakil.webp, sekretaris.webp, staf-01.webp, staf-02.webp, ...
 ```
 
-- Rasio **3:4** (disarankan 600×800, WebP, ≤80 KB).
+- Rasio **4:5** (disarankan **1080×1350 px**, WebP, usahakan ≤200 KB). Foto dengan rasio lain tetap tampil penuh dan dipotong di tengah (`object-cover`).
 - Selama `foto` kosong, `PersonPhoto` menampilkan placeholder otomatis (§5.3). Agent **tidak** membuat file gambar dummy.
 - Mengisi foto cukup dengan menambah `foto: '/assets/pengurus/psdm/litbang/kepala.webp'` di `struktur.ts`.
 
@@ -258,17 +257,23 @@ Props: `items: {label, href?}[]`. `text-xs sm:text-sm text-neutral-500`, pemisah
 Props: `person`, `class?`.
 - Ada `foto`: `<img src loading="lazy" decoding="async" alt="Foto {nama}, {jabatan}" class="w-full h-full object-cover">`.
 - Tidak ada: kotak `bg-linear-to-br from-neutral-800 via-neutral-900 to-obsidian` + pola titik putih 8% + inisial (2 huruf) `font-serif font-bold text-5xl text-white/80` di tengah + ikon `User` kecil `text-white/20` di pojok. Tanpa emoji.
-- Wadah selalu `aspect-[3/4] overflow-hidden`.
+- Wadah selalu `aspect-4/5 overflow-hidden` (1080×1350 px).
 
 ### 5.4 `PersonCard.astro`
-Props: `person`, `variant: 'featured' | 'featured-gold' | 'standard' | 'staff'`, `badge?` (teks badge jabatan), `topLabel?` (mis. "Ketua Bidang"), `code?` (mis. "S-01"), `nomor?` (mis. "NO. 01").
+Props: `person`, `variant: 'featured' | 'featured-gold' | 'standard' | 'staff'`, `badge?` (teks jabatan, default `jabatan` huruf besar), `topLabel?` (mis. "Kepala Bidang"), `zoom?`. Props `code`, `nomor`, `staffLabel` masih diterima demi kompatibilitas, tetapi tidak ditampilkan.
 
-- **`featured` / `featured-gold`** (Ketum, Waketum, Kepala Bidang, Kepala Unit): kartu gelap.
-  Foto mengisi kartu (`rounded-xl`) dengan overlay `bg-linear-to-t from-black via-black/40 to-transparent`. Di bawah foto ada badge jabatan, nama `text-lg sm:text-xl font-serif font-bold text-white`, lalu `{prodi} '{angkatan}` `text-xs font-mono text-neutral-400`. Badge angkatan `IF '24` di pojok kanan atas.
-  Jika ada `topLabel`, tampilkan pill di atas kartu (`-top-3`, `bg-linear-to-r from-sunset-orange to-amber-500 text-white text-[10px] font-mono font-bold`).
-  Hover: `shadow-[0_25px_50px_-12px_rgba(234,88,12,0.35)]` (emas: `rgba(245,158,11,0.35)`).
-- **`standard`** (Sekum, Bendum, Wakil/Sekretaris bidang): kartu putih `p-3`. Foto `rounded-xl` dengan badge jabatan putih (`bg-white/90 text-sunset-orange`) di kiri atas dan badge angkatan di kanan atas. Di bawahnya eyebrow `BEM FASILKOM UPNVJT 2026` (`text-[10px] font-mono text-warm-gold`), nama `font-serif font-bold text-lg text-neutral-900`, jabatan `text-sm font-semibold text-sunset-orange`.
-- **`staff`**: kartu putih `p-3`. Header baris `STAF BIDANG` (eyebrow mono `text-sunset-orange`) dan `S-01` (`font-mono text-neutral-400`). Lalu foto `rounded-xl`, lalu kotak nama `mt-3 rounded-xl bg-neutral-50 border border-neutral-200/80 py-3 text-center` berisi nama `font-serif font-bold` dan prodi+angkatan `text-[11px] font-mono uppercase text-neutral-500`.
+Satu desain untuk semua jabatan, font `font-helvetica`:
+- Kartu putih `rounded-2xl border-2 shadow-sm p-2.5 sm:p-3`, naik `-translate-y-1.5` saat hover.
+- Foto `PersonPhoto` (4:5, `rounded-xl`), tanpa badge di atas foto.
+- Kotak info `rounded-xl bg-neutral-50 border border-neutral-200/80 py-3 text-center`, berisi:
+  1. nama lengkap: `font-bold text-sm sm:text-base lg:text-lg text-neutral-900`;
+  2. jabatan (`badge`): `text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-orange-700`;
+  3. prodi'angkatan (`labelAngkatan`, mis. "SI '24") dengan gaya yang sama.
+- Varian hanya mengubah warna bingkai: `featured` oranye (Ketum, Kepala), `featured-gold` emas (Waketum), `standard`/`staff` netral `zinc-200`.
+- `topLabel`: pill gradasi oranye yang menempel di tepi atas kartu (`-translate-y-1/2`) tanpa menambah tinggi kartu.
+- **Ukuran seragam:** lebar kartu diatur pemanggil dengan satu kelas lebar yang sama di semua section (`CARD_W`). Tinggi kartu dalam satu baris disamakan (flex stretch; kotak info mengisi sisa tinggi). Tidak ada kartu yang diperbesar atau dinaikkan.
+  - Lebar: `w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-0.75rem)]` (2 kolom → 4 kolom).
+  - Baris kartu: `gap-4 sm:gap-6 lg:gap-4 lg:-mx-6`. Di desktop baris melebar 24px ke padding container dan jaraknya 16px, sehingga kartu ±296px di layar 1280px.
 
 ### 5.5 `UnitNode.astro`
 Props: `unit`, `side: 'left' | 'right'`.
@@ -319,8 +324,8 @@ Layout `lg:grid-cols-12 gap-10`:
 2. **Visi & Misi** (`bg-white`): `SectionHeading` eyebrow "Kompas Haluan Organisasi", judul "Visi & Misi <span>BEM FASILKOM 2026</span>", lalu `VisiMisi`.
 3. **Makna & Filosofi Logo** (`bg-[#FAFAFA] border-y`): eyebrow "Semiotika Visual", judul "Makna & <span>Filosofi Logo</span>", deskripsi "Simbolisme terstruktur yang merangkum ruh perjuangan, etika akademis, dan aspirasi kolektif Aetherion.", lalu `FilosofiLogo`.
 4. **Badan Pengurus Harian** (`bg-white`): eyebrow "Dewan Presidium", judul "Badan Pengurus <span>Harian</span>", deskripsi "Pilar kepemimpinan utama yang menahkodai orkestrasi pergerakan, ketertiban manajerial, dan transparansi tata kelola kabinet."
-   - Baris 1: `grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto`. Ketum memakai `featured`, badge "KETUA UMUM", nomor "NO. 01 / PRESIDENCY". Waketum memakai `featured-gold`, badge "WAKIL KETUA UMUM", nomor "NO. 02 / VICE PRESIDENCY". Di desktop beri sedikit rotasi (`lg:-rotate-2` / `lg:rotate-2`) sebagai gema kartu Sambutan; rotasi kembali ke 0 saat hover.
-   - Baris 2: `grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10`, 4 kartu `standard` (Sekretaris Umum 1–2, Bendahara Umum 1–2).
+   - Baris 1: `flex flex-wrap justify-center`, lebar kartu sama dengan baris 2. Ketum memakai `featured`, badge "KETUA UMUM". Waketum memakai `featured-gold`, badge "WAKIL KETUA UMUM". Tanpa rotasi.
+   - Baris 2: `grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10`, 4 kartu `standard` (Sekretaris Umum 1–2, Bendahara Umum 1–2).
 5. **Arsitektur Departemen** (`bg-[#FAFAFA] border-t`): eyebrow "Topologi Eksekutif", judul "Arsitektur <span>Departemen</span> & Alur Sirkuit Eksekutif", deskripsi "Aliran mandat berjenjang dan koordinasi struktural antar departemen teknis dalam melayani sivitas akademika."
    - **Desktop (≥1024px)**: ada tulang punggung vertikal di tengah (`absolute left-1/2 top-0 bottom-0 w-[3px] -translate-x-1/2 bg-linear-to-b from-sunset-orange via-amber-500 to-warm-gold rounded-full`). `UnitNode` berselang kiri/kanan (`lg:w-[calc(50%-2.5rem)]`, kanan `lg:ml-auto`). Dari tiap kartu unit ada garis horizontal 3px ke tulang punggung, dengan titik simpul `w-4 h-4 rounded-full bg-white border-[3px] border-sunset-orange` di persimpangan. Unit terakhir (PSDM) membentang penuh di bawah, dengan 4 bidang dalam satu baris.
    - **Mobile (<1024px)**: garis di kiri (`left-4`), semua kartu `pl-10`, simpul di garis.
@@ -330,7 +335,7 @@ Layout `lg:grid-cols-12 gap-10`:
 *Tidak ada mockup. Halaman ini disusun dari pola halaman bidang.*
 
 1. **Hero** (latar hero, rata tengah): `Breadcrumb` (Beranda / Struktur Organisasi / {nama unit}), pill `{KODE} • BEM FASILKOM 2026`, H1 nama unit (huruf besar, `font-serif font-extrabold uppercase text-4xl sm:text-6xl`, sama dengan halaman bidang), deskripsi, pemisah berlian (garis `bg-linear-to-r from-transparent via-sunset-orange/40 to-transparent` + `◆` kecil `text-sunset-orange`).
-2. **Pimpinan Unit** (jika `kepala` ada): eyebrow "Pimpinan {Departemen|Biro}". Kepala memakai `featured` dengan `topLabel="Kepala {Departemen|Biro}"`, wakil memakai `featured-gold`. Grid 2 kolom `max-w-3xl mx-auto`.
+2. **Pimpinan Unit** (jika `kepala` ada): eyebrow "Pimpinan {Departemen|Biro}". Kepala memakai `featured` dengan `topLabel="Kepala {Departemen|Biro}"`, wakil memakai `featured-gold`. Lebar kartu sama dengan kartu lain (§5.4), baris di tengah.
    `{{TODO: apakah tiap unit punya Kepala & Wakil Kepala? Jika tidak, section ini disembunyikan otomatis}}`
 3. **Daftar {Bidang|Bagian}**: `SectionHeading` eyebrow "Struktur Internal", judul "{Bidang|Bagian} di <span>{kode}</span>", lalu grid `sm:grid-cols-2 lg:grid-cols-{2|4}` berisi `BidangCard`.
 4. **Program Kerja {kode}**: `SectionHeading align="left"`, grid `md:grid-cols-2 lg:grid-cols-3` berisi semua proker dari semua bidangnya (maks. 6), diurutkan sesuai data.
@@ -342,13 +347,14 @@ Layout `lg:grid-cols-12 gap-10`:
 Mengikuti mockup `bidang.svg` (versi lengkap dengan staf).
 
 1. **Hero**: `Breadcrumb` (Beranda / Struktur Organisasi / {nama unit} / {namaPendek}), pill `{nama unit singkat} • BEM FASILKOM 2026`, H1 `judulHero` (`font-serif font-extrabold uppercase text-4xl sm:text-6xl tracking-tight`), deskripsi `max-w-2xl`, pemisah berlian.
-2. **Struktur Hierarki Fungsionaris**: label tengah bergaris kiri-kanan (`STRUKTUR HIERARKI FUNGSIONARIS`, mono, `tracking-[0.3em]`), lalu grid `lg:grid-cols-3 gap-8 items-end`:
+2. **Struktur Hierarki Fungsionaris**: label tengah bergaris kiri-kanan (`STRUKTUR HIERARKI FUNGSIONARIS`, mono, `tracking-[0.3em]`), lalu baris kartu `flex flex-wrap justify-center gap-4 sm:gap-6` dengan lebar kartu yang sama seperti staf (§5.4):
    - Kiri: Wakil, `standard`, badge "WAKIL KEPALA BIDANG".
-   - Tengah: Kepala, `featured`, `topLabel="Ketua Bidang"`, nomor "NO. 01", dengan `lg:-translate-y-8 lg:scale-[1.04]`.
+   - Tengah: Kepala, `featured`, `topLabel="Kepala Bidang"` (biro: "Kepala Bagian"). Ukurannya sama dengan Wakil dan Sekretaris (§5.4).
    - Kanan: Sekretaris, `standard`, badge "SEKRETARIS BIDANG".
-   - Mobile: kepala tampil pertama (`order-first lg:order-none`), kartu `max-w-sm mx-auto`.
+   - Mobile: kepala tampil pertama (`order-first lg:order-none`), 2 kartu per baris seperti staf.
+   - Jika wakil atau sekretaris kosong (mis. bagian MEDFO), kartu yang ada tetap di tengah.
    - Untuk biro, ganti teks "Bidang" dengan "Bagian".
-3. **Staf**: label tengah bergaris (`labelStaf` ?? "STAF {BIDANG|BAGIAN}"), grid `grid-cols-2 lg:grid-cols-4 gap-6`, `PersonCard staff` dengan kode `S-01`, `S-02`, ... (nomor urut 2 digit).
+3. **Staf**: label tengah bergaris (`labelStaf` ?? "STAF {BIDANG|BAGIAN}"), baris kartu `flex flex-wrap justify-center` (baris tidak penuh tetap di tengah), `PersonCard staff` dengan jabatan dari data (mis. "STAF BIDANG LITBANG").
 4. **Program Kerja & Agenda {namaPendek}**: `SectionHeading align="left"` eyebrow "Portfolio & Agenda", judul "Program Kerja & Agenda <span>{namaPendek}</span>", deskripsi di kanan. Lalu grid `md:grid-cols-2 lg:grid-cols-3` berisi `ProkerCard`.
 5. **Navigasi**: "← Kembali ke {nama unit}" + kartu bidang saudara lain di unit yang sama (maks. 3, kecil).
 

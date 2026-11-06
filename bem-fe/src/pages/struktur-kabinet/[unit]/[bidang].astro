@@ -36,11 +36,11 @@ const pendamping = [
   bidang.sekretaris && { person: bidang.sekretaris, badge: `SEKRETARIS ${SEBUTAN}` },
 ].filter((p) => !!p);
 const hierarkiLengkap = pendamping.length === 2;
-const hierarkiGrid = hierarkiLengkap
-  ? 'lg:grid-cols-3 max-w-5xl'
-  : pendamping.length === 1
-    ? 'sm:grid-cols-2 max-w-3xl'
-    : 'max-w-sm';
+
+// Lebar kartu orang seragam di seluruh halaman (hierarki & staf): 2 kolom → 4 kolom.
+// Di desktop baris kartu memakai CARD_ROW (jarak 16px, melebar ke padding) → kartu ±296px di layar 1280px.
+const CARD_W = 'w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-0.75rem)]';
+const CARD_ROW = 'flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-4 lg:-mx-6';
 
 const labelStaf = bidang.labelStaf ?? `Staf ${sebutan}`;
 const kodeStaf = (i: number) => `S-${String(i + 1).padStart(2, '0')}`;
@@ -115,24 +115,23 @@ const breadcrumb = [
         <span class="h-px flex-1 bg-linear-to-l from-transparent to-neutral-300" aria-hidden="true"></span>
       </div>
 
-      <div data-reveal-group class:list={['grid gap-8 items-end mx-auto', hierarkiGrid]}>
+      <!-- Ukuran kartu sama dengan staf; baris tidak penuh tetap di tengah -->
+      <div data-reveal-group class={CARD_ROW}>
         {hierarkiLengkap && (
-          <PersonCard person={pendamping[0].person} variant="standard" badge={pendamping[0].badge} class="w-full max-w-sm mx-auto" />
+          <PersonCard person={pendamping[0].person} variant="standard" badge={pendamping[0].badge} class={CARD_W} />
         )}
 
-        <!-- Kepala: tampil pertama di mobile, di tengah & sedikit lebih tinggi/besar di desktop -->
-        <div class="order-first lg:order-none w-full max-w-sm mx-auto lg:-translate-y-8 lg:scale-[1.04]">
-          <PersonCard
-            person={bidang.kepala}
-            variant="featured"
-            badge={`KEPALA ${SEBUTAN}`}
-            topLabel={`Ketua ${sebutan}`}
-            nomor="NO. 01"
-          />
-        </div>
+        <!-- Kepala: tampil pertama di mobile, di tengah di desktop -->
+        <PersonCard
+          person={bidang.kepala}
+          variant="featured"
+          badge={`KEPALA ${SEBUTAN}`}
+          topLabel={`Kepala ${sebutan}`}
+          class={`order-first lg:order-none ${CARD_W}`}
+        />
 
         {(hierarkiLengkap ? pendamping.slice(1) : pendamping).map((p) => (
-          <PersonCard person={p.person} variant="standard" badge={p.badge} class="w-full max-w-sm mx-auto" />
+          <PersonCard person={p.person} variant="standard" badge={p.badge} class={CARD_W} />
         ))}
       </div>
     </div>
@@ -154,14 +153,14 @@ const breadcrumb = [
         </div>
 
         <!-- 4 kolom → 2 kolom. Flex-wrap (bukan grid) agar baris terakhir yang tidak penuh tetap di tengah. -->
-        <div data-reveal-group class="flex flex-wrap justify-center gap-4 sm:gap-6">
+        <div data-reveal-group class={CARD_ROW}>
           {bidang.staf.map((person, i) => (
             <PersonCard
               person={person}
               variant="staff"
               code={kodeStaf(i)}
               staffLabel={`Staf ${sebutan}`}
-              class="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+              class={CARD_W}
             />
           ))}
         </div>
