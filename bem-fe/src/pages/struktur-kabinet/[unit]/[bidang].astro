@@ -1,0 +1,299 @@
+---
+// src/pages/struktur-kabinet/[unit]/[bidang].astro
+// Halaman Bidang / Bagian (§6.3).
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Breadcrumb from '../../../components/struktur/Breadcrumb.astro';
+import PersonCard from '../../../components/struktur/PersonCard.astro';
+import SectionHeading from '../../../components/struktur/SectionHeading.astro';
+import ProkerCard from '../../../components/struktur/ProkerCard.astro';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { getIcon } from '../../../components/struktur/icons';
+import { units, sebutanUnit, sebutanSubUnit, type Unit, type Bidang } from '../../../data/struktur';
+
+export const getStaticPaths = (() =>
+  units.flatMap((unit) =>
+    unit.bidang.map((bidang) => ({
+      params: { unit: unit.slug, bidang: bidang.slug },
+      props: { unit, bidang },
+    })),
+  )) satisfies GetStaticPaths;
+
+interface Props {
+  unit: Unit;
+  bidang: Bidang;
+}
+
+const { unit, bidang } = Astro.props;
+const namaUnitSingkat = `${sebutanUnit(unit)} ${unit.kode}`; // "Departemen PSDM" / "Biro MEDFO"
+const sebutan = sebutanSubUnit(unit); // "Bidang" | "Bagian"
+const SEBUTAN = sebutan.toUpperCase();
+
+// Wakil & sekretaris opsional (mis. bagian MEDFO tanpa sekretaris).
+// Lengkap → Wakil | Kepala | Sekretaris (3 kolom). Salah satu kosong → Kepala | pendamping (2 kolom).
+const pendamping = [
+  bidang.wakil && { person: bidang.wakil, badge: `WAKIL KEPALA ${SEBUTAN}` },
+  bidang.sekretaris && { person: bidang.sekretaris, badge: `SEKRETARIS ${SEBUTAN}` },
+].filter((p) => !!p);
+const hierarkiLengkap = pendamping.length === 2;
+const hierarkiGrid = hierarkiLengkap
+  ? 'lg:grid-cols-3 max-w-5xl'
+  : pendamping.length === 1
+    ? 'sm:grid-cols-2 max-w-3xl'
+    : 'max-w-sm';
+
+const labelStaf = bidang.labelStaf ?? `Staf ${sebutan}`;
+const kodeStaf = (i: number) => `S-${String(i + 1).padStart(2, '0')}`;
+
+// SectionHeading menerima HTML (set:html) → escape teks dari data.
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// Bidang saudara di unit yang sama (maks. 3), dimulai dari bidang setelah halaman ini agar urutannya berputar.
+const idx = unit.bidang.findIndex((b) => b.slug === bidang.slug);
+const saudara = [...unit.bidang.slice(idx + 1), ...unit.bidang.slice(0, idx)].slice(0, 3);
+const saudaraGrid = { 1: 'max-w-md', 2: 'sm:grid-cols-2 max-w-3xl', 3: 'sm:grid-cols-2 lg:grid-cols-3' }[saudara.length] ?? '';
+
+const prokerTitle =`Program Kerja &amp; Agenda <span class="text-sunset-orange">${escapeHtml(bidang.namaPendek)}</span>`;
+
+const breadcrumb = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Struktur Organisasi', href: '/struktur-kabinet' },
+  { label: namaUnitSingkat, href: `/struktur-kabinet/${unit.slug}` },
+  { label: bidang.namaPendek },
+];
+---
+
+<PageLayout
+  title={`${bidang.namaPendek} — ${unit.kode} | BEM FASILKOM UPNVJT 2026`}
+  description={bidang.deskripsi}
+>
+  <!-- ========================================== -->
+  <!-- 1. HERO                                    -->
+  <!-- ========================================== -->
+  <section data-bidang-page aria-labelledby="bidang-title" class="relative bg-aetherion-light pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-sunset-orange/15 via-amber-400/10 to-transparent blur-[120px] rounded-full pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-center">
+      <div data-hero-reveal>
+        <Breadcrumb items={breadcrumb} />
+      </div>
+
+      <span data-hero-reveal class="mt-8 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-orange-700 uppercase tracking-wider shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse" aria-hidden="true"></span>
+        {unit.kode} &bull; BEM FASILKOM 2026
+      </span>
+
+      <h1 id="bidang-title" data-hero-reveal class="mt-6 font-serif font-extrabold uppercase text-3xl min-[400px]:text-4xl sm:text-6xl tracking-tight leading-[1.1] text-neutral-950 text-balance wrap-break-word">
+        {bidang.judulHero}
+      </h1>
+
+      <p data-hero-reveal class="mt-6 text-neutral-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+        {bidang.deskripsi}
+      </p>
+
+      <!-- Pemisah berlian -->
+      <div data-hero-reveal class="mt-10 flex items-center justify-center gap-4 max-w-md mx-auto" aria-hidden="true">
+        <span class="h-px flex-1 bg-linear-to-r from-transparent via-sunset-orange/40 to-transparent"></span>
+        <span class="text-sunset-orange text-xs leading-none">&#9670;</span>
+        <span class="h-px flex-1 bg-linear-to-r from-transparent via-sunset-orange/40 to-transparent"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 2. STRUKTUR HIERARKI FUNGSIONARIS          -->
+  <!-- ========================================== -->
+  <section aria-labelledby="hierarki-title" class="py-20 sm:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <!-- Label tengah bergaris kiri-kanan -->
+      <div class="section-heading flex items-center gap-4 sm:gap-6 max-w-3xl mx-auto mb-14 sm:mb-20">
+        <span class="h-px flex-1 bg-linear-to-r from-transparent to-neutral-300" aria-hidden="true"></span>
+        <h2 id="hierarki-title" class="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.3em] text-neutral-500 text-center">
+          Struktur Hierarki Fungsionaris
+        </h2>
+        <span class="h-px flex-1 bg-linear-to-l from-transparent to-neutral-300" aria-hidden="true"></span>
+      </div>
+
+      <div data-reveal-group class:list={['grid gap-8 items-end mx-auto', hierarkiGrid]}>
+        {hierarkiLengkap && (
+          <PersonCard person={pendamping[0].person} variant="standard" badge={pendamping[0].badge} class="w-full max-w-sm mx-auto" />
+        )}
+
+        <!-- Kepala: tampil pertama di mobile, di tengah & sedikit lebih tinggi/besar di desktop -->
+        <div class="order-first lg:order-none w-full max-w-sm mx-auto lg:-translate-y-8 lg:scale-[1.04]">
+          <PersonCard
+            person={bidang.kepala}
+            variant="featured"
+            badge={`KEPALA ${SEBUTAN}`}
+            topLabel={`Ketua ${sebutan}`}
+            nomor="NO. 01"
+          />
+        </div>
+
+        {(hierarkiLengkap ? pendamping.slice(1) : pendamping).map((p) => (
+          <PersonCard person={p.person} variant="standard" badge={p.badge} class="w-full max-w-sm mx-auto" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 3. STAF                                    -->
+  <!-- ========================================== -->
+  {bidang.staf.length > 0 && (
+    <section aria-labelledby="staf-title" class="py-20 sm:py-28 bg-[#FAFAFA] border-y border-neutral-200">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <!-- Label tengah bergaris kiri-kanan -->
+        <div class="section-heading flex items-center gap-4 sm:gap-6 max-w-3xl mx-auto mb-12 sm:mb-16">
+          <span class="h-px flex-1 bg-linear-to-r from-transparent to-neutral-300" aria-hidden="true"></span>
+          <h2 id="staf-title" class="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.3em] text-neutral-500 text-center">
+            {labelStaf}
+          </h2>
+          <span class="h-px flex-1 bg-linear-to-l from-transparent to-neutral-300" aria-hidden="true"></span>
+        </div>
+
+        <!-- 4 kolom → 2 kolom. Flex-wrap (bukan grid) agar baris terakhir yang tidak penuh tetap di tengah. -->
+        <div data-reveal-group class="flex flex-wrap justify-center gap-4 sm:gap-6">
+          {bidang.staf.map((person, i) => (
+            <PersonCard
+              person={person}
+              variant="staff"
+              code={kodeStaf(i)}
+              staffLabel={`Staf ${sebutan}`}
+              class="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ========================================== -->
+  <!-- 4. PROGRAM KERJA & AGENDA                  -->
+  <!-- ========================================== -->
+  {bidang.proker.length > 0 && (
+    <section aria-labelledby="proker-title" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <SectionHeading
+          id="proker-title"
+          align="left"
+          eyebrow="Portfolio & Agenda"
+          title={prokerTitle}
+          description={`Rangkaian program kerja dan agenda ${bidang.nama} sepanjang periode Kabinet Aetherion 2026.`}
+        />
+
+        <div data-reveal-group class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {bidang.proker.map((proker) => (
+            <ProkerCard proker={proker} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ========================================== -->
+  <!-- 5. NAVIGASI                                -->
+  <!-- ========================================== -->
+  <nav aria-labelledby="navigasi-title" class="py-16 sm:py-20 bg-[#FAFAFA] border-t border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="section-heading flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <h2 id="navigasi-title" class="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.3em] text-neutral-500">
+          {saudara.length > 0 ? `${sebutan} Lain di ${unit.kode}` : `Jelajahi ${namaUnitSingkat}`}
+        </h2>
+        <a
+          href={`/struktur-kabinet/${unit.slug}`}
+          class="group self-start sm:self-auto inline-flex items-center gap-1.5 min-h-11 text-sm font-bold text-orange-700 hover:text-sunset-orange rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" strokeWidth={2} aria-hidden="true" />
+          Kembali ke {namaUnitSingkat}
+        </a>
+      </div>
+
+      {saudara.length > 0 && (
+        <ul data-reveal-group class:list={['grid gap-4 sm:gap-6', saudaraGrid]}>
+          {saudara.map((b) => {
+            const Icon = getIcon(b.ikon);
+            return (
+              <li>
+                <a
+                  href={`/struktur-kabinet/${unit.slug}/${b.slug}`}
+                  class="group flex items-center gap-4 h-full bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-4 sm:p-5 hover:border-sunset-orange/40 hover:shadow-md transition-[border-color,box-shadow] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange"
+                >
+                  <span class="w-11 h-11 shrink-0 rounded-xl bg-orange-50 border border-orange-200/70 text-sunset-orange flex items-center justify-center">
+                    <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <span class="min-w-0 grow">
+                    <span class="block text-[10px] font-mono font-bold uppercase tracking-wider text-orange-700">{sebutan} {unit.kode}</span>
+                    <span class="block mt-0.5 font-serif font-bold text-base sm:text-lg text-neutral-900 leading-snug">{b.namaPendek}</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 shrink-0 text-sunset-orange group-hover:translate-x-1 transition-transform" strokeWidth={2} aria-hidden="true" />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </nav>
+</PageLayout>
+
+<script>
+  // Animasi halaman Bidang (§8): fade-up header section + stagger grid kartu (pola VideoSection).
+  // Hanya aktif jika prefers-reduced-motion: no-preference.
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const ID_PREFIX = 'bidang-';
+  const FADE = { duration: 0.7, ease: 'power2.out', clearProps: 'transform,opacity' } as const;
+  let mm: gsap.MatchMedia | null = null;
+
+  function initBidang() {
+    // Bersihkan animasi & trigger lama sebelum init ulang
+    mm?.revert();
+    mm = null;
+    ScrollTrigger.getAll()
+      .filter((st) => String(st.vars.id ?? '').startsWith(ID_PREFIX))
+      .forEach((st) => st.kill());
+
+    if (!document.querySelector('[data-bidang-page]')) return;
+
+    mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // 1. Hero: muncul berurutan saat halaman dibuka
+      gsap.from('[data-hero-reveal]', { ...FADE, y: 20, opacity: 0, stagger: 0.08 });
+
+      // 2. Header / label section: fade-up
+      gsap.utils.toArray<HTMLElement>('.section-heading').forEach((el, i) => {
+        gsap.from(el, {
+          ...FADE,
+          y: 25,
+          opacity: 0,
+          scrollTrigger: { id: `${ID_PREFIX}heading-${i}`, trigger: el, start: 'top 85%' },
+        });
+      });
+
+      // 3. Grid kartu: anak langsung muncul berurutan (stagger 0.08).
+      // Transisi CSS kartu dimatikan selama tween agar tidak melawan GSAP, lalu dikembalikan lewat clearProps.
+      // GSAP memakai `transform`; offset kepala (Tailwind `translate`/`scale`) adalah properti terpisah, jadi tetap utuh.
+      gsap.utils.toArray<HTMLElement>('[data-reveal-group]').forEach((group, i) => {
+        const cards = Array.from(group.children) as HTMLElement[];
+        gsap.set(cards, { transition: 'none' });
+        gsap.from(cards, {
+          ...FADE,
+          clearProps: 'transform,opacity,transition',
+          duration: 0.6,
+          y: 30,
+          opacity: 0,
+          stagger: 0.08,
+          scrollTrigger: { id: `${ID_PREFIX}group-${i}`, trigger: group, start: 'top 85%' },
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initBidang);
+  document.addEventListener('astro:page-load', initBidang);
+</script>

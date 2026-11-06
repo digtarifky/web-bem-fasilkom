@@ -1,0 +1,35 @@
+---
+// src/components/struktur/Breadcrumb.astro
+// Jejak navigasi (§5.2). Item terakhir = halaman aktif (tanpa link, aria-current="page").
+interface Props {
+  items: { label: string; href?: string }[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class={className}>
+  <ol class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs sm:text-sm text-neutral-500">
+    {items.map((item, i) => {
+      const last = i === items.length - 1;
+      return (
+        <li class="inline-flex items-center gap-2">
+          {i > 0 && <span class="text-sunset-orange/60" aria-hidden="true">/</span>}
+          {last || !item.href ? (
+            <span aria-current={last ? 'page' : undefined} class:list={[last && 'text-orange-700 font-semibold']}>
+              {item.label}
+            </span>
+          ) : (
+            <a
+              href={item.href}
+              class="py-1 rounded-sm hover:text-orange-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange"
+            >
+              {item.label}
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
