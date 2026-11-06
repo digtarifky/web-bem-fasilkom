@@ -770,6 +770,15 @@ export const sebutanUnit = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departeme
 export const hitungAnggota = (b: Bidang) =>
   [b.kepala, b.wakil, b.sekretaris].filter(Boolean).length + b.staf.length;
 
+/** Anggota satu unit: pimpinan unit yang ada + seluruh anggota bidangnya. */
+export const hitungAnggotaUnit = (u: Unit) =>
+  [u.kepala, u.wakil, u.sekretaris].filter(Boolean).length +
+  u.bidang.reduce((sum, b) => sum + hitungAnggota(b), 0);
+
+/** Proker seluruh bidang di unit, digabung sesuai urutan data, maksimal `max`. */
+export const prokerUnit = (u: Unit, max = 6): { proker: Proker; bidang: Bidang }[] =>
+  u.bidang.flatMap((bidang) => bidang.proker.map((proker) => ({ proker, bidang }))).slice(0, max);
+
 /** Total fungsionaris: BPH + pimpinan unit + seluruh anggota bidang. */
 export const hitungFungsionaris = () =>
   1 + 1 + bph.anggota.length +
