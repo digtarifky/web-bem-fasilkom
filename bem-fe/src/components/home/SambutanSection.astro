@@ -20,48 +20,56 @@
         <!-- CARD 1: KETUA BEM -->
         <div
           id="card-ketua"
-          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 border-2 border-sunset-orange p-3 shadow-2xl will-change-transform z-20"
+          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 shadow-2xl will-change-transform z-20 overflow-hidden flex flex-col justify-end p-5 sm:p-6"
           style="transform: translate3d(0, 0, 0) rotate(-4deg);"
         >
-          <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
-            <div class="absolute inset-0 flex items-center justify-center pb-16">
-              <div class="w-28 h-28 rounded-full bg-neutral-800 border-2 border-white/10 flex items-center justify-center text-4xl shadow-inner">
-                👔
-              </div>
-            </div>
-            <div class="absolute inset-0 bg-linier-to-t from-black via-black/40 to-transparent z-10"></div>
-            
-            <div class="relative z-20 space-y-1">
-              <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sunset-orange text-white tracking-wider">
-                KETUA BEM
-              </span>
-              <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Dinda Aisa Selvira</h4>
-              <p class="text-xs text-gray-400 font-mono">Sistem Informasi '23</p>
-            </div>
+          <!-- Foto Ketua BEM -->
+          <img
+            src="/assets/foto-kabinet/bph/KETUM.webp"
+            alt="Foto Dinda Aisa Selvira, Ketua BEM"
+            class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none"
+            loading="eager"
+            decoding="async"
+          />
+
+          <!-- Gradient Fade Bawah untuk Keterbacaan Teks -->
+          <div class="absolute inset-0 bg-linear-to-t from-black via-black/55 via-40% to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
+          
+          <!-- Informasi Teks (Tanpa Lingkaran Berwarna & Tanpa Outline) -->
+          <div class="relative z-20 space-y-1">
+            <span class="block text-xs font-mono font-bold tracking-widest text-sunset-orange uppercase">
+              KETUA BEM
+            </span>
+            <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Dinda Aisa Selvira</h4>
+            <p class="text-xs text-neutral-300 font-mono">Sistem Informasi '23</p>
           </div>
         </div>
 
         <!-- CARD 2: WAKIL KETUA -->
         <div
           id="card-wakil"
-          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 border border-white/20 p-3 shadow-2xl will-change-transform z-10 opacity-70"
+          class="absolute w-64 sm:w-72 h-90 sm:h-105 rounded-2xl bg-neutral-950 shadow-2xl will-change-transform z-10 opacity-70 overflow-hidden flex flex-col justify-end p-5 sm:p-6"
           style="transform: translate3d(45px, 25px, -50px) rotate(6deg);"
         >
-          <div class="w-full h-full rounded-xl bg-neutral-900 border border-white/10 flex flex-col justify-end p-5 relative overflow-hidden">
-            <div class="absolute inset-0 flex items-center justify-center pb-16">
-              <div class="w-28 h-28 rounded-full bg-neutral-800 border-2 border-white/10 flex items-center justify-center text-4xl shadow-inner">
-                💼
-              </div>
-            </div>
-            <div class="absolute inset-0 bg-linier-to-t from-black via-black/40 to-transparent z-10"></div>
-            
-            <div class="relative z-20 space-y-1">
-              <span class="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-warm-gold text-neutral-950 tracking-wider">
-                WAKIL KETUA BEM
-              </span>
-              <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Ezra Deannobel</h4>
-              <p class="text-xs text-gray-400 font-mono">Informatika '24</p>
-            </div>
+          <!-- Foto Wakil Ketua BEM -->
+          <img
+            src="/assets/foto-kabinet/bph/WAKETUM.webp"
+            alt="Foto Ezra Deannobel, Wakil Ketua BEM"
+            class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <!-- Gradient Fade Bawah untuk Keterbacaan Teks -->
+          <div class="absolute inset-0 bg-linear-to-t from-black via-black/55 via-40% to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
+          
+          <!-- Informasi Teks (Tanpa Lingkaran Berwarna & Tanpa Outline) -->
+          <div class="relative z-20 space-y-1">
+            <span class="block text-xs font-mono font-bold tracking-widest text-warm-gold uppercase">
+              WAKIL KETUA BEM
+            </span>
+            <h4 class="text-base sm:text-lg font-bold text-white tracking-wide">Ezra Deannobel</h4>
+            <p class="text-xs text-neutral-300 font-mono">Informatika '24</p>
           </div>
         </div>
 
@@ -238,7 +246,6 @@
       rotation: -9,
       scale: 0.9,
       opacity: 0.45,
-      borderColor: 'rgba(255, 255, 255, 0.1)',
       zIndex: 10,
       duration: 0.5,
       ease: 'power2.inOut',
@@ -250,8 +257,7 @@
       rotation: 3,
       scale: 1.02,
       opacity: 1,
-      borderColor: 'rgba(212, 175, 55, 0.9)',
-      boxShadow: '0 25px 50px -12px rgba(212, 175, 55, 0.35)',
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
       zIndex: 20,
       duration: 0.5,
       ease: 'power2.inOut',

@@ -150,8 +150,8 @@ export const filosofi: FilosofiItem[] = [
 
 // {{TODO: nama Ketum/Waketum di Sambutan Beranda (Esko Pratama/Julia Putri) berbeda dengan mockup — Chris konfirmasi}}
 export const bph: BPH = {
-  ketua: { nama: 'Dinda Aisa Selvira', jabatan: 'Ketua Umum', prodi: 'Sistem Informasi', angkatan: '23' },
-  wakil: { nama: 'Ezra Deannobel', jabatan: 'Wakil Ketua Umum', prodi: 'Informatika', angkatan: '24' },
+  ketua: { nama: 'Dinda Aisa Selvira', jabatan: 'Ketua Umum', prodi: 'Sistem Informasi', angkatan: '23', foto: '/assets/foto-kabinet/bph/KETUM.webp' },
+  wakil: { nama: 'Ezra Deannobel', jabatan: 'Wakil Ketua Umum', prodi: 'Informatika', angkatan: '24', foto: '/assets/foto-kabinet/bph/WAKETUM.webp' },
   // DUMMY
   anggota: [
     { nama: 'Btari Adiella Duhita Salsabila', jabatan: 'Sekretaris Umum 1', prodi: 'Sistem Informasi', angkatan: '23' },
