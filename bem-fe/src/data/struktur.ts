@@ -168,6 +168,9 @@ export const bph: BPH = {
 // Jumlah staf: 3 per bidang, kecuali Senor 4. MEDFO mengikuti data asli.
 // ============================================================
 
+// Foto HDK: public/assets/foto-kabinet/dep-hdk/ (bidang di subfolder bid-lugri/, bid-dagri/).
+const FOTO_HDK = '/assets/foto-kabinet/dep-hdk';
+
 export const units: Unit[] = [
   // ---------------------------------------------------------- MEDFO
   {
@@ -301,12 +304,9 @@ export const units: Unit[] = [
     ikon: 'Network',
     deskripsi:
       'Fasilitator diplomasi institusi, perluasan kemitraan industri teknologi skala global, serta konsolidasi sinergis lintas ormawa sekawasan.',
-    // foto: /assets/pengurus/hdk/kepala.webp
-    kepala: { nama: 'Ahmad Taufik Hayaza', jabatan: 'Kepala Departemen HDK', prodi: 'Sistem Informasi', angkatan: '24' },
-    // foto: /assets/pengurus/hdk/wakil.webp
-    wakil: { nama: 'Muhammad Rafly Wahyudi', jabatan: 'Wakil Kepala Departemen HDK', prodi: 'Sains Data', angkatan: '24' },
-    // foto: /assets/pengurus/hdk/sekretaris.webp
-    sekretaris: { nama: 'Carissa Naura Rajwa', jabatan: 'Sekretaris Departemen HDK', prodi: 'Sains Data', angkatan: '24' },
+    kepala: { nama: 'Ahmad Taufik Hayaza', jabatan: 'Kepala Departemen HDK', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/KADEP HDK.webp` },
+    wakil: { nama: 'Muhammad Rafly Wahyudi', jabatan: 'Wakil Kepala Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/WAKADEP HDK.webp` },
+    sekretaris: { nama: 'Carissa Naura Rajwa', jabatan: 'Sekretaris Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/SEKDEP HDK.webp` },
     bidang: [
       // DUMMY
       {
@@ -318,20 +318,14 @@ export const units: Unit[] = [
         ringkas: 'Jalin kemitraan melalui kunjungan industri, studi banding, dan kolaborasi bersama alumni.',
         deskripsi:
           'Membuka gerbang kemitraan strategis melalui kunjungan industri, studi banding antarkampus, dan kolaborasi bersama jejaring alumni Fasilkom.',
-        // foto: /assets/pengurus/hdk/lugri/kepala.webp
-        kepala: { nama: 'Andre Luhut Jairus Ompusunggu', jabatan: 'Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24' },
-        // foto: /assets/pengurus/hdk/lugri/wakil.webp
-        wakil: { nama: 'Kaka Dimas Soehendra Putra', jabatan: 'Wakil Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24' },
-        // foto: /assets/pengurus/hdk/lugri/sekretaris.webp
-        sekretaris: { nama: "Chiquita Angie Rahmadani'Ca", jabatan: 'Sekretaris Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24' },
+        kepala: { nama: 'Andre Luhut Jairus Ompusunggu', jabatan: 'Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/KABID LUGRI.webp` },
+        wakil: { nama: 'Kaka Dimas Soehendra Putra', jabatan: 'Wakil Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/WAKABID LUGRI.png` },
+        sekretaris: { nama: "Chiquita Angie Rahmadani'Ca", jabatan: 'Sekretaris Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/SEKBID LUGRI.webp` },
         staf: [
-          // foto: /assets/pengurus/hdk/lugri/staf-01.webp
-          { nama: 'Moch. Ryan Saputra Setyo Ibrahim', jabatan: 'Staf Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '25' },
-          // foto: /assets/pengurus/hdk/lugri/staf-02.webp
-          { nama: 'Farel Amelia Putri', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25' },
-          // DUMMY
-          // foto: /assets/pengurus/hdk/lugri/staf-03.webp
-          { nama: 'Aulia Marta Dwi Krisnani', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25' },
+          // DUMMY (Sisa  Foto Ryan)
+          { nama: 'Moch. Ryan Saputra Setyo Ibrahim', jabatan: 'Staf Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (2).webp` },
+          { nama: 'Farel Amelia Putri', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI.webp` },
+          { nama: 'Aulia Marta Dwi Krisnani', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25',  foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (1).webp` },
         ],
         proker: [
           {
@@ -369,20 +363,13 @@ export const units: Unit[] = [
         ringkas: 'Forum keakraban himpunan mahasiswa prodi (HIMA), kolaborasi UKM, dan audiensi pimpinan dekanat.',
         deskripsi:
           'Merajut keakraban dan sinergi internal fakultas melalui forum himpunan mahasiswa prodi, kolaborasi UKM, dan audiensi rutin bersama pimpinan dekanat.',
-        // foto: /assets/pengurus/hdk/dagri/kepala.webp
-        kepala: { nama: 'Danillah Albarrona Faza Darmagama', jabatan: 'Kepala Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '24' },
-        // foto: /assets/pengurus/hdk/dagri/wakil.webp
-        wakil: { nama: 'R. Syailindra Alfarraiel', jabatan: 'Wakil Kepala Bidang Dagri', prodi: 'Sains Data', angkatan: '24' },
-        // foto: /assets/pengurus/hdk/dagri/sekretaris.webp
-        sekretaris: { nama: 'Auliya Khotimatuz Zahroh', jabatan: 'Sekretaris Bidang Dagri', prodi: 'Sains Data', angkatan: '24' },
+        kepala: { nama: 'Danillah Albarrona Faza Darmagama', jabatan: 'Kepala Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/KABID DAGRI.webp` },
+        wakil: { nama: 'R. Syailindra Alfarraiel', jabatan: 'Wakil Kepala Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/WAKABID DAGRI.webp` },
+        sekretaris: { nama: 'Auliya Khotimatuz Zahroh', jabatan: 'Sekretaris Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/SEKBID DAGRI.webp` },
         staf: [
-          // foto: /assets/pengurus/hdk/dagri/staf-01.webp
-          { nama: 'Abi Kharimil hakim', jabatan: 'Staf Bidang Dagri', prodi: 'Sains Data', angkatan: '25' },
-          // foto: /assets/pengurus/hdk/dagri/staf-02.webp
-          { nama: 'Ghiffari Khanza Adimoelya', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25' },
-          // DUMMY
-          // foto: /assets/pengurus/hdk/dagri/staf-03.webp
-          { nama: 'Julia Loren Br. Simanjuntak', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25' },
+          { nama: 'Abi Kharimil hakim', jabatan: 'Staf Bidang Dagri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (2).webp` },
+          { nama: 'Ghiffari Khanza Adimoelya', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (1).webp` },
+          { nama: 'Julia Loren Br. Simanjuntak', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI.webp` },
         ],
         proker: [
           {
