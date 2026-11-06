@@ -91,10 +91,9 @@ export const visi =
 // DUMMY
 // {{TODO: daftar misi resmi}}
 export const misi: string[] = [
-  'Menyelenggarakan pengembangan akademik dan keilmuan teknologi yang relevan dengan kebutuhan industri dan masyarakat.',
-  'Mewadahi serta mengoptimalkan potensi, minat, dan bakat mahasiswa Fakultas Ilmu Komputer secara berkelanjutan.',
-  'Membangun kolaborasi yang sinergis dengan himpunan, ormawa, pimpinan fakultas, dan mitra eksternal.',
-  'Mengawal aspirasi dan kesejahteraan mahasiswa dengan tata kelola organisasi yang transparan dan berintegritas.',
+  'Memperkuat iklim akademik melalui pengembangan keilmuan dan peningkatan kualitas akademik mahasiswa Fakultas Ilmu Komputer.',
+  'Mengoptimalkan potensi mahasiswa melalui pengembangan diri, kreativitas, serta kemampuan kontribusi.',
+  'Menguatkan sinergi kolaboratif dengan mahasiswa, organisasi, dan lembaga eksternal untuk mendukung pengembangan serta memberikan manfaat yang lebih luas.',
 ];
 
 // ============================================================
@@ -280,111 +279,6 @@ export const units: Unit[] = [
     ],
   },
 
-  // ---------------------------------------------------------- HDK
-  {
-    slug: 'hdk',
-    kode: 'HDK',
-    tipe: 'departemen',
-    label: 'Departemen Eksekutif',
-    nama: 'Departemen Hubungan dan Kerjasama (HDK)', 
-    ikon: 'Network',
-    deskripsi:
-      'Fasilitator diplomasi institusi, perluasan kemitraan industri teknologi skala global, serta konsolidasi sinergis lintas ormawa sekawasan.',
-    kepala: { nama: 'Ahmad Taufik Hayaza', jabatan: 'Kepala Departemen HDK', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/KADEP HDK.webp` },
-    wakil: { nama: 'Muhammad Rafly Wahyudi', jabatan: 'Wakil Kepala Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/WAKADEP HDK.webp` },
-    sekretaris: { nama: 'Carissa Naura Rajwa', jabatan: 'Sekretaris Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/SEKDEP HDK.webp` },
-    bidang: [
-      // DUMMY
-      {
-        slug: 'lugri',
-        nama: 'Bidang Luar Negeri (Lugri)',
-        namaPendek: 'Lugri',
-        judulHero: 'LUAR NEGERI',
-        ikon: 'Globe',
-        ringkas: 'Jalin kemitraan melalui kunjungan industri, studi banding, dan kolaborasi bersama alumni.',
-        deskripsi:
-          'Membuka gerbang kemitraan strategis melalui kunjungan industri, studi banding antarkampus, dan kolaborasi bersama jejaring alumni Fasilkom.',
-        kepala: { nama: 'Andre Luhut Jairus Ompusunggu', jabatan: 'Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/KABID LUGRI.webp` },
-        wakil: { nama: 'Kaka Dimas Soehendra Putra', jabatan: 'Wakil Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/WAKABID LUGRI.webp` },
-        sekretaris: { nama: "Chiquita Angie Rahmadani'Ca", jabatan: 'Sekretaris Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/SEKBID LUGRI.webp` },
-        staf: [
-          { nama: 'Moch. Ryan Saputra Setyo Ibrahim', jabatan: 'Staf Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (2).webp` },
-          { nama: 'Farel Amelia Putri', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI.webp` },
-          { nama: 'Aulia Marta Dwi Krisnani', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25',  foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (1).webp` },
-        ],
-        proker: [
-          {
-            judul: 'Fasilkom Industrial Visit',
-            ringkasan: 'Kunjungan ke perusahaan teknologi untuk mengenal budaya kerja dan peluang karier.',
-            tag: 'KEMITRAAN',
-            kategori: 'KUNJUNGAN INDUSTRI',
-            tanggal: '22 Oktober 2026',
-          },
-          // DUMMY
-          {
-            judul: 'Studi Banding Antarkampus',
-            ringkasan: 'Kunjungan ke BEM fakultas ilmu komputer kampus lain untuk bertukar praktik tata kelola organisasi.',
-            tag: 'STUDI BANDING',
-            kategori: 'RELASI EKSTERNAL',
-            tanggal: '20 November 2026',
-          },
-          // DUMMY
-          {
-            judul: 'Temu Alumni Fasilkom',
-            ringkasan: 'Forum jejaring alumni untuk berbagi pengalaman karier dan membuka peluang kolaborasi.',
-            tag: 'ALUMNI',
-            kategori: 'JEJARING',
-            tanggal: '06 Desember 2026',
-          },
-        ],
-      },
-      // DUMMY
-      {
-        slug: 'dagri',
-        nama: 'Bidang Dalam Negeri (Dagri)',
-        namaPendek: 'Dagri',
-        judulHero: 'DALAM NEGERI',
-        ikon: 'Handshake',
-        ringkas: 'Forum keakraban himpunan mahasiswa prodi (HIMA), kolaborasi UKM, dan audiensi pimpinan dekanat.',
-        deskripsi:
-          'Merajut keakraban dan sinergi internal fakultas melalui forum himpunan mahasiswa prodi, kolaborasi UKM, dan audiensi rutin bersama pimpinan dekanat.',
-        kepala: { nama: 'Danillah Albarrona Faza Darmagama', jabatan: 'Kepala Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/KABID DAGRI.webp` },
-        wakil: { nama: 'R. Syailindra Alfarraiel', jabatan: 'Wakil Kepala Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/WAKABID DAGRI.webp` },
-        sekretaris: { nama: 'Auliya Khotimatuz Zahroh', jabatan: 'Sekretaris Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/SEKBID DAGRI.webp` },
-        staf: [
-          { nama: 'Abi Kharimil hakim', jabatan: 'Staf Bidang Dagri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (2).webp` },
-          { nama: 'Ghiffari Khanza Adimoelya', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (1).webp` },
-          { nama: 'Julia Loren Br. Simanjuntak', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI.webp` },
-        ],
-        proker: [
-          {
-            judul: 'Forum Sinergi HIMA',
-            ringkasan: 'Pertemuan berkala lintas himpunan untuk menyelaraskan agenda dan kolaborasi program.',
-            tag: 'SINERGI',
-            kategori: 'FORUM INTERNAL',
-            tanggal: '29 Oktober 2026',
-          },
-          // DUMMY
-          {
-            judul: 'Kolaborasi UKM Fasilkom',
-            ringkasan: 'Program bersama BEM dan UKM fakultas untuk memperluas jangkauan kegiatan mahasiswa.',
-            tag: 'KOLABORASI',
-            kategori: 'SINERGI ORMAWA',
-            tanggal: '13 November 2026',
-          },
-          // DUMMY
-          {
-            judul: 'Audiensi Dekanat',
-            ringkasan: 'Pertemuan terbuka mahasiswa dengan pimpinan dekanat untuk menyampaikan aspirasi dan evaluasi.',
-            tag: 'AUDIENSI',
-            kategori: 'RELASI INSTITUSI',
-            tanggal: '03 Desember 2026',
-          },
-        ],
-      },
-    ],
-  },
-
   // ---------------------------------------------------------- SOSPOL
   {
     slug: 'sospol',
@@ -484,6 +378,111 @@ export const units: Unit[] = [
             tag: 'KEMANUSIAAN',
             kategori: 'TANGGAP BENCANA',
             tanggal: '10 Desember 2026',
+          },
+        ],
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------- HDK
+  {
+    slug: 'hdk',
+    kode: 'HDK',
+    tipe: 'departemen',
+    label: 'Departemen Eksekutif',
+    nama: 'Departemen Hubungan dan Kerjasama (HDK)', 
+    ikon: 'Network',
+    deskripsi:
+      'Fasilitator diplomasi institusi, perluasan kemitraan industri teknologi skala global, serta konsolidasi sinergis lintas ormawa sekawasan.',
+    kepala: { nama: 'Ahmad Taufik Hayaza', jabatan: 'Kepala Departemen HDK', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/KADEP HDK.webp` },
+    wakil: { nama: 'Muhammad Rafly Wahyudi', jabatan: 'Wakil Kepala Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/WAKADEP HDK.webp` },
+    sekretaris: { nama: 'Carissa Naura Rajwa', jabatan: 'Sekretaris Departemen HDK', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/SEKDEP HDK.webp` },
+    bidang: [
+      // DUMMY
+      {
+        slug: 'lugri',
+        nama: 'Bidang Luar Negeri (Lugri)',
+        namaPendek: 'Lugri',
+        judulHero: 'LUAR NEGERI',
+        ikon: 'Globe',
+        ringkas: 'Jalin kemitraan melalui kunjungan industri, studi banding, dan kolaborasi bersama alumni.',
+        deskripsi:
+          'Membuka gerbang kemitraan strategis melalui kunjungan industri, studi banding antarkampus, dan kolaborasi bersama jejaring alumni Fasilkom.',
+        kepala: { nama: 'Andre Luhut Jairus Ompusunggu', jabatan: 'Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/KABID LUGRI.webp` },
+        wakil: { nama: 'Kaka Dimas Soehendra Putra', jabatan: 'Wakil Kepala Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/WAKABID LUGRI.webp` },
+        sekretaris: { nama: "Chiquita Angie Rahmadani'Ca", jabatan: 'Sekretaris Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-lugri/SEKBID LUGRI.webp` },
+        staf: [
+          { nama: 'Moch. Ryan Saputra Setyo Ibrahim', jabatan: 'Staf Bidang Lugri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (2).webp` },
+          { nama: 'Farel Amelia Putri', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI.webp` },
+          { nama: 'Aulia Marta Dwi Krisnani', jabatan: 'Staf Bidang Lugri', prodi: 'Sains Data', angkatan: '25',  foto: `${FOTO_HDK}/bid-lugri/STAFF LUGRI (1).webp` },
+        ],
+        proker: [
+          {
+            judul: 'Fasilkom Industrial Visit',
+            ringkasan: 'Kunjungan ke perusahaan teknologi untuk mengenal budaya kerja dan peluang karier.',
+            tag: 'KEMITRAAN',
+            kategori: 'KUNJUNGAN INDUSTRI',
+            tanggal: '22 Oktober 2026',
+          },
+          // DUMMY
+          {
+            judul: 'Studi Banding Antarkampus',
+            ringkasan: 'Kunjungan ke BEM fakultas ilmu komputer kampus lain untuk bertukar praktik tata kelola organisasi.',
+            tag: 'STUDI BANDING',
+            kategori: 'RELASI EKSTERNAL',
+            tanggal: '20 November 2026',
+          },
+          // DUMMY
+          {
+            judul: 'Temu Alumni Fasilkom',
+            ringkasan: 'Forum jejaring alumni untuk berbagi pengalaman karier dan membuka peluang kolaborasi.',
+            tag: 'ALUMNI',
+            kategori: 'JEJARING',
+            tanggal: '06 Desember 2026',
+          },
+        ],
+      },
+      // DUMMY
+      {
+        slug: 'dagri',
+        nama: 'Bidang Dalam Negeri (Dagri)',
+        namaPendek: 'Dagri',
+        judulHero: 'DALAM NEGERI',
+        ikon: 'Handshake',
+        ringkas: 'Forum keakraban himpunan mahasiswa prodi (HIMA), kolaborasi UKM, dan audiensi pimpinan dekanat.',
+        deskripsi:
+          'Merajut keakraban dan sinergi internal fakultas melalui forum himpunan mahasiswa prodi, kolaborasi UKM, dan audiensi rutin bersama pimpinan dekanat.',
+        kepala: { nama: 'Danillah Albarrona Faza Darmagama', jabatan: 'Kepala Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/KABID DAGRI.webp` },
+        wakil: { nama: 'R. Syailindra Alfarraiel', jabatan: 'Wakil Kepala Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/WAKABID DAGRI.webp` },
+        sekretaris: { nama: 'Auliya Khotimatuz Zahroh', jabatan: 'Sekretaris Bidang Dagri', prodi: 'Sains Data', angkatan: '24', foto: `${FOTO_HDK}/bid-dagri/SEKBID DAGRI.webp` },
+        staf: [
+          { nama: 'Abi Kharimil hakim', jabatan: 'Staf Bidang Dagri', prodi: 'Sains Data', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (2).webp` },
+          { nama: 'Ghiffari Khanza Adimoelya', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI (1).webp` },
+          { nama: 'Julia Loren Br. Simanjuntak', jabatan: 'Staf Bidang Dagri', prodi: 'Sistem Informasi', angkatan: '25', foto: `${FOTO_HDK}/bid-dagri/STAFF DAGRI.webp` },
+        ],
+        proker: [
+          {
+            judul: 'Forum Sinergi HIMA',
+            ringkasan: 'Pertemuan berkala lintas himpunan untuk menyelaraskan agenda dan kolaborasi program.',
+            tag: 'SINERGI',
+            kategori: 'FORUM INTERNAL',
+            tanggal: '29 Oktober 2026',
+          },
+          // DUMMY
+          {
+            judul: 'Kolaborasi UKM Fasilkom',
+            ringkasan: 'Program bersama BEM dan UKM fakultas untuk memperluas jangkauan kegiatan mahasiswa.',
+            tag: 'KOLABORASI',
+            kategori: 'SINERGI ORMAWA',
+            tanggal: '13 November 2026',
+          },
+          // DUMMY
+          {
+            judul: 'Audiensi Dekanat',
+            ringkasan: 'Pertemuan terbuka mahasiswa dengan pimpinan dekanat untuk menyampaikan aspirasi dan evaluasi.',
+            tag: 'AUDIENSI',
+            kategori: 'RELASI INSTITUSI',
+            tanggal: '03 Desember 2026',
           },
         ],
       },
