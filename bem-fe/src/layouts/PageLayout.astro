@@ -1,0 +1,47 @@
+---
+// src/layouts/PageLayout.astro
+// Layout untuk halaman baru (Struktur Kabinet dan turunannya).
+// <head> disalin dari src/pages/index.astro. index.astro sengaja tidak memakai layout ini.
+import '../styles/global.css';
+import Navbar from '../components/common/Navbar.astro';
+import Footer from '../components/common/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Badan Eksekutif Mahasiswa Fakultas Ilmu Komputer Universitas Pembangunan Nasional 'Veteran' Jawa Timur Periode 2026 - Kabinet Aetherion.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/bem-fasilkom-logo.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Google Fonts Preconnect & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet" />
+
+    <meta name="theme-color" content="#FAF9F6" />
+  </head>
+  <body class="bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-orange-500 selection:text-white flex flex-col min-h-screen">
+    <Navbar currentPath={Astro.url.pathname} />
+
+    <main class="grow">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

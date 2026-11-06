@@ -1,0 +1,43 @@
+---
+// src/components/struktur/PersonPhoto.astro
+// Foto rasio 3:4. Jika `person.foto` kosong → placeholder gelap dengan inisial (tanpa emoji).
+import { User } from 'lucide-react';
+import type { Person } from '../../data/struktur';
+
+interface Props {
+  person: Person;
+  class?: string;
+}
+
+const { person, class: className = '' } = Astro.props;
+const label = `Foto ${person.nama}, ${person.jabatan}`;
+
+const inisial = person.nama
+  .split(/[\s-]+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((kata) => kata[0]?.toUpperCase() ?? '')
+  .join('');
+---
+
+<div class:list={['relative aspect-3/4 overflow-hidden', className]}>
+  {person.foto ? (
+    <img
+      src={person.foto}
+      alt={label}
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover"
+    />
+  ) : (
+    <div
+      role="img"
+      aria-label={label}
+      class="w-full h-full bg-linear-to-br from-neutral-800 via-neutral-900 to-obsidian flex items-center justify-center relative"
+    >
+      <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" aria-hidden="true"></div>
+      <span class="relative font-serif font-bold text-5xl text-white/80 tracking-wide select-none" aria-hidden="true">{inisial}</span>
+      <User className="absolute bottom-3 right-3 w-5 h-5 text-white/20" strokeWidth={1.75} aria-hidden="true" />
+    </div>
+  )}
+</div>

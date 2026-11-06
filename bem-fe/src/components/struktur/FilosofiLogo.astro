@@ -1,0 +1,355 @@
+---
+// src/components/struktur/FilosofiLogo.astro
+// Kiri : "Crest Specimen" yang gambarnya berganti mengikuti kartu aktif.
+// Kanan: kartu makna logo.
+//
+// Desktop ≥1024px + motion (pola SambutanSection): section menempel (sticky) selama di-scroll,
+//   kartu bergulir seperti drum 3D. Kartu aktif di tengah, tetangganya di atas/bawah miring
+//   (rotateX), mundur ke belakang (z), redup + blur. Saat di-scroll, kartu aktif naik dan
+//   "tenggelam" ke belakang, kartu berikutnya naik ke tengah. Bar progres di samping.
+//   Klik / fokus keyboard pada kartu → halaman di-scroll ke posisi kartu itu.
+// Mobile, prefers-reduced-motion, tanpa JS: daftar kartu biasa; klik kartu → kartu aktif,
+//   kartu lain redup + blur (tanpa JS kartu lain tetap terbaca).
+// Mode gulir aktif lewat atribut data-roll pada root (lihat <style>).
+import { filosofi } from '../../data/struktur';
+
+const LOGO_PENUH = '/assets/logo/logo-kabinet.svg';
+const LABEL_CREST = 'Logo Kabinet Aetherion';
+/** Jarak scroll per pergantian kartu (svh). */
+const SVH_PER_KARTU = 60;
+const tinggiGulir = `calc(100svh + ${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh)`;
+---
+
+<div data-filosofi class="filosofi-root" style={`--filosofi-h: ${tinggiGulir}`}>
+  <div class="filosofi-pin">
+    <div data-reveal-group class="grid lg:grid-cols-12 gap-10 w-full items-center">
+      <!-- ================= KIRI: CREST SPECIMEN ================= -->
+      <div class="filosofi-crest-col lg:col-span-5 lg:sticky lg:top-28 self-start">
+        <figure class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-5 sm:p-6 max-w-md mx-auto lg:max-w-none">
+          <div class="flex items-center justify-between gap-4 text-[10px] font-mono font-bold tracking-wider text-neutral-400">
+            <span>ARTIFACT NO. 001</span>
+            <span>SVG-VECT.2026</span>
+          </div>
+
+          <div
+            id="filosofi-crest"
+            data-filosofi-crest
+            data-label={LABEL_CREST}
+            class="relative mt-4 aspect-square rounded-2xl bg-aetherion-light overflow-hidden border border-neutral-200/60"
+            role="img"
+            aria-label={LABEL_CREST}
+          >
+            <div class="absolute inset-0 m-auto w-2/3 h-2/3 rounded-full bg-sunset-orange/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+            <!-- Logo penuh: cadangan jika data filosofi kosong -->
+            <img
+              data-filosofi-full
+              data-active={String(filosofi.length === 0)}
+              src={LOGO_PENUH}
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+              class="absolute inset-0 w-full h-full object-contain p-8 transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
+            />
+
+            <!-- Bagian logo per kartu -->
+            {filosofi.map((item, i) => (
+              <img
+                data-filosofi-img
+                data-active={String(i === 0)}
+                src={item.gambar}
+                alt=""
+                aria-hidden="true"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-contain p-8 transition-[opacity,scale] duration-500 motion-reduce:transition-none opacity-0 scale-95 data-[active=true]:opacity-100 data-[active=true]:scale-100"
+              />
+            ))}
+          </div>
+
+          <figcaption class="mt-5">
+            <p class="font-serif font-bold text-xl text-neutral-900">Crest Specimen</p>
+            <p class="mt-1 text-xs font-extrabold tracking-widest text-orange-700 uppercase">Sayap Elang &amp; Bintang Bercahaya</p>
+            <div class="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between gap-4 text-[10px] font-mono font-bold tracking-wider">
+              <span class="text-neutral-400">UPNV JAWA TIMUR</span>
+              <span class="text-orange-700">FASILKOM</span>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- ================= KANAN: KARTU MAKNA ================= -->
+      <div class="lg:col-span-7">
+        <p class="mb-4 text-xs font-mono font-bold tracking-wider text-neutral-500 uppercase">
+          <span class="filosofi-hint-static">Klik kartu lain untuk menyorot bagian logo</span>
+          <span class="filosofi-hint-roll">Scroll untuk menelusuri makna logo</span>
+        </p>
+
+        <div class="flex items-stretch gap-4 sm:gap-6">
+          <!-- Viewport drum -->
+          <div data-filosofi-viewport class="filosofi-viewport relative flex-1">
+            <ol class="filosofi-list space-y-6">
+              {filosofi.map((item, i) => {
+                const nomor = String(i + 1).padStart(2, '0');
+                return (
+                  <li data-filosofi-slot class="filosofi-slot">
+                    <button
+                      type="button"
+                      data-filosofi-item
+                      data-judul={item.judul}
+                      data-active={String(i === 0)}
+                      data-dim="false"
+                      aria-pressed={String(i === 0)}
+                      aria-controls="filosofi-crest"
+                      class="group block w-full text-left cursor-pointer bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-6 sm:p-8
+                             transition-all duration-500 motion-reduce:transition-none
+                             hover:border-orange-200 hover:shadow-md
+                             focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunset-orange
+                             data-[active=true]:border-sunset-orange data-[active=true]:shadow-[0_8px_32px_rgba(234,88,12,0.18)]
+                             data-[dim=true]:opacity-40 data-[dim=true]:blur-[2px]
+                             data-[dim=true]:hover:opacity-70 data-[dim=true]:hover:blur-none data-[dim=true]:focus-visible:blur-none"
+                    >
+                      <span class="flex items-center justify-between gap-4">
+                        <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200 tracking-wider">
+                          {item.label}
+                        </span>
+                        <span class="text-xs font-mono font-bold text-neutral-400 tracking-wider">
+                          {nomor} / {item.label}
+                        </span>
+                      </span>
+                      <span class="block mt-4 font-serif font-bold text-2xl text-neutral-900 tracking-tight">{item.judul}</span>
+                      <span class="block mt-3 text-neutral-600 text-sm sm:text-base leading-relaxed">{item.deskripsi}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          <!-- Bar progres samping (mode gulir) -->
+          <div class="filosofi-rail flex-col items-center gap-3 shrink-0" aria-hidden="true">
+            <span data-filosofi-count class="text-[11px] font-mono font-bold text-orange-700 tabular-nums">01</span>
+            <div class="relative w-1.5 sm:w-2 flex-1 rounded-full bg-neutral-200 overflow-hidden">
+              <div data-filosofi-fill class="absolute inset-0 origin-top scale-y-0 rounded-full bg-linear-to-b from-sunset-orange to-amber-500"></div>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-neutral-400 tabular-nums">{String(filosofi.length).padStart(2, '0')}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ---------- Mode statis (default) ---------- */
+  .filosofi-hint-roll,
+  .filosofi-rail {
+    display: none;
+  }
+
+  /* ---------- Mode gulir 3D (diaktifkan JS: data-roll) ---------- */
+  [data-roll] {
+    height: var(--filosofi-h);
+  }
+  [data-roll] .filosofi-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-top: 5rem; /* ruang navbar */
+  }
+  [data-roll] .filosofi-crest-col {
+    position: static;
+    align-self: center;
+  }
+  [data-roll] .filosofi-crest-col figure {
+    max-width: 22rem;
+  }
+  [data-roll] .filosofi-hint-static {
+    display: none;
+  }
+  [data-roll] .filosofi-hint-roll {
+    display: inline;
+  }
+  [data-roll] .filosofi-rail {
+    display: flex;
+  }
+  [data-roll] .filosofi-viewport {
+    height: min(30rem, calc(100svh - 12rem));
+    perspective: 1200px;
+    /* clip (bukan hidden) agar fokus keyboard tidak menggeser isi viewport */
+    overflow: clip;
+    overflow-clip-margin: 2rem;
+    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  }
+  [data-roll] .filosofi-list {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    /* Kartu tetangga berada di belakang bidang <ol> (z negatif); biarkan klik tembus ke kartu */
+    pointer-events: none;
+  }
+  [data-roll] .filosofi-slot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin: 0;
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+  }
+  /* Transform/opacity/blur dikendalikan GSAP; jangan dianimasikan ulang oleh transition-all */
+  [data-roll] [data-filosofi-item] {
+    transition-property: border-color, box-shadow;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let controller: AbortController | null = null;
+  let mm: gsap.MatchMedia | null = null;
+
+  function initFilosofi() {
+    // Lepas listener & animasi lama (init ganda / navigasi bolak-balik)
+    controller?.abort();
+    mm?.revert();
+    controller = new AbortController();
+    const { signal } = controller;
+
+    const root = document.querySelector<HTMLElement>('[data-filosofi]');
+    if (!root) return;
+
+    const items = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filosofi-item]'));
+    const slots = Array.from(root.querySelectorAll<HTMLElement>('[data-filosofi-slot]'));
+    const images = Array.from(root.querySelectorAll<HTMLElement>('[data-filosofi-img]'));
+    const fullLogo = root.querySelector<HTMLElement>('[data-filosofi-full]');
+    const crest = root.querySelector<HTMLElement>('[data-filosofi-crest]');
+    const viewport = root.querySelector<HTMLElement>('[data-filosofi-viewport]');
+    const fill = root.querySelector<HTMLElement>('[data-filosofi-fill]');
+    const count = root.querySelector<HTMLElement>('[data-filosofi-count]');
+    const crestLabel = crest?.dataset.label ?? '';
+    const last = items.length - 1;
+
+    /** Selalu ada satu kartu aktif; default kartu pertama. null hanya jika tidak ada kartu. */
+    let active: number | null = items.length > 0 ? 0 : null;
+    let rolling = false;
+    /** Diisi saat mode gulir aktif: scroll halaman ke kartu i. */
+    let scrollToCard: ((i: number) => void) | null = null;
+
+    const render = () => {
+      items.forEach((el, i) => {
+        const isActive = i === active;
+        el.dataset.active = String(isActive);
+        // Mode gulir: redup/blur diatur GSAP per slot
+        el.dataset.dim = String(!rolling && active !== null && !isActive);
+        el.setAttribute('aria-pressed', String(isActive));
+      });
+      images.forEach((el, i) => {
+        el.dataset.active = String(i === active);
+      });
+      if (fullLogo) fullLogo.dataset.active = String(active === null);
+      if (crest) {
+        const judul = active === null ? null : items[active]?.dataset.judul;
+        crest.setAttribute('aria-label', judul ? `${crestLabel}, sorotan: ${judul}` : crestLabel);
+      }
+      if (count && active !== null) count.textContent = String(active + 1).padStart(2, '0');
+    };
+
+    const select = (i: number) => {
+      if (scrollToCard) return scrollToCard(i);
+      if (active === i) return;
+      active = i;
+      render();
+    };
+
+    items.forEach((el, i) => {
+      el.addEventListener('click', () => select(i), { signal });
+      // Tab ke kartu lain → gulir ke kartu itu (hanya mode gulir)
+      el.addEventListener('focus', () => { if (scrollToCard && active !== i) scrollToCard(i); }, { signal });
+    });
+
+    render();
+
+    if (items.length < 2 || !viewport) return;
+
+    // ---------- Mode gulir 3D (desktop + motion) ----------
+    mm = gsap.matchMedia();
+    mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+      rolling = true;
+      root.setAttribute('data-roll', '');
+
+      const state = { p: 0 };
+
+      /** p = posisi gulir kontinu (0 … last); kartu i berjarak d = i − p dari tengah. */
+      const layout = () => {
+        const gap = viewport.clientHeight * 0.4;
+        slots.forEach((slot, i) => {
+          const d = i - state.p;
+          const a = Math.abs(d);
+          gsap.set(slot, {
+            yPercent: -50,
+            y: d * gap,
+            z: -a * 180,
+            rotationX: -d * 38, // atas: condong ke belakang, bawah: condong ke depan
+            scale: 1 - Math.min(a, 2) * 0.06,
+            opacity: Math.max(0, 1 - a * 0.6),
+            filter: `blur(${(Math.min(a, 1.6) * 5).toFixed(2)}px)`,
+            zIndex: 100 - Math.round(a * 10),
+            pointerEvents: a < 1.3 ? 'auto' : 'none',
+          });
+        });
+        if (fill) gsap.set(fill, { scaleY: state.p / last });
+        const next = Math.min(last, Math.max(0, Math.round(state.p)));
+        if (next !== active) {
+          active = next;
+          render();
+        }
+      };
+
+      render();
+      layout();
+
+      const tween = gsap.to(state, {
+        p: last,
+        ease: 'none',
+        onUpdate: layout,
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          snap: { snapTo: 1 / last, inertia: false, duration: { min: 0.2, max: 0.6 }, delay: 0.12, ease: 'power1.inOut' },
+          invalidateOnRefresh: true,
+          onRefresh: layout,
+        },
+      });
+
+      // Tinggi root berubah saat data-roll dipasang → posisi trigger section lain di bawahnya ikut bergeser
+      const refreshRaf = requestAnimationFrame(() => ScrollTrigger.refresh());
+
+      scrollToCard = (i) => {
+        const st = tween.scrollTrigger;
+        if (!st) return;
+        window.scrollTo({ top: st.start + (i / last) * (st.end - st.start), behavior: 'smooth' });
+      };
+
+      return () => {
+        cancelAnimationFrame(refreshRaf);
+        rolling = false;
+        scrollToCard = null;
+        root.removeAttribute('data-roll');
+        gsap.set(slots, { clearProps: 'all' });
+        if (fill) gsap.set(fill, { clearProps: 'transform' });
+        render();
+      };
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initFilosofi);
+  document.addEventListener('astro:page-load', initFilosofi);
+</script>

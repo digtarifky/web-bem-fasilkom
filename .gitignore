@@ -15,3 +15,9 @@ bem-fe/.env
 bem-be/.env
 .DS_Store
 Thumbs.db
+
+# Agent lokal
+.agent/
+.agents/
+.claude/
+Claude Outputs/
