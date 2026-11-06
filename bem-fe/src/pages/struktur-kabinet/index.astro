@@ -8,11 +8,7 @@ import ArsitekturDepartemen from '../../components/struktur/ArsitekturDepartemen
 import FilosofiLogo from '../../components/struktur/FilosofiLogo.astro';
 import { bph } from '../../data/struktur';
 
-const heroPills = [
-  { label: 'Siklus Bakti: 2026/2027', dot: 'bg-warm-gold' },
-  { label: 'Inovasi Berkelanjutan', dot: 'bg-sunset-orange' },
-  { label: 'Integritas Tri Dharma', dot: 'bg-neutral-400' },
-];
+
 ---
 
 <PageLayout
@@ -51,15 +47,6 @@ const heroPills = [
       <p data-hero-reveal class="mt-6 text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
         Manifestasi akselerasi keilmuan, kepemimpinan adaptif berintegritas, dan pergerakan kolaboratif mahasiswa Fakultas Ilmu Komputer menuju peradaban berdampak.
       </p>
-
-      <ul data-hero-reveal class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        {heroPills.map((pill) => (
-          <li class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-neutral-800 uppercase tracking-wider shadow-xs">
-            <span class:list={['w-2 h-2 rounded-full', pill.dot]} aria-hidden="true"></span>
-            {pill.label}
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -72,7 +59,6 @@ const heroPills = [
     <div class="max-w-7xl mx-auto px-6 md:px-12">
       <SectionHeading
         id="visi-misi-title"
-        eyebrow="Kompas Haluan Organisasi"
         title='Visi &amp; Misi <span class="text-sunset-orange">BEM FASILKOM 2026</span>'
       />
       <VisiMisi />
@@ -84,10 +70,9 @@ const heroPills = [
   <!-- Tanpa overflow-hidden agar crest sticky     -->
   <!-- ========================================== -->
   <section aria-labelledby="filosofi-title" class="py-20 sm:py-28 bg-[#FAFAFA] border-y border-neutral-200">
-    <div class="max-w-7xl 2xl:max-w-[1440px] mx-auto px-6 md:px-12">
+    <div class="max-w-7xl 2xl:max-w-360 mx-auto px-6 md:px-12">
       <SectionHeading
         id="filosofi-title"
-        eyebrow="Semiotika Visual"
         title='Makna &amp; <span class="text-sunset-orange">Filosofi Logo</span>'
         description="Simbolisme terstruktur yang merangkum ruh perjuangan, etika akademis, dan aspirasi kolektif Aetherion."
       />
@@ -142,10 +127,6 @@ const heroPills = [
 </PageLayout>
 
 <script>
-  // Animasi halaman Struktur Kabinet (§6.1 poin 5, §8).
-  // Semua animasi hanya aktif jika prefers-reduced-motion: no-preference.
-  // Section Arsitektur Departemen & Filosofi Logo punya animasinya sendiri (komponen masing-masing).
-  import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
