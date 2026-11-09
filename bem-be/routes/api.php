@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,11 @@ Route::get('/ping', function () {
         'framework' => 'Laravel 13 + Astro'
     ]);
 });
+
+// Articles / Berita Acara Endpoints
+Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/{slug}', [ArticleController::class, 'show']);
+Route::post('/articles', [ArticleController::class, 'store']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

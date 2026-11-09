@@ -1,0 +1,257 @@
+---
+// src/pages/berita/[slug].astro
+// Halaman Detail Berita Acara & Warta Resmi Kabinet Aetherion (Format Newspaper / Editorial).
+// Mengonsumsi data dari Laravel API dengan fallback ke dataset lokal.
+import PageLayout from '../../layouts/PageLayout.astro';
+import { fetchArticles, fetchArticleBySlug, formatTanggalIndonesia, localArticles, type Article } from '../../data/berita';
+
+export async function getStaticPaths() {
+  const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const articles = await fetchArticles(apiUrl);
+
+  // Gabungkan slug dari localArticles dan API untuk memastikan semua rute ter-generate
+  const slugMap = new Map<string, Article>();
+  localArticles.forEach((a) => slugMap.set(a.slug, a));
+  articles.forEach((a) => slugMap.set(a.slug, a));
+
+  return Array.from(slugMap.values()).map((article) => ({
+    params: { slug: article.slug },
+    props: { initialArticle: article },
+  }));
+}
+
+interface Props {
+  initialArticle?: Article;
+}
+
+const { slug } = Astro.params;
+const { initialArticle } = Astro.props;
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+
+// Jika initialArticle belum ada dari props, fetch dinamis
+let article = initialArticle;
+let nextArticle: Article | null = null;
+
+if (!article && slug) {
+  const fetched = await fetchArticleBySlug(slug, apiUrl);
+  article = fetched.article || undefined;
+  nextArticle = fetched.nextArticle;
+} else if (article) {
+  // Ambil artikel berikutnya dari dataset
+  const allArticles = await fetchArticles(apiUrl);
+  nextArticle = allArticles.find((a) => a.slug !== article?.slug) || null;
+}
+
+if (!article) {
+  return Astro.redirect('/berita');
+}
+
+// Format bulan & tahun untuk header warta
+const pubDate = new Date(article.published_at || Date.now());
+const monthYear = !isNaN(pubDate.getTime())
+  ? pubDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }).toUpperCase()
+  : 'OKTOBER 2026';
+
+// Pisahkan huruf pertama untuk Drop Cap pada paragraf pertama
+const firstParagraph = article.content?.[0] || '';
+const dropCapLetter = firstParagraph.charAt(0);
+const firstParagraphRest = firstParagraph.slice(1);
+const remainingParagraphs = article.content?.slice(1) || [];
+---
+
+<PageLayout
+  title={`${article.title} — Warta BEM FASILKOM 2026`}
+  description={article.excerpt}
+>
+  <article class="pt-28 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
+    
+    <!-- Breadcrumb Navigasi Atas -->
+    <nav class="flex items-center gap-2 text-xs font-mono text-neutral-500">
+      <a href="/" class="hover:text-sunset-orange transition-colors">Beranda</a>
+      <span>/</span>
+      <a href="/berita" class="hover:text-sunset-orange transition-colors">Berita Acara</a>
+      <span>/</span>
+      <span class="text-neutral-800 font-bold truncate max-w-[200px] sm:max-w-md">{article.title}</span>
+    </nav>
+
+    <!-- ================= 1. NEWSPAPER EDITORIAL MASTHEAD HEADER ================= -->
+    <header class="space-y-6">
+      
+      <!-- Top Running Header Bar -->
+      <div class="border-y border-neutral-300 py-2.5 flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold tracking-wider text-neutral-600 uppercase">
+        <span class="text-neutral-800">
+          ISSUE / {monthYear}
+        </span>
+        <span class="hidden sm:inline text-neutral-500">
+          WARTA RESMI / BEM FASILKOM UPNVJT
+        </span>
+        <span class="text-sunset-orange font-bold">
+          NO. 08 / VOL. IV
+        </span>
+      </div>
+
+      <!-- Main Headline Title -->
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-neutral-950 uppercase tracking-tight leading-tight sm:leading-[1.15]">
+        {article.title}
+      </h1>
+
+      <!-- Meta Baris Kedua: Kategori & Tanggal Rilis -->
+      <div class="flex items-center gap-3 text-xs font-mono text-neutral-500 pt-1">
+        <span class="px-2.5 py-0.5 rounded-full bg-sunset-orange text-white font-bold tracking-wider text-[10px] uppercase">
+          {article.category}
+        </span>
+        {article.sub_category && (
+          <span class="font-bold text-neutral-700 uppercase">
+            • {article.sub_category}
+          </span>
+        )}
+        <span>•</span>
+        <span>{formatTanggalIndonesia(article.published_at)}</span>
+      </div>
+
+    </header>
+
+    <!-- ================= 2. HERO DOCUMENTATION IMAGE ================= -->
+    <figure class="space-y-3">
+      <div class="rounded-2xl sm:rounded-3xl overflow-hidden border border-neutral-200/90 shadow-md bg-neutral-100 aspect-[16/9]">
+        <img
+          src={article.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
+          alt={article.title}
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      {article.image_caption && (
+        <figcaption class="text-xs font-sans text-neutral-500 italic pl-1 leading-relaxed">
+          {article.image_caption}
+        </figcaption>
+      )}
+    </figure>
+
+    <!-- ================= 3. DUA KOLOM: MAIN ARTICLE BODY & SIDEBAR ================= -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      
+      <!-- SISI KIRI (KONTEN ARTIKEL & KUTIPAN SENTRAL) -->
+      <div class="lg:col-span-8 space-y-6 text-neutral-800 leading-relaxed text-base sm:text-[17px] font-sans">
+        
+        <!-- Paragraf Pertama dengan Drop Cap Karismatik -->
+        <p class="text-justify leading-relaxed">
+          <span class="float-left text-5xl sm:text-6xl font-serif font-black pr-3 leading-none text-sunset-orange select-none">
+            {dropCapLetter}
+          </span>
+          {firstParagraphRest}
+        </p>
+
+        <!-- Callout Quote Box (Jika ada) -->
+        {article.callout_quote && (
+          <blockquote class="my-6 p-5 sm:p-6 rounded-2xl bg-[#FFF9F5] border-l-4 border-sunset-orange shadow-xs">
+            <p class="font-serif font-bold text-lg sm:text-xl text-neutral-900 italic leading-snug">
+              "{article.callout_quote}"
+            </p>
+          </blockquote>
+        )}
+
+        <!-- Paragraf-Paragraf Selanjutnya -->
+        {remainingParagraphs.map((paragraph) => (
+          <p class="text-justify leading-relaxed">
+            {paragraph}
+          </p>
+        ))}
+
+        <!-- Tag Kaki Artikel & Share Bar -->
+        <div class="pt-8 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">Tags:</span>
+            <span class="px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700 text-xs font-mono">
+              #{article.category.toLowerCase()}
+            </span>
+            {article.sub_category && (
+              <span class="px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700 text-xs font-mono">
+                #{article.sub_category.toLowerCase().replace(/\s+/g, '-')}
+              </span>
+            )}
+            <span class="px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700 text-xs font-mono">
+              #aetherion2026
+            </span>
+          </div>
+
+          <a 
+            href="/berita" 
+            class="text-xs font-mono font-bold text-sunset-orange hover:text-amber-600 transition-colors inline-flex items-center gap-1"
+          >
+            ← Kembali ke Indeks Warta
+          </a>
+        </div>
+
+      </div>
+
+      <!-- SISI KANAN (SIDEBAR: EDITORIAL SYNTHESIS & BERITA SELANJUTNYA) -->
+      <aside class="lg:col-span-4 space-y-6">
+        
+        <!-- KOTAK 1: EDITORIAL SYNTHESIS -->
+        <div class="p-6 rounded-3xl bg-[#FAF9F6] border border-neutral-200/90 shadow-xs space-y-5">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sunset-orange uppercase">
+              <span class="w-1.5 h-3.5 bg-sunset-orange rounded-full"></span>
+              Editorial Synthesis
+            </div>
+            <p class="text-xs sm:text-sm text-neutral-700 leading-relaxed font-sans">
+              {article.editorial_synthesis || 'Laporan khusus redaksi menghimpun intisari perbincangan strategis bersama pemangku kebijakan fakultas dan fungsionaris kementerian.'}
+            </p>
+          </div>
+
+          <!-- Metadata Redaksi / Kredit Tim -->
+          <div class="pt-4 border-t border-neutral-200/80 space-y-3 text-xs font-sans">
+            <div class="flex justify-between items-baseline gap-2">
+              <span class="font-mono text-neutral-500">Redaksi Penulis:</span>
+              <span class="font-bold text-neutral-900 text-right">{article.author || 'Biro Kominfo Aetherion'}</span>
+            </div>
+            <div class="flex justify-between items-baseline gap-2">
+              <span class="font-mono text-neutral-500">Fotografer:</span>
+              <span class="font-bold text-neutral-900 text-right">{article.photographer || 'Dokum Fasilkom 2026'}</span>
+            </div>
+            <div class="flex justify-between items-baseline gap-2">
+              <span class="font-mono text-neutral-500">Verifikasi Redaksi:</span>
+              <span class="font-bold text-neutral-900 text-right">{article.verifier || 'Dewan Presidium'}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOTAK 2: BERITA SELANJUTNYA -->
+        {nextArticle && (
+          <div class="p-6 rounded-3xl bg-white border border-neutral-200/90 shadow-xs space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono font-bold tracking-wider text-neutral-900 uppercase">
+              <span>Berita Selanjutnya</span>
+              <span class="text-sunset-orange">◫</span>
+            </div>
+
+            <a href={`/berita/${nextArticle.slug}`} class="group block space-y-3">
+              <div class="aspect-[16/10] rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/60 relative">
+                <img
+                  src={nextArticle.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
+                  alt={nextArticle.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+              <h4 class="font-serif font-bold text-sm text-neutral-900 group-hover:text-sunset-orange transition-colors leading-snug line-clamp-2">
+                {nextArticle.title}
+              </h4>
+              <p class="text-[11px] font-mono text-neutral-500">
+                {formatTanggalIndonesia(nextArticle.published_at)}
+              </p>
+              <span class="inline-flex items-center gap-1 text-xs font-mono font-bold text-sunset-orange group-hover:translate-x-1 transition-transform">
+                Baca Selanjutnya <span>→</span>
+              </span>
+            </a>
+          </div>
+        )}
+
+      </aside>
+
+    </div>
+
+  </article>
+</PageLayout>

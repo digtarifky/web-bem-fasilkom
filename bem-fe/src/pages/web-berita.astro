@@ -1,0 +1,525 @@
+---
+// src/pages/redaksi-internal-2026.astro
+// Halaman Form Tersembunyi (Option A) untuk Redaksi Internal Kabinet Aetherion.
+// Tidak ada link publik di Navbar maupun Footer.
+import PageLayout from '../layouts/PageLayout.astro';
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+---
+
+<PageLayout title="Redaksi Internal 2026 — Warta Kabinet Aetherion">
+  <section class="min-h-screen pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <!-- Header Admin Redaksi -->
+    <div class="mb-10 text-center sm:text-left border-b border-neutral-200 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sunset-orange/10 border border-sunset-orange/30 text-sunset-orange text-xs font-mono font-bold tracking-wider uppercase">
+          <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse"></span>
+          Kanal Tertutup Redaksi Internal
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-neutral-900 tracking-tight">
+          Penerbitan Warta & Berita Acara
+        </h1>
+        <p class="text-sm text-neutral-600 font-sans max-w-2xl">
+          Portal manajemen pers dan publikasi resmi BEM FASILKOM 2026 Kabinet Aetherion. Setiap rilis akan disinkronkan secara langsung ke basis data backend.
+        </p>
+      </div>
+
+      <!-- Quick Status Badge -->
+      <div class="shrink-0 flex items-center gap-3 bg-white p-3 rounded-2xl border border-neutral-200/80 shadow-xs">
+        <div class="w-8 h-8 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-mono text-xs font-bold">
+          API
+        </div>
+        <div class="text-xs font-mono text-left">
+          <p class="text-neutral-400">Endpoint Target</p>
+          <p class="text-neutral-800 font-semibold truncate max-w-[200px]" title={apiUrl}>{apiUrl}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Notifikasi Interaktif -->
+    <div id="form-alert" class="hidden mb-8 p-4 rounded-2xl transition-all duration-300"></div>
+
+    <!-- Main Publishing Form -->
+    <form id="article-form" class="space-y-8 bg-white rounded-3xl border border-neutral-200/90 p-6 sm:p-10 shadow-sm">
+      
+      <!-- Seksi 1: Otorisasi & Kunci PIN -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#FAF9F6] border border-orange-200/70 space-y-3">
+        <div class="flex items-center justify-between">
+          <label for="secret_pin" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-800">
+            Kunci Otorisasi Redaksi (X-Secret-PIN) <span class="text-sunset-orange">*</span>
+          </label>
+          <span class="text-[11px] font-mono text-neutral-500">Tersimpan di Sesi Lokal</span>
+        </div>
+        <div class="relative">
+          <input
+            type="password"
+            id="secret_pin"
+            name="secret_pin"
+            required
+            value="AETHERION2026"
+            placeholder="Masukkan Secret PIN (Default: AETHERION2026)"
+            class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 font-mono text-sm tracking-wider bg-white transition-all outline-none"
+          />
+          <button
+            type="button"
+            id="toggle-pin-btn"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-neutral-500 hover:text-neutral-900 px-2 py-1"
+          >
+            Lihat
+          </button>
+        </div>
+        <p class="text-[11px] text-neutral-500 font-mono">
+          Header otorisasi wajib disertakan untuk memvalidasi hak publikasi ke backend Laravel.
+        </p>
+      </div>
+
+      <!-- Seksi 2: Metadata Berita Utama -->
+      <div class="space-y-6">
+        <h3 class="text-lg font-serif font-bold text-neutral-900 flex items-center gap-2 border-b border-neutral-100 pb-2">
+          <span class="w-1.5 h-4 bg-sunset-orange rounded-full"></span>
+          Informasi & Judul Warta
+        </h3>
+
+        <!-- Judul Berita -->
+        <div class="space-y-2">
+          <label for="title" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+            Judul Lengkap Berita <span class="text-sunset-orange">*</span>
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            placeholder="Contoh: Akselerasi Sinergi Teknologi & Humanisme Mahasiswa Fasilkom 2026"
+            class="w-full px-4 py-3.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 font-medium text-base transition-all outline-none"
+          />
+        </div>
+
+        <!-- Grid Kategori & Sub-Kategori -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="space-y-2">
+            <label for="category" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Kategori Bidang / Unit <span class="text-sunset-orange">*</span>
+            </label>
+            <select
+              id="category"
+              name="category"
+              required
+              class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 font-sans text-sm transition-all outline-none bg-white cursor-pointer"
+            >
+              <option value="Litbang">Litbang (Penelitian & Pengembangan)</option>
+              <option value="Kader">Kader (Kaderisasi)</option>
+              <option value="Senor">Senor (Seni & Olahraga)</option>
+              <option value="Advokesma">Advokesma (Advokasi & Kesejahteraan)</option>
+              <option value="Pengmas">Pengmas (Pengabdian Masyarakat)</option>
+              <option value="Lugri">Lugri (Hubungan Luar Negeri)</option>
+              <option value="Dagri">Dagri (Hubungan Dalam Negeri)</option>
+              <option value="Multimedia">Multimedia & Desain</option>
+              <option value="Pubinfo">Publikasi & Informasi</option>
+              <option value="BPH">BPH (Badan Pengurus Harian)</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label for="sub_category" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Sub-Kategori / Tag Acara
+            </label>
+            <input
+              type="text"
+              id="sub_category"
+              name="sub_category"
+              placeholder="Contoh: Kajian Internal, Transformasi Digital, LKMM-TD"
+              class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-sm transition-all outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Ringkasan Singkat (Excerpt) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label for="excerpt" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Ringkasan Singkat (Excerpt Kartu) <span class="text-sunset-orange">*</span>
+            </label>
+            <span class="text-[11px] font-mono text-neutral-400">Tampil di Card & Meta Description</span>
+          </div>
+          <textarea
+            id="excerpt"
+            name="excerpt"
+            required
+            rows="3"
+            placeholder="Tulis 1-2 kalimat pengantar ringkas yang merangkum inti sari berita acara..."
+            class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-sm leading-relaxed transition-all outline-none resize-y"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Seksi 3: Batang Tubuh Isi Berita -->
+      <div class="space-y-6">
+        <h3 class="text-lg font-serif font-bold text-neutral-900 flex items-center gap-2 border-b border-neutral-100 pb-2">
+          <span class="w-1.5 h-4 bg-sunset-orange rounded-full"></span>
+          Isi Berita & Kutipan Redaksi
+        </h3>
+
+        <!-- Textarea Isi Berita -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label for="content" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Konten / Batang Tubuh Berita <span class="text-sunset-orange">*</span>
+            </label>
+            <span class="text-[11px] font-mono text-sunset-orange">Tekan Enter 2x untuk Paragraf Baru</span>
+          </div>
+          <textarea
+            id="content"
+            name="content"
+            required
+            rows="10"
+            placeholder="Tuliskan berita lengkap di sini.
+
+Gunakan jarak 1 baris kosong (Enter dua kali) untuk memisahkan setiap paragraf. Sistem backend otomatis membedahnya menjadi susunan paragraf profesional dengan drop-cap pada paragraf pertama."
+            class="w-full px-4 py-3.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-sm leading-relaxed transition-all outline-none font-sans"
+          ></textarea>
+        </div>
+
+        <!-- Callout Quote & Editorial Synthesis -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="space-y-2">
+            <label for="callout_quote" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Kutipan Sentral (Callout Quote)
+            </label>
+            <textarea
+              id="callout_quote"
+              name="callout_quote"
+              rows="3"
+              placeholder="Contoh: 'Menyalakan karsa, merajut inovasi tanpa batas dalam naungan peradaban teknologi berjiwa Bela Negara.'"
+              class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-sm italic transition-all outline-none"
+            ></textarea>
+          </div>
+
+          <div class="space-y-2">
+            <label for="editorial_synthesis" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Sintesis Redaksi (Sidebar Box)
+            </label>
+            <textarea
+              id="editorial_synthesis"
+              name="editorial_synthesis"
+              rows="3"
+              placeholder="Catatan sintesis redaksi yang tampil di kolom sidebar majalah warta..."
+              class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-sm transition-all outline-none"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seksi 4: Gambar & Dokumentasi -->
+      <div class="space-y-6">
+        <h3 class="text-lg font-serif font-bold text-neutral-900 flex items-center gap-2 border-b border-neutral-100 pb-2">
+          <span class="w-1.5 h-4 bg-sunset-orange rounded-full"></span>
+          Dokumentasi & Visual Berita
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+          <!-- Upload Berkas Gambar -->
+          <div class="space-y-2">
+            <label class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Unggah File Gambar (Maks 8MB)
+            </label>
+            <div class="border-2 border-dashed border-neutral-300 hover:border-sunset-orange rounded-2xl p-6 text-center transition-colors cursor-pointer relative bg-neutral-50/50">
+              <input
+                type="file"
+                id="image_file"
+                name="image"
+                accept="image/*"
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div id="upload-placeholder" class="space-y-2 pointer-events-none">
+                <svg class="w-8 h-8 mx-auto text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <p class="text-xs font-medium text-neutral-700">Pilih atau seret gambar ke sini</p>
+                <p class="text-[10px] text-neutral-400 font-mono">PNG, JPG, WEBP didukung</p>
+              </div>
+              <div id="upload-preview-container" class="hidden relative">
+                <img id="upload-preview" src="#" alt="Preview" class="max-h-40 mx-auto rounded-lg object-cover shadow-xs" />
+                <button type="button" id="remove-img-btn" class="mt-2 text-xs font-mono text-red-600 hover:underline">Hapus / Ganti</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fallback URL & Keterangan Foto -->
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label for="image_url" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+                Atau Gunakan Path / URL Gambar
+              </label>
+              <input
+                type="text"
+                id="image_url"
+                name="image_url"
+                value="/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp"
+                placeholder="/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp"
+                class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-mono transition-all outline-none"
+              />
+            </div>
+
+            <div class="space-y-2">
+              <label for="image_caption" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+                Keterangan Foto (Caption)
+              </label>
+              <input
+                type="text"
+                id="image_caption"
+                name="image_caption"
+                placeholder="(Dokumentasi: Pelantikan Fungsionaris BEM FASILKOM 2026 di Depan Lobby Rektorat Arsip Humas)"
+                class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-sans transition-all outline-none"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seksi 5: Atribusi & Penerbitan -->
+      <div class="space-y-6">
+        <h3 class="text-lg font-serif font-bold text-neutral-900 flex items-center gap-2 border-b border-neutral-100 pb-2">
+          <span class="w-1.5 h-4 bg-sunset-orange rounded-full"></span>
+          Kredit Redaksi & Jadwal Rilis
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="space-y-2">
+            <label for="author" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Redaksi Penulis
+            </label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              value="Biro Kominfo Aetherion"
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-sans transition-all outline-none"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="photographer" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Fotografer / Dokumentasi
+            </label>
+            <input
+              type="text"
+              id="photographer"
+              name="photographer"
+              value="Dokum Fasilkom 2026"
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-sans transition-all outline-none"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="verifier" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Verifikasi Redaksi
+            </label>
+            <input
+              type="text"
+              id="verifier"
+              name="verifier"
+              value="Dewan Presidium"
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-sans transition-all outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center pt-2">
+          <div class="space-y-2">
+            <label for="published_at" class="block text-xs font-mono font-bold uppercase tracking-wider text-neutral-700">
+              Tanggal Terbit
+            </label>
+            <input
+              type="date"
+              id="published_at"
+              name="published_at"
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-sunset-orange focus:ring-2 focus:ring-sunset-orange/20 text-neutral-900 text-xs font-mono transition-all outline-none bg-white"
+            />
+          </div>
+
+          <!-- Featured Toggle -->
+          <div class="pt-6 flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="is_featured"
+              name="is_featured"
+              value="1"
+              class="w-5 h-5 rounded-md border-neutral-300 text-sunset-orange focus:ring-sunset-orange cursor-pointer"
+            />
+            <label for="is_featured" class="text-xs font-mono font-bold text-neutral-800 cursor-pointer select-none">
+              Jadikan Artikel Utama / Hero Carousel Banner
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Submit -->
+      <div class="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a href="/berita" class="text-xs font-mono font-bold text-neutral-500 hover:text-neutral-900 transition-colors">
+          ← Lihat Indeks Berita Publik
+        </a>
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-linear-to-r from-sunset-orange to-amber-600 text-white font-mono text-xs font-bold uppercase tracking-widest hover:opacity-95 shadow-lg shadow-sunset-orange/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span id="btn-text">Terbitkan Warta Sekarang</span>
+          <svg id="btn-spinner" class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+      </div>
+
+    </form>
+  </section>
+</PageLayout>
+
+<script define:vars={{ apiUrl }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('article-form');
+    const pinInput = document.getElementById('secret_pin');
+    const togglePinBtn = document.getElementById('toggle-pin-btn');
+    const alertBox = document.getElementById('form-alert');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const fileInput = document.getElementById('image_file');
+    const placeholder = document.getElementById('upload-placeholder');
+    const previewContainer = document.getElementById('upload-preview-container');
+    const previewImg = document.getElementById('upload-preview');
+    const removeImgBtn = document.getElementById('remove-img-btn');
+    const dateInput = document.getElementById('published_at');
+
+    // Inisialisasi tanggal default hari ini
+    if (dateInput && !dateInput.value) {
+      dateInput.value = new Date().toISOString().split('T')[0];
+    }
+
+    // Ambil PIN dari localStorage jika pernah disimpan
+    const savedPin = localStorage.getItem('redaksi_pin');
+    if (savedPin && pinInput) {
+      pinInput.value = savedPin;
+    }
+
+    // Toggle tampilan PIN
+    if (togglePinBtn && pinInput) {
+      togglePinBtn.addEventListener('click', () => {
+        if (pinInput.type === 'password') {
+          pinInput.type = 'text';
+          togglePinBtn.textContent = 'Sembunyikan';
+        } else {
+          pinInput.type = 'password';
+          togglePinBtn.textContent = 'Lihat';
+        }
+      });
+    }
+
+    // Image file preview
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            previewImg.src = evt.target?.result;
+            placeholder.classList.add('hidden');
+            previewContainer.classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    if (removeImgBtn && fileInput) {
+      removeImgBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        fileInput.value = '';
+        previewImg.src = '#';
+        previewContainer.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+      });
+    }
+
+    // Submit handler
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertBox.classList.add('hidden');
+
+        const secretPin = pinInput.value.trim();
+        if (!secretPin) {
+          showAlert('Silakan masukkan Secret PIN terlebih dahulu.', 'error');
+          pinInput.focus();
+          return;
+        }
+
+        // Simpan PIN ke localStorage untuk kemudahan sesi berikutnya
+        localStorage.setItem('redaksi_pin', secretPin);
+
+        // Buat FormData
+        const formData = new FormData(form);
+
+        // Set Loading state
+        submitBtn.disabled = true;
+        btnText.textContent = 'Sedang Mengunggah & Memproses...';
+        btnSpinner.classList.remove('hidden');
+
+        try {
+          const targetUrl = `${apiUrl}/articles`;
+          const response = await fetch(targetUrl, {
+            method: 'POST',
+            headers: {
+              'X-Secret-PIN': secretPin,
+              'Accept': 'application/json',
+            },
+            body: formData,
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            const articleSlug = result.data?.slug;
+            showAlert(
+              `<strong>Berhasil Diterbitkan!</strong> Artikel "${result.data?.title}" telah tersimpan ke basis data. <br><a href="/berita/${articleSlug}" class="inline-block mt-2 font-mono underline font-bold hover:text-white">→ Klik di sini untuk melihat artikel di portal warta</a>`,
+              'success'
+            );
+            form.reset();
+            if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+            if (pinInput) pinInput.value = secretPin;
+            if (fileInput) {
+              fileInput.value = '';
+              previewContainer.classList.add('hidden');
+              placeholder.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            const errorMsg = result.message || 'Gagal menerbitkan warta. Pastikan Secret PIN sesuai dan server backend aktif.';
+            showAlert(`<strong>Gagal:</strong> ${errorMsg}`, 'error');
+          }
+        } catch (error) {
+          showAlert(
+            `<strong>Kesalahan Jaringan:</strong> Tidak dapat menghubungi server backend pada <code>${apiUrl}</code>. Pastikan server Laravel sedang berjalan (<code>php artisan serve</code>).`,
+            'error'
+          );
+        } finally {
+          submitBtn.disabled = false;
+          btnText.textContent = 'Terbitkan Warta Sekarang';
+          btnSpinner.classList.add('hidden');
+        }
+      });
+    }
+
+    function showAlert(htmlContent, type = 'success') {
+      alertBox.innerHTML = htmlContent;
+      alertBox.classList.remove('hidden');
+      if (type === 'success') {
+        alertBox.className = 'mb-8 p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-sm leading-relaxed';
+      } else {
+        alertBox.className = 'mb-8 p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-900 text-sm leading-relaxed';
+      }
+    }
+  });
+</script>

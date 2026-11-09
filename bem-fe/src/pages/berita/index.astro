@@ -1,0 +1,270 @@
+---
+// src/pages/berita/index.astro
+// Halaman Utama Berita Acara & Publikasi Warta BEM FASILKOM 2026 (Kabinet Aetherion).
+// Mengonsumsi data dari Laravel API dengan graceful fallback ke dataset lokal.
+import PageLayout from '../../layouts/PageLayout.astro';
+import { fetchArticles, formatTanggalIndonesia, type Article } from '../../data/berita';
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+const articles: Article[] = await fetchArticles(apiUrl);
+
+// Cari artikel featured untuk Hero Banner (ambil yang is_featured=true atau yang paling pertama)
+const featuredArticle = articles.find((a) => a.is_featured) || articles[0];
+
+// Hitung kategori dan jumlahnya secara dinamis
+const categoryCounts: Record<string, number> = {};
+articles.forEach((a) => {
+  const cat = a.category;
+  categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+});
+const categories = Object.keys(categoryCounts);
+---
+
+<PageLayout 
+  title="Berita Acara — BEM FASILKOM UPN Veteran Jawa Timur 2026"
+  description="Kumpulan berita, laporan khusus, rilis kegiatan, dan arsip publikasi resmi BEM FASILKOM 2026 Kabinet Aetherion."
+>
+  <div class="pt-28 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12 sm:space-y-16">
+    
+    <!-- ================= 1. HEADER SECTION ================= -->
+    <header class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-neutral-900 tracking-tight leading-none">
+        Berita Acara
+        <span class="block text-sunset-orange italic font-normal text-3xl sm:text-4xl lg:text-5xl mt-1">
+          BEM FASILKOM
+        </span>
+      </h1>
+      <p class="text-sm sm:text-base text-neutral-600 font-sans max-w-2xl pt-1">
+        Dokumentasi komprehensif dinamika pergerakan, advokasi, riset teknologi, dan harmonisasi civitas akademika Fakultas Ilmu Komputer.
+      </p>
+    </header>
+
+    <!-- ================= 2. HERO FEATURED CAROUSEL / BANNER ================= -->
+    {featuredArticle && (
+      <section aria-label="Berita Utama Terkini">
+        <a 
+          href={`/berita/${featuredArticle.slug}`}
+          class="group block relative rounded-3xl sm:rounded-4xl overflow-hidden shadow-xl border border-neutral-200/80 bg-neutral-950 aspect-[16/10] sm:aspect-[21/9] transition-transform duration-300 hover:shadow-2xl"
+        >
+          <!-- Background Image dengan Zoom Effect -->
+          <img
+            src={featuredArticle.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
+            alt={featuredArticle.title}
+            class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-700 ease-out opacity-85"
+            loading="eager"
+            decoding="async"
+          />
+
+          <!-- Gradient Overlay Dramatis -->
+          <div class="absolute inset-0 bg-linear-to-t from-neutral-950 via-neutral-950/60 to-transparent"></div>
+          <div class="absolute inset-0 bg-linear-to-r from-neutral-950/70 via-transparent to-transparent"></div>
+
+          <!-- Indikator Navigasi Simbolis -->
+          <div class="absolute top-4 sm:top-6 right-4 sm:right-6 flex items-center gap-2 z-20 pointer-events-none">
+            <span class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+              ←
+            </span>
+            <span class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+              →
+            </span>
+          </div>
+
+          <!-- Konten Teks di Atas Overlay -->
+          <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-12 z-10 flex flex-col justify-end space-y-3 sm:space-y-4 max-w-4xl">
+            <!-- Badge Kategori & Tag -->
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="px-3 py-1 rounded-full bg-sunset-orange text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-xs">
+                {featuredArticle.sub_category || featuredArticle.category}
+              </span>
+              <span class="text-xs font-mono text-neutral-300">
+                {formatTanggalIndonesia(featuredArticle.published_at)}
+              </span>
+            </div>
+
+            <!-- Judul Utama -->
+            <h2 class="text-xl sm:text-3xl lg:text-4xl font-serif font-extrabold text-white tracking-tight leading-snug sm:leading-tight group-hover:text-amber-200 transition-colors">
+              {featuredArticle.title}
+            </h2>
+
+            <!-- Excerpt -->
+            <p class="text-xs sm:text-base text-neutral-300 font-sans line-clamp-2 leading-relaxed max-w-3xl">
+              {featuredArticle.excerpt}
+            </p>
+
+            <!-- Bottom Bar & Dots -->
+            <div class="pt-2 flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-6 h-1.5 rounded-full bg-sunset-orange"></span>
+                <span class="w-2 h-1.5 rounded-full bg-white/40"></span>
+                <span class="w-2 h-1.5 rounded-full bg-white/40"></span>
+              </div>
+              <span class="text-xs font-mono font-bold text-white group-hover:text-sunset-orange transition-colors inline-flex items-center gap-1">
+                Baca Selengkapnya <span>→</span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </section>
+    )}
+
+    <!-- ================= 3. ARSIP WARTA & FILTER TABS ================= -->
+    <section class="space-y-8 pt-4">
+      
+      <!-- Sub-header & Tabs Bar -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-neutral-200 pb-6">
+        
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sunset-orange uppercase">
+            <span class="w-3 h-3 bg-sunset-orange rounded-xs inline-block"></span>
+            Arsip Warta Terkini
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-serif font-extrabold text-neutral-900 tracking-tight">
+            Indeks Publikasi Artikel
+          </h2>
+        </div>
+
+        <!-- Filter Tabs Interaktif -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full no-scrollbar" id="category-tabs">
+          <!-- Tab Semua -->
+          <button
+            type="button"
+            data-category="all"
+            class="category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-sunset-orange text-white shadow-xs"
+          >
+            Semua ({articles.length})
+          </button>
+
+          <!-- Tab Per Kategori Dinamis -->
+          {categories.map((cat) => (
+            <button
+              type="button"
+              data-category={cat.toLowerCase()}
+              class="category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-white text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 border border-neutral-200"
+            >
+              {cat} ({categoryCounts[cat]})
+            </button>
+          ))}
+        </div>
+
+      </div>
+
+      <!-- ================= 4. ARTICLE GRID ================= -->
+      <div 
+        id="articles-grid" 
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+      >
+        {articles.map((article) => (
+          <article 
+            data-article-item
+            data-category={article.category.toLowerCase()}
+            class="article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden"
+          >
+            <!-- Card Image -->
+            <a 
+              href={`/berita/${article.slug}`}
+              class="relative aspect-[16/10] overflow-hidden bg-neutral-100 block"
+              aria-label={article.title}
+            >
+              <img
+                src={article.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
+                alt={article.title}
+                class="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out"
+                loading="lazy"
+                decoding="async"
+              />
+
+              <!-- Gradient Subtil Atas & Bawah -->
+              <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
+
+              <!-- Category Badge (Kiri Atas) -->
+              <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-md bg-sunset-orange text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-sm">
+                {article.category}
+              </span>
+
+              <!-- Date Badge (Kanan Bawah) -->
+              <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-neutral-950/75 backdrop-blur-xs text-neutral-200 text-[11px] font-mono tracking-tight shadow-xs">
+                {formatTanggalIndonesia(article.published_at)}
+              </span>
+            </a>
+
+            <!-- Card Body -->
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <a href={`/berita/${article.slug}`} class="block">
+                  <h3 class="font-serif font-bold text-lg sm:text-xl text-neutral-900 group-hover:text-sunset-orange transition-colors leading-snug line-clamp-2">
+                    {article.title}
+                  </h3>
+                </a>
+                <p class="text-xs sm:text-sm text-neutral-600 font-sans leading-relaxed line-clamp-2">
+                  {article.excerpt}
+                </p>
+              </div>
+
+              <!-- Card Footer -->
+              <div class="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
+                <span class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider truncate max-w-[150px]">
+                  {article.sub_category || 'BERITA ACARA'}
+                </span>
+                <a 
+                  href={`/berita/${article.slug}`}
+                  class="font-bold text-sunset-orange hover:text-amber-600 transition-colors inline-flex items-center gap-1 group-hover:translate-x-1 duration-200 shrink-0"
+                >
+                  Baca Telusur <span>→</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- State Kosong jika filter tidak menemukan artikel -->
+      <div id="empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-neutral-200/80 space-y-3">
+        <p class="font-serif text-lg font-bold text-neutral-800">Tidak ada artikel dalam kategori ini</p>
+        <p class="text-xs font-mono text-neutral-500">Silakan pilih kategori lain atau kembali ke filter "Semua".</p>
+      </div>
+
+    </section>
+
+  </div>
+</PageLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.category-tab');
+    const cards = document.querySelectorAll<HTMLElement>('[data-article-item]');
+    const emptyState = document.getElementById('empty-state');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const targetCategory = tab.dataset.category || 'all';
+
+        // Update styling tab aktif
+        tabs.forEach((t) => {
+          t.className = 'category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-white text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 border border-neutral-200';
+        });
+        tab.className = 'category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-sunset-orange text-white shadow-xs';
+
+        // Filter kartu
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const cardCat = card.dataset.category || '';
+          if (targetCategory === 'all' || cardCat === targetCategory) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        // Tampilkan/sembunyikan empty state
+        if (emptyState) {
+          if (visibleCount === 0) {
+            emptyState.classList.remove('hidden');
+          } else {
+            emptyState.classList.add('hidden');
+          }
+        }
+      });
+    });
+  });
+</script>
