@@ -91,9 +91,10 @@ export const visi =
 // DUMMY
 // {{TODO: daftar misi resmi}}
 export const misi: string[] = [
-  'Memperkuat iklim akademik melalui pengembangan keilmuan dan peningkatan kualitas akademik mahasiswa Fakultas Ilmu Komputer.',
-  'Mengoptimalkan potensi mahasiswa melalui pengembangan diri, kreativitas, serta kemampuan kontribusi.',
-  'Menguatkan sinergi kolaboratif dengan mahasiswa, organisasi, dan lembaga eksternal untuk mendukung pengembangan serta memberikan manfaat yang lebih luas.',
+  'Menyelenggarakan pengembangan akademik dan keilmuan teknologi yang relevan dengan kebutuhan industri dan masyarakat.',
+  'Mewadahi serta mengoptimalkan potensi, minat, dan bakat mahasiswa Fakultas Ilmu Komputer secara berkelanjutan.',
+  'Membangun kolaborasi yang sinergis dengan himpunan, ormawa, pimpinan fakultas, dan mitra eksternal.',
+  'Mengawal aspirasi dan kesejahteraan mahasiswa dengan tata kelola organisasi yang transparan dan berintegritas.',
 ];
 
 // ============================================================
@@ -162,7 +163,7 @@ export const bph: BPH = {
 
 // ============================================================
 // UNIT & BIDANG
-// Urutan tampil di pohon: MEDFO → HDK → SOSPOL → PSDM.
+// Urutan tampil di pohon: MEDFO → SOSPOL → HDK → PSDM.
 // Pimpinan unit (kepala, wakil, sekretaris) masih DUMMY — ganti dengan data resmi.
 // Jumlah staf: 3 per bidang, kecuali Senor 4. MEDFO mengikuti data asli.
 // ============================================================

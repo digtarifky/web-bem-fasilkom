@@ -19,24 +19,24 @@ const navLinks = [
     id="nav-liquid"
     class="pointer-events-auto w-full nav-top flex items-center justify-between text-neutral-900"
   >
-    <div class="max-w-7xl mx-auto flex items-center justify-between w-full">
+    <div class="max-w-7xl 2xl:max-w-[1440px] mx-auto flex items-center justify-between w-full">
       
       <!-- Brand & Logo -->
-      <a href="/" class="flex items-center gap-3.5 group shrink-0">
+      <a href="/" class="flex items-center gap-4 group shrink-0">
         <img 
           src="/assets/logo/logo-bem.svg" 
           alt="Logo BEM FASILKOM" 
-          class="w-9 h-9 object-contain group-hover:scale-105 transition-transform drop-shadow-xs" 
+          class="w-10 h-10 md:w-11 md:h-11 object-contain group-hover:scale-105 transition-transform drop-shadow-xs" 
         />
         <div class="flex flex-col font-helvetica">
-          <span class="font-bold text-sm md:text-base tracking-wide leading-tight text-sunset-orange drop-shadow-xs">
+          <span class="font-bold text-base md:text-[17px] tracking-wide leading-tight text-sunset-orange drop-shadow-xs">
             BEM FASILKOM <span class="text-sunset-orange">2026</span>
           </span>
           <div class="inline-flex items-baseline">
-            <span class="font-pinyon not-italic text-lg md:text-xl text-neutral-900 leading-none">
+            <span class="font-pinyon not-italic text-xl md:text-2xl text-neutral-900 leading-none">
               K
             </span>
-            <span class="font-helvetica italic font-semibold text-xs md:text-[13px] text-neutral-800 leading-none">
+            <span class="font-helvetica italic font-semibold text-xs md:text-sm text-neutral-800 leading-none">
               abinet Aetherion
             </span>
           </div>
@@ -57,7 +57,7 @@ const navLinks = [
             <a
               href={link.href}
               data-nav-item
-              class={`nav-link-btn relative z-10 px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-200 select-none ${
+              class={`nav-link-btn relative z-10 px-6 py-2.5 rounded-full text-sm md:text-[15px] font-semibold transition-colors duration-200 select-none ${
                 isActive ? 'text-neutral-950 font-bold is-active' : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
@@ -68,7 +68,7 @@ const navLinks = [
       </nav>
 
       <!-- Mobile Button -->
-      <button id="mobile-toggle" class="lg:hidden p-2.5 rounded-xl text-neutral-800 hover:text-neutral-950 bg-white/40 hover:bg-white/70 border border-white/50 backdrop-blur-md shadow-xs transition-all" aria-label="Menu">
+      <button id="mobile-toggle" class="lg:hidden p-3 rounded-2xl text-neutral-800 hover:text-neutral-950 bg-white/40 hover:bg-white/70 border border-white/50 backdrop-blur-md shadow-xs transition-all" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -97,7 +97,7 @@ const navLinks = [
     width: 100% !important;
     transform: translate3d(0, 0, 0) !important;
     border-radius: 0px !important;
-    padding: 1.1rem 2.5rem;
+    padding: 1.35rem 3rem;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.45) 100%);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -119,11 +119,11 @@ const navLinks = [
 
   /* 2. STATE SCROLLED: PURE GLASSMORPHISM PILL (Sesuai Referensi Gambar) */
   .nav-scrolled {
-    max-width: 1120px !important; /* Proporsi kapsul elegan */
+    max-width: 1200px !important; /* Proporsi kapsul elegan yang sedikit lebih luas */
     width: 92% !important;
     transform: translate3d(0, 16px, 0) !important;
     border-radius: 9999px !important;
-    padding: 0.75rem 2.25rem !important; /* Proporsi tinggi ramping & presisi */
+    padding: 0.95rem 2.75rem !important; /* Proporsi tinggi lebih nyaman & presisi */
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.25) 100%) !important;
     backdrop-filter: blur(24px) saturate(190%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
