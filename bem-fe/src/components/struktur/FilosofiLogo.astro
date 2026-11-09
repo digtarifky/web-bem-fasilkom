@@ -30,7 +30,7 @@ const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
             id="filosofi-crest"
             data-filosofi-crest
             data-label={LABEL_CREST}
-            class="filosofi-crest relative aspect-square w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] xl:max-w-[380px] mx-auto"
+            class="filosofi-crest relative aspect-square w-full max-w-[240px] sm:max-w-[280px] lg:max-w-[300px] xl:max-w-[340px] mx-auto"
             role="img"
             aria-label={LABEL_CREST}
           >
@@ -69,7 +69,7 @@ const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
 
         <div class="flex items-stretch gap-4 sm:gap-6 lg:max-w-xl lg:mx-auto">
           <!-- Viewport drum -->
-          <div data-filosofi-viewport class="filosofi-viewport relative flex-1 px-1 sm:px-2">
+          <div data-filosofi-viewport class="filosofi-viewport relative flex-1 px-2 sm:px-4">
             <ol class="filosofi-list space-y-6">
               {filosofi.map((item, i) => {
                 const nomor = String(i + 1).padStart(2, '0');
@@ -144,14 +144,14 @@ const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
     position: static;
     align-self: center;
   }
-  /* Logo dibatasi tinggi layar dan lebar elegan agar proporsional terhadap kartu deskripsi */
+  /* Logo dibatasi tinggi layar dan lebar proporsional agar harmonis terhadap kartu deskripsi */
   [data-roll] .filosofi-crest {
-    max-width: min(340px, calc(100svh - 12rem));
+    max-width: min(290px, calc(100svh - 14rem));
     margin-inline: auto;
   }
   @media (min-width: 1280px) {
     [data-roll] .filosofi-crest {
-      max-width: min(380px, calc(100svh - 12rem));
+      max-width: min(320px, calc(100svh - 14rem));
     }
   }
   [data-roll] .filosofi-hint {
@@ -163,11 +163,13 @@ const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
   [data-roll] .filosofi-viewport {
     height: min(33rem, calc(100svh - 8rem));
     perspective: 1200px;
-    /* clip (bukan hidden) agar fokus keyboard tidak menggeser isi viewport */
-    overflow: clip;
+    /* overflow-x visible agar outline dan shadow kartu di sisi kanan/kiri tidak terpotong */
+    overflow-x: visible;
+    overflow-y: clip;
     overflow-clip-margin: 2rem;
-    padding-inline: 0.5rem;
-    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    padding-inline: 1.25rem;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
   }
   [data-roll] .filosofi-list {
     position: absolute;
@@ -178,8 +180,8 @@ const jarakGulir = `${Math.max(filosofi.length - 1, 0) * SVH_PER_KARTU}svh`;
   }
   [data-roll] .filosofi-slot {
     position: absolute;
-    left: 1rem;
-    right: 1rem;
+    left: 1.25rem;
+    right: 1.25rem;
     top: 50%;
     margin: 0;
     will-change: transform, opacity, filter;
