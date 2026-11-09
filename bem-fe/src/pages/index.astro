@@ -7,12 +7,12 @@ import SambutanSection from '../components/home/SambutanSection.astro';
 import VideoSection from '../components/home/VideoSection.astro';
 
 const marqueeItems = [
-  { badge: '128 ANGGOTA' },
+  { badge: '82 ANGGOTA' },
   { text: 'BEM FASILKOM UPNVJT' },
-  { badge: '42 PROGRAM KERJA' },
+  { badge: '17 PROGRAM KERJA' },
   { text: 'KABINET AETHERION 2026' },
-  { badge: '10 BIDANG & BIRO' },
-  { text: '"Menyulutkan Karsa, Merajut Inovasi Tanpa Batas"', isQuote: true },
+  { badge: '13 BIDANG & BAGIAN' },
+  { text: 'Satu Fasilkom, Kita Kuat!"', isQuote: true },
 ];
 
 const prokerList = [
@@ -57,6 +57,26 @@ const prokerList = [
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet" />
 
     <meta name="theme-color" content="#FAF9F6" />
+
+    <!-- Intro hero: sembunyikan overlay, teks & navbar sebelum render pertama (sekali per sesi).
+         Tanpa JS / reduced motion → kelas tidak dipasang, konten langsung tampil. -->
+    <script is:inline>
+      (function () {
+        try {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          if (sessionStorage.getItem('heroIntroSeen')) return;
+          var html = document.documentElement;
+          html.classList.add('hero-intro');
+          // Pengaman: kalau script animasi gagal, konten tetap muncul
+          setTimeout(function () { html.classList.remove('hero-intro'); }, 8000);
+        } catch (e) {}
+      })();
+    </script>
+    <style is:global>
+      html.hero-intro [data-intro-photo],
+      html.hero-intro [data-intro-item],
+      html.hero-intro body > header { opacity: 0; }
+    </style>
   </head>
   <body class="bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-orange-500 selection:text-white flex flex-col min-h-screen">
     
@@ -68,15 +88,22 @@ const prokerList = [
       <!-- 1. HERO SECTION                            -->
       <!-- ========================================== -->
       <section id="beranda" class="relative bg-aetherion-light text-neutral-900 pt-28 sm:pt-36 pb-20 sm:pb-28 overflow-hidden">
-        <!-- Dynamic Warm Ambient Glows -->
-        <div class="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none"></div>
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-87.5 bg-linear-to-tr from-sunset-orange/15 via-amber-400/10 to-transparent blur-[120px] pointer-events-none rounded-full"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-sunset-orange/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <!-- Foto latar: Release Fungsionaris -->
+        <img
+          data-intro-photo
+          src="/assets/foto-kabinet/bph/RELEASE%20FUNGSIONARIS.webp"
+          alt=""
+          aria-hidden="true"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none will-change-transform brightness-50 contrast-90 saturate-105"
+        />
+        <!-- Tanpa overlay: foto tampil jelas penuh. Teks hero berwarna putih. -->
 
         <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div class="max-w-3xl">
             <!-- Pill Badge -->
-            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-neutral-200/80 text-sunset-orange text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm shadow-xs">
+            <div data-intro-item class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-neutral-200/80 text-sunset-orange text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm shadow-xs">
               <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse"></span>
               <span class="text-neutral-900 font-bold">BEM FASILKOM UPNVJT</span>
               <span class="text-neutral-300">•</span>
@@ -84,22 +111,22 @@ const prokerList = [
             </div>
 
             <!-- Main Headline -->
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-neutral-950">
-              Selamat datang di<br />
+            <h1 data-intro-item class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] ">
+              <span class="text-white">Selamat datang di</span><br />
               <span class="text-transparent bg-clip-text bg-linear-to-r from-sunset-orange via-amber-500 to-sunset-orange">
                 BEM FASILKOM
               </span>{" "}
-              UPNVJT<br />
-              2026
+              <span class="text-white">UPNVJT</span><br />
+              <span class="text-white">2026</span>
             </h1>
 
             <!-- Subtitle Description -->
-            <p class="mt-6 text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-normal">
+            <p data-intro-item class="text-white mt-6 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-semibold">
               Mewujudkan Badan Eksekutif Mahasiswa Fakultas Ilmu Komputer yang kreatif, adaptif, dan kolaboratif terhadap seluruh organisasi mahasiswa di UPN "Veteran" Jawa Timur yang berlandaskan Tri Dharma Perguruan Tinggi.
             </p>
 
             <!-- Action Buttons (CTA) -->
-            <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
+            <div data-intro-item class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
               <a
                 href="#proker"
                 class="px-6 py-3.5 rounded-xl bg-linear-to-r from-sunset-orange to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm tracking-wide shadow-lg shadow-sunset-orange/25 flex items-center gap-2.5 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
@@ -518,6 +545,52 @@ const prokerList = [
 
       document.addEventListener('DOMContentLoaded', initIndexPage);
       document.addEventListener('astro:page-load', initIndexPage);
+    </script>
+
+    <!-- Intro hero: foto full kabinet tampil jelas dulu (zoom-out pelan), lalu overlay, teks, dan navbar muncul -->
+    <script>
+      import gsap from 'gsap';
+
+      let played = false;
+
+      async function playHeroIntro() {
+        const html = document.documentElement;
+        if (played || !html.classList.contains('hero-intro')) return;
+        const hero = document.getElementById('beranda');
+        const photo = hero?.querySelector<HTMLImageElement>('[data-intro-photo]');
+        if (!hero || !photo) { html.classList.remove('hero-intro'); return; }
+        played = true;
+        try { sessionStorage.setItem('heroIntroSeen', '1'); } catch {}
+
+        const items = hero.querySelectorAll<HTMLElement>('[data-intro-item]');
+        const navbar = document.querySelector<HTMLElement>('body > header');
+
+        // Kunci state awal lewat inline style, lalu lepas kelas CSS penyembunyi
+        gsap.set([...items, navbar].filter(Boolean), { opacity: 0 });
+        gsap.set(photo, { opacity: 0, scale: 1.12 });
+        html.classList.remove('hero-intro');
+
+        // Tunggu foto siap (maks. 2.5 dtk) agar intro tidak memperlihatkan area kosong
+        await Promise.race([
+          photo.decode().catch(() => {}),
+          new Promise((r) => setTimeout(r, 2500)),
+        ]);
+
+        gsap.timeline({ defaults: { ease: 'power3.out' } })
+          // 1. Foto full kabinet: fade-in + zoom-out pelan, tanpa overlay
+          .to(photo, { opacity: 1, duration: 0.9, ease: 'power1.out' }, 0)
+          .to(photo, { scale: 1, duration: 2.6, ease: 'power2.out' }, 0)
+          // 2. Setelah foto sempat dinikmati, teks & tombol naik berurutan
+          .fromTo(items, { y: 28 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 2.1)
+          // 3. Navbar turun terakhir
+          .fromTo(navbar, { y: -16 }, { opacity: 1, y: 0, duration: 0.6 }, 2.6)
+          .eventCallback('onComplete', () => {
+            gsap.set([photo, ...items, navbar].filter(Boolean), { clearProps: 'opacity,transform' });
+          });
+      }
+
+      document.addEventListener('DOMContentLoaded', playHeroIntro);
+      document.addEventListener('astro:page-load', playHeroIntro);
     </script>
   </body>
 </html>

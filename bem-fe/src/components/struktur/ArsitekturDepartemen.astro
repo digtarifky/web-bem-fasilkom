@@ -7,8 +7,13 @@
 //  3. Garis lengkung oranye tergambar dari node ke node berikutnya (SVG pathLength=1).
 //  4. Teks muncul per baris dari balik mask (SplitText).
 // Mobile & prefers-reduced-motion: layout statis, tanpa sticky/scale/garis.
-import { units, type Unit } from '../../data/struktur';
+import { units as semuaUnit, type Unit } from '../../data/struktur';
 import { ICONS, type IconName } from './icons';
+
+// Urutan tampil di section ini: MEDFO → SOSPOL → HDK → PSDM. Unit yang tidak terdaftar ditaruh di akhir.
+const URUTAN = ['medfo', 'sospol', 'hdk', 'psdm'];
+const posisi = (u: Unit) => { const i = URUTAN.indexOf(u.slug); return i === -1 ? URUTAN.length : i; };
+const units = [...semuaUnit].sort((a, b) => posisi(a) - posisi(b));
 
 const { ArrowRight } = ICONS;
 const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
