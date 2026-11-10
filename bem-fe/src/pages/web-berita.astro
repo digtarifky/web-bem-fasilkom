@@ -1,26 +1,25 @@
 ---
-// src/pages/redaksi-internal-2026.astro
-// Halaman Form Tersembunyi (Option A) untuk Redaksi Internal Kabinet Aetherion.
-// Tidak ada link publik di Navbar maupun Footer.
+// src/pages/web-berita.astro
+// Halaman Form Admin Redaksi untuk Penerbitan Berita Acara BEM FASILKOM 2026.
 import PageLayout from '../layouts/PageLayout.astro';
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 ---
 
-<PageLayout title="Redaksi Internal 2026 — Warta Kabinet Aetherion">
+<PageLayout title="Web Berita — Penerbitan Warta Kabinet Aetherion">
   <section class="min-h-screen pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
     <!-- Header Admin Redaksi -->
     <div class="mb-10 text-center sm:text-left border-b border-neutral-200 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
       <div class="space-y-2">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sunset-orange/10 border border-sunset-orange/30 text-sunset-orange text-xs font-mono font-bold tracking-wider uppercase">
           <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse"></span>
-          Kanal Tertutup Redaksi Internal
+          Kanal Unggah Berita Acara Langsung
         </div>
         <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-neutral-900 tracking-tight">
           Penerbitan Warta & Berita Acara
         </h1>
         <p class="text-sm text-neutral-600 font-sans max-w-2xl">
-          Portal manajemen pers dan publikasi resmi BEM FASILKOM 2026 Kabinet Aetherion. Setiap rilis akan disinkronkan secara langsung ke basis data backend.
+          Portal manajemen pers dan publikasi resmi BEM FASILKOM 2026 Kabinet Aetherion. Warta yang Anda terbitkan di sini akan langsung tampil pada halaman Berita Acara.
         </p>
       </div>
 
@@ -348,7 +347,7 @@ Gunakan jarak 1 baris kosong (Enter dua kali) untuk memisahkan setiap paragraf. 
               class="w-5 h-5 rounded-md border-neutral-300 text-sunset-orange focus:ring-sunset-orange cursor-pointer"
             />
             <label for="is_featured" class="text-xs font-mono font-bold text-neutral-800 cursor-pointer select-none">
-              Jadikan Artikel Utama / Hero Carousel Banner
+              Jadikan Artikel Utama / Auto-Slide Carousel Banner
             </label>
           </div>
         </div>
@@ -483,7 +482,7 @@ Gunakan jarak 1 baris kosong (Enter dua kali) untuk memisahkan setiap paragraf. 
           if (response.ok && result.success) {
             const articleSlug = result.data?.slug;
             showAlert(
-              `<strong>Berhasil Diterbitkan!</strong> Artikel "${result.data?.title}" telah tersimpan ke basis data. <br><a href="/berita/${articleSlug}" class="inline-block mt-2 font-mono underline font-bold hover:text-white">→ Klik di sini untuk melihat artikel di portal warta</a>`,
+              `<strong>Berhasil Diterbitkan!</strong> Artikel "${result.data?.title}" telah tersimpan ke basis data backend. <br><a href="/berita/${articleSlug}" class="inline-block mt-2 font-mono underline font-bold hover:text-emerald-900">→ Klik di sini untuk langsung melihat artikel di halaman Berita</a>`,
               'success'
             );
             form.reset();
