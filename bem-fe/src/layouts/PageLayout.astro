@@ -1,8 +1,9 @@
 ---
 // src/layouts/PageLayout.astro
-// Layout untuk halaman baru (Struktur Kabinet dan turunannya).
-// <head> disalin dari src/pages/index.astro. index.astro sengaja tidak memakai layout ini.
+// Layout untuk halaman kabinet & warta berita dengan View Transitions & Lenis Smooth Scroll.
 import '../styles/global.css';
+import 'lenis/dist/lenis.css';
+import { ClientRouter } from 'astro:transitions';
 import Navbar from '../components/common/Navbar.astro';
 import Footer from '../components/common/Footer.astro';
 
@@ -18,7 +19,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,14 +35,70 @@ const {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet" />
 
     <meta name="theme-color" content="#FAF9F6" />
+
+    <!-- View Transitions Router -->
+    <ClientRouter />
   </head>
   <body class="bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-orange-500 selection:text-white flex flex-col min-h-screen">
-    <Navbar currentPath={Astro.url.pathname} />
+    <Navbar currentPath={Astro.url.pathname} transition:persist />
 
-    <main class="grow">
+    <main class="grow" transition:animate="fade">
       <slot />
     </main>
 
-    <Footer />
+    <Footer transition:persist />
+
+    <!-- Lenis Smooth Scroll Synchronized with GSAP -->
+    <script>
+      import Lenis from 'lenis';
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      let lenis: Lenis | null = null;
+      let tickerCallback: ((time: number) => void) | null = null;
+
+      function initLenis() {
+        if (lenis) {
+          lenis.destroy();
+          lenis = null;
+        }
+
+        if (tickerCallback) {
+          gsap.ticker.remove(tickerCallback);
+          tickerCallback = null;
+        }
+
+        lenis = new Lenis({
+          duration: 1.2,
+          wheelMultiplier: 0.85,
+          autoRaf: false,
+        });
+
+        // Sinkronkan scroll Lenis dengan GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+
+        tickerCallback = (time: number) => {
+          lenis?.raf(time * 1000);
+        };
+
+        gsap.ticker.add(tickerCallback);
+        gsap.ticker.lagSmoothing(0);
+
+        ScrollTrigger.refresh();
+      }
+
+      document.addEventListener('astro:page-load', () => {
+        initLenis();
+      });
+
+      document.addEventListener('astro:before-swap', () => {
+        if (lenis) {
+          lenis.destroy();
+          lenis = null;
+        }
+      });
+    </script>
   </body>
 </html>
