@@ -1,19 +1,15 @@
 ---
 // src/pages/berita/index.astro
 // Halaman Utama Berita Acara & Publikasi Warta BEM FASILKOM 2026 (Kabinet Aetherion).
-// Dilengkapi Auto-Slide Carousel 3 Detik dan Sinkronisasi Langsung dari Backend API.
+// Mengonsumsi data dari Laravel API dengan graceful fallback ke dataset lokal.
 import PageLayout from '../../layouts/PageLayout.astro';
 import { fetchArticles, formatTanggalIndonesia, type Article } from '../../data/berita';
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 const articles: Article[] = await fetchArticles(apiUrl);
 
-// Cari artikel-artikel untuk Hero Auto-Slide Carousel
-// Prioritaskan artikel featured, jika kurang dari 3 ambil artikel teratas
-let heroSlides = articles.filter((a) => a.is_featured);
-if (heroSlides.length < 3) {
-  heroSlides = articles.slice(0, 4);
-}
+// Cari artikel featured untuk Hero Banner (ambil yang is_featured=true atau yang paling pertama)
+const featuredArticle = articles.find((a) => a.is_featured) || articles[0];
 
 // Hitung kategori dan jumlahnya secara dinamis
 const categoryCounts: Record<string, number> = {};
@@ -34,7 +30,7 @@ const categories = Object.keys(categoryCounts);
     <header class="space-y-2">
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-neutral-900 tracking-tight leading-none">
         Berita Acara
-        <span class="block text-sunset-orange italic font-normal text-3xl sm:text-4xl lg:text-5xl mt-1.5">
+        <span class="block text-sunset-orange italic font-normal text-3xl sm:text-4xl lg:text-5xl mt-1">
           BEM FASILKOM
         </span>
       </h1>
@@ -43,98 +39,73 @@ const categories = Object.keys(categoryCounts);
       </p>
     </header>
 
-    <!-- ================= 2. HERO AUTO-SLIDE CAROUSEL (3 DETIK) ================= -->
-    <section aria-label="Berita Utama Terkini" class="relative group/carousel">
-      <div 
-        id="hero-carousel-container" 
-        class="relative rounded-3xl sm:rounded-4xl overflow-hidden shadow-xl border border-neutral-200/80 bg-neutral-950 aspect-[16/10] sm:aspect-[21/9]"
-      >
-        <!-- Slides List -->
-        <div id="carousel-slides" class="relative w-full h-full">
-          {heroSlides.map((slide, index) => (
-            <div
-              data-slide-index={index}
-              class={`carousel-slide absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${index === 0 ? 'opacity-100 scale-100 z-10 pointer-events-auto' : 'opacity-0 scale-98 z-0 pointer-events-none'}`}
-            >
-              <!-- Slide Background Image -->
-              <img
-                src={slide.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
-                alt={slide.title}
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                loading={index === 0 ? 'eager' : 'lazy'}
-                decoding="async"
-              />
+    <!-- ================= 2. HERO FEATURED CAROUSEL / BANNER ================= -->
+    {featuredArticle && (
+      <section aria-label="Berita Utama Terkini">
+        <a 
+          href={`/berita/${featuredArticle.slug}`}
+          class="group block relative rounded-3xl sm:rounded-4xl overflow-hidden shadow-xl border border-neutral-200/80 bg-neutral-950 aspect-[16/10] sm:aspect-[21/9] transition-transform duration-300 hover:shadow-2xl"
+        >
+          <!-- Background Image dengan Zoom Effect -->
+          <img
+            src={featuredArticle.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
+            alt={featuredArticle.title}
+            class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-700 ease-out opacity-85"
+            loading="eager"
+            decoding="async"
+          />
 
-              <!-- Gradient Overlay Dramatis -->
-              <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 via-55% to-black/20"></div>
-              <div class="absolute inset-0 bg-linear-to-r from-black/75 via-black/20 to-transparent"></div>
+          <!-- Gradient Overlay Dramatis -->
+          <div class="absolute inset-0 bg-linear-to-t from-neutral-950 via-neutral-950/60 to-transparent"></div>
+          <div class="absolute inset-0 bg-linear-to-r from-neutral-950/70 via-transparent to-transparent"></div>
 
-              <!-- Konten Teks di Atas Overlay -->
-              <a 
-                href={`/berita/${slide.slug}`}
-                class="absolute inset-0 p-6 sm:p-10 lg:p-12 z-10 flex flex-col justify-end space-y-3 sm:space-y-4 max-w-4xl group/link"
-              >
-                <!-- Badge Kategori & Tag -->
-                <div class="flex items-center gap-2.5 flex-wrap">
-                  <span class="px-3.5 py-1 rounded-full bg-sunset-orange text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-xs">
-                    {slide.sub_category || slide.category}
-                  </span>
-                  <span class="text-xs font-mono text-neutral-300">
-                    {formatTanggalIndonesia(slide.published_at)}
-                  </span>
-                </div>
+          <!-- Indikator Navigasi Simbolis -->
+          <div class="absolute top-4 sm:top-6 right-4 sm:right-6 flex items-center gap-2 z-20 pointer-events-none">
+            <span class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+              ←
+            </span>
+            <span class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+              →
+            </span>
+          </div>
 
-                <!-- Judul Utama -->
-                <h2 class="text-xl sm:text-3xl lg:text-4xl font-serif font-extrabold text-white tracking-tight leading-snug sm:leading-tight group-hover/link:text-amber-200 transition-colors">
-                  {slide.title}
-                </h2>
-
-                <!-- Excerpt -->
-                <p class="text-xs sm:text-base text-neutral-300 font-sans line-clamp-2 leading-relaxed max-w-3xl">
-                  {slide.excerpt}
-                </p>
-              </a>
+          <!-- Konten Teks di Atas Overlay -->
+          <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-12 z-10 flex flex-col justify-end space-y-3 sm:space-y-4 max-w-4xl">
+            <!-- Badge Kategori & Tag -->
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="px-3 py-1 rounded-full bg-sunset-orange text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-xs">
+                {featuredArticle.sub_category || featuredArticle.category}
+              </span>
+              <span class="text-xs font-mono text-neutral-300">
+                {formatTanggalIndonesia(featuredArticle.published_at)}
+              </span>
             </div>
-          ))}
-        </div>
 
-        <!-- Tombol Panah Kiri (Prev) -->
-        <button
-          type="button"
-          id="carousel-prev-btn"
-          aria-label="Slide Sebelumnya"
-          class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/25 hover:bg-white/50 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-all cursor-pointer shadow-lg active:scale-95"
-        >
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 -translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
-          </svg>
-        </button>
+            <!-- Judul Utama -->
+            <h2 class="text-xl sm:text-3xl lg:text-4xl font-serif font-extrabold text-white tracking-tight leading-snug sm:leading-tight group-hover:text-amber-200 transition-colors">
+              {featuredArticle.title}
+            </h2>
 
-        <!-- Tombol Panah Kanan (Next) -->
-        <button
-          type="button"
-          id="carousel-next-btn"
-          aria-label="Slide Berikutnya"
-          class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/25 hover:bg-white/50 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-all cursor-pointer shadow-lg active:scale-95"
-        >
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </button>
+            <!-- Excerpt -->
+            <p class="text-xs sm:text-base text-neutral-300 font-sans line-clamp-2 leading-relaxed max-w-3xl">
+              {featuredArticle.excerpt}
+            </p>
 
-        <!-- Indikator Pagination Pill (Kanan Bawah) -->
-        <div class="absolute bottom-5 right-6 sm:bottom-6 sm:right-8 z-20 flex items-center gap-1.5 p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
-          {heroSlides.map((_, i) => (
-            <button
-              type="button"
-              data-dot-index={i}
-              class={`carousel-dot transition-all duration-300 rounded-full h-1.5 cursor-pointer ${i === 0 ? 'w-6 bg-sunset-orange' : 'w-2 bg-white/50 hover:bg-white/80'}`}
-              aria-label={`Ke slide ${i + 1}`}
-            ></button>
-          ))}
-        </div>
-      </div>
-    </section>
+            <!-- Bottom Bar & Dots -->
+            <div class="pt-2 flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-6 h-1.5 rounded-full bg-sunset-orange"></span>
+                <span class="w-2 h-1.5 rounded-full bg-white/40"></span>
+                <span class="w-2 h-1.5 rounded-full bg-white/40"></span>
+              </div>
+              <span class="text-xs font-mono font-bold text-white group-hover:text-sunset-orange transition-colors inline-flex items-center gap-1">
+                Baca Selengkapnya <span>→</span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </section>
+    )}
 
     <!-- ================= 3. ARSIP WARTA & FILTER TABS ================= -->
     <section class="space-y-8 pt-4">
@@ -144,7 +115,7 @@ const categories = Object.keys(categoryCounts);
         
         <div class="space-y-1">
           <div class="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sunset-orange uppercase">
-            <span class="w-2.5 h-2.5 bg-sunset-orange rounded-xs inline-block"></span>
+            <span class="w-3 h-3 bg-sunset-orange rounded-xs inline-block"></span>
             Arsip Warta Terkini
           </div>
           <h2 class="text-2xl sm:text-3xl font-serif font-extrabold text-neutral-900 tracking-tight">
@@ -177,7 +148,7 @@ const categories = Object.keys(categoryCounts);
 
       </div>
 
-      <!-- ================= 4. ARTICLE GRID (3 COLUMNS) ================= -->
+      <!-- ================= 4. ARTICLE GRID ================= -->
       <div 
         id="articles-grid" 
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
@@ -257,98 +228,10 @@ const categories = Object.keys(categoryCounts);
   </div>
 </PageLayout>
 
-<script define:vars={{ apiUrl }}>
+<script>
   document.addEventListener('DOMContentLoaded', () => {
-    // ================= 1. AUTO-SLIDE HERO CAROUSEL (3 DETIK) =================
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const prevBtn = document.getElementById('carousel-prev-btn');
-    const nextBtn = document.getElementById('carousel-next-btn');
-    const carouselContainer = document.getElementById('hero-carousel-container');
-
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let autoSlideInterval = null;
-
-    function goToSlide(index) {
-      if (totalSlides <= 1) return;
-
-      slides.forEach((slide, i) => {
-        if (i === index) {
-          slide.classList.remove('opacity-0', 'scale-98', 'pointer-events-none', 'z-0');
-          slide.classList.add('opacity-100', 'scale-100', 'pointer-events-auto', 'z-10');
-        } else {
-          slide.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto', 'z-10');
-          slide.classList.add('opacity-0', 'scale-98', 'pointer-events-none', 'z-0');
-        }
-      });
-
-      dots.forEach((dot, i) => {
-        if (i === index) {
-          dot.className = 'carousel-dot transition-all duration-300 rounded-full h-1.5 cursor-pointer w-6 bg-sunset-orange';
-        } else {
-          dot.className = 'carousel-dot transition-all duration-300 rounded-full h-1.5 cursor-pointer w-2 bg-white/50 hover:bg-white/80';
-        }
-      });
-
-      currentSlide = index;
-    }
-
-    function nextSlide() {
-      goToSlide((currentSlide + 1) % totalSlides);
-    }
-
-    function prevSlide() {
-      goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-    }
-
-    function startAutoSlide() {
-      if (totalSlides > 1) {
-        clearInterval(autoSlideInterval);
-        autoSlideInterval = setInterval(nextSlide, 3000); // Tepat 3 detik
-      }
-    }
-
-    function stopAutoSlide() {
-      clearInterval(autoSlideInterval);
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        nextSlide();
-        startAutoSlide();
-      });
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        prevSlide();
-        startAutoSlide();
-      });
-    }
-
-    dots.forEach((dot) => {
-      dot.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetIndex = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
-        goToSlide(targetIndex);
-        startAutoSlide();
-      });
-    });
-
-    if (carouselContainer) {
-      carouselContainer.addEventListener('mouseenter', stopAutoSlide);
-      carouselContainer.addEventListener('mouseleave', startAutoSlide);
-    }
-
-    // Jalankan timer auto-slide
-    startAutoSlide();
-
-    // ================= 2. FILTER TABS KATEGORI =================
-    const tabs = document.querySelectorAll('.category-tab');
-    const cards = document.querySelectorAll('[data-article-item]');
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.category-tab');
+    const cards = document.querySelectorAll<HTMLElement>('[data-article-item]');
     const emptyState = document.getElementById('empty-state');
 
     tabs.forEach((tab) => {
@@ -383,72 +266,5 @@ const categories = Object.keys(categoryCounts);
         }
       });
     });
-
-    // ================= 3. SINKRONISASI API WAKTU NYATA (UNTUK ARTIKEL BARU DARI /web-berita) =================
-    async function syncLatestFromApi() {
-      try {
-        const res = await fetch(`${apiUrl}/articles`, { signal: AbortSignal.timeout(2000) });
-        if (!res.ok) return;
-        const json = await res.json();
-        if (!json.data || !Array.isArray(json.data) || json.data.length === 0) return;
-
-        // Cek apakah ada artikel baru yang belum ada di grid DOM
-        const grid = document.getElementById('articles-grid');
-        if (!grid) return;
-
-        const existingSlugs = new Set(
-          Array.from(grid.querySelectorAll('a[href^="/berita/"]')).map((a) => {
-            const parts = a.getAttribute('href').split('/');
-            return parts[parts.length - 1];
-          })
-        );
-
-        const newArticles = json.data.filter((item) => !existingSlugs.has(item.slug));
-
-        if (newArticles.length > 0) {
-          // Buat elemen kartu baru secara dinamis dan tempatkan di awal grid
-          newArticles.forEach((article) => {
-            const articleEl = document.createElement('article');
-            articleEl.setAttribute('data-article-item', '');
-            articleEl.setAttribute('data-category', (article.category || '').toLowerCase());
-            articleEl.className = 'article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden';
-            
-            const pubDate = article.published_at 
-              ? new Date(article.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
-              : 'Baru Saja';
-
-            articleEl.innerHTML = `
-              <a href="/berita/${article.slug}" class="relative aspect-[16/10] overflow-hidden bg-neutral-100 block" aria-label="${article.title}">
-                <img src="${article.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}" alt="${article.title}" class="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out" loading="lazy" />
-                <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
-                <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-md bg-sunset-orange text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-sm">${article.category}</span>
-                <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-neutral-950/75 backdrop-blur-xs text-neutral-200 text-[11px] font-mono tracking-tight shadow-xs">${pubDate}</span>
-              </a>
-              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div class="space-y-2">
-                  <a href="/berita/${article.slug}" class="block">
-                    <h3 class="font-serif font-bold text-lg sm:text-xl text-neutral-900 group-hover:text-sunset-orange transition-colors leading-snug line-clamp-2">${article.title}</h3>
-                  </a>
-                  <p class="text-xs sm:text-sm text-neutral-600 font-sans leading-relaxed line-clamp-2">${article.excerpt || ''}</p>
-                </div>
-                <div class="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
-                  <span class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider truncate max-w-[150px]">${article.sub_category || 'BERITA ACARA'}</span>
-                  <a href="/berita/${article.slug}" class="font-bold text-sunset-orange hover:text-amber-600 transition-colors inline-flex items-center gap-1 group-hover:translate-x-1 duration-200 shrink-0">
-                    Baca Telusur <span>→</span>
-                  </a>
-                </div>
-              </div>
-            `;
-
-            grid.prepend(articleEl);
-          });
-        }
-      } catch (_e) {
-        // Fallback hening jika API offline
-      }
-    }
-
-    // Jalankan sinkronisasi background
-    syncLatestFromApi();
   });
 </script>
