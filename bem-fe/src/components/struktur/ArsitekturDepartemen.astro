@@ -1,12 +1,11 @@
 ---
 // src/components/struktur/ArsitekturDepartemen.astro
-// Desain node: kartu unit putih + kartu bidang di bawahnya, zig-zag kiri/kanan (desain lama).
-// Animasi (diadaptasi dari "How a project runs" — codeofsagar.in), desktop ≥768px:
+// Desain node: kartu unit putih + kartu bidang di bawahnya, zig-zag kiri/kanan.
+// Animasi:
 //  1. Tiap node menempel (sticky) di tengah layar selama ±60svh.
 //  2. Node membesar MIN_SCALE → 1, tertahan, lalu mengecil 1 → MIN_SCALE (scrub), berporos di sisi luar.
 //  3. Garis lengkung oranye tergambar dari node ke node berikutnya (SVG pathLength=1).
 //  4. Teks muncul per baris dari balik mask (SplitText).
-// Mobile & prefers-reduced-motion: layout statis, tanpa sticky/scale/garis.
 import { units as semuaUnit, type Unit } from '../../data/struktur';
 import { ICONS, type IconName } from './icons';
 
@@ -22,12 +21,8 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
 <section aria-labelledby="arsitektur-title" class="relative bg-[#FAFAFA] border-t border-neutral-200">
   <!-- Header section -->
   <div class="max-w-3xl mx-auto px-6 pt-24 sm:pt-32 pb-12 sm:pb-16 text-center space-y-4">
-    <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-neutral-200/80 text-[11px] font-mono font-bold text-sunset-orange uppercase tracking-wider shadow-xs">
-      <span class="w-2 h-2 rounded-full bg-sunset-orange animate-pulse"></span>
-      Topologi Eksekutif
-    </span>
     <h2 id="arsitektur-title" data-ad-text class="text-3xl sm:text-5xl font-serif font-extrabold text-neutral-900 tracking-tight leading-[1.1]">
-      Arsitektur <span class="text-sunset-orange">Departemen</span> &amp; Alur Sirkuit Eksekutif
+      Struktur Organisasi <span class="text-sunset-orange"> <br> BEM Fasilkom</span>
     </h2>
     <p data-ad-text class="text-sm sm:text-base text-neutral-600 leading-relaxed max-w-2xl mx-auto">
       Aliran mandat berjenjang dan koordinasi struktural antar departemen teknis dalam melayani sivitas akademika.
@@ -60,7 +55,7 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
           <li data-ad-step data-flip={flip ? '' : undefined} data-center={center ? '' : undefined}>
             <div
               class:list={[
-                'md:sticky md:top-[max(6rem,calc(50svh_-_14rem))]',
+                'md:sticky md:top-[max(6rem,calc(50svh-14rem))]',
                 center ? 'flex flex-col items-center gap-6' : 'grid md:grid-cols-2 gap-6 md:gap-10 items-center',
               ]}
             >
@@ -77,7 +72,7 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
                 <span class="text-[11px] font-mono font-bold tracking-[0.3em] uppercase text-neutral-400">{tipeLabel(u)} · {u.kode}</span>
               </div>
 
-              <!-- NODE (desain lama) -->
+              <!-- NODE -->
               <div
                 data-ad-film
                 class:list={[
@@ -149,7 +144,7 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  /** Skala terkecil node saat masuk/keluar. Referensi memakai 0.6; 0.75 menjaga teks kartu tetap terbaca. */
+  /** Skala terkecil node saat masuk/keluar. */
   const MIN_SCALE = 0.75;
 
   let ctx: gsap.Context | null = null;
@@ -192,26 +187,40 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
       const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-ad-step]'));
       let raf = 0;
 
-      // Kurva dari sudut bawah-dalam node i ke sudut atas-dalam node i+1
+      // Batch Read & Write untuk memusnahkan Layout Thrashing
       const drawLinks = () => {
         raf = 0;
         if (!svg) return;
         const box = svg.getBoundingClientRect();
-        links.forEach((path, i) => {
-          // Node tengah: garis berakhir di atas-tengah penanda nomornya
+
+        // 1. READ PHASE: Kumpulkan seluruh bounding box tanpa menyentuh DOM write
+        const linkData = links.map((path, i) => {
           const center = steps[i + 1]?.hasAttribute('data-center');
           const a = nodes[i]?.getBoundingClientRect();
           const b = (center ? steps[i + 1].querySelector('[data-ad-copy]') : nodes[i + 1])?.getBoundingClientRect();
-          if (!a || !b) return;
+          if (!a || !b) return null;
+
           const x1 = (i % 2 ? a.right : a.left) - box.left;
           const y1 = a.bottom - box.top;
           const x2 = (center ? (b.left + b.right) / 2 : i % 2 ? b.left : b.right) - box.left;
           const y2 = b.top - box.top;
           const c = Math.max(40, (y2 - y1) * 0.8);
-          path.setAttribute('d', `M${x1.toFixed(1)} ${y1.toFixed(1)} C${x1.toFixed(1)} ${(y1 + c).toFixed(1)} ${x2.toFixed(1)} ${(y2 - c).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`);
+
+          return {
+            path,
+            d: `M${x1.toFixed(1)} ${y1.toFixed(1)} C${x1.toFixed(1)} ${(y1 + c).toFixed(1)} ${x2.toFixed(1)} ${(y2 - c).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`
+          };
+        });
+
+        // 2. WRITE PHASE: Update atribut SVG bersamaan
+        linkData.forEach((item) => {
+          if (item) item.path.setAttribute('d', item.d);
         });
       };
-      const queueDraw = () => { if (!raf) raf = requestAnimationFrame(drawLinks); };
+
+      const queueDraw = () => {
+        if (!raf) raf = requestAnimationFrame(drawLinks);
+      };
 
       // Garis tergambar saat node berikutnya masuk layar
       links.forEach((path, i) => {
@@ -221,7 +230,10 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
           start: 'top bottom',
           end: 'top 40%',
           scrub: 0.5,
-          onUpdate: (st) => { path.style.strokeDashoffset = String(1 - st.progress); },
+          onUpdate: (st) => {
+            path.style.strokeDashoffset = String(1 - st.progress);
+            queueDraw();
+          },
         });
       });
 
@@ -230,15 +242,18 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
         const node = step.querySelector<HTMLElement>('[data-ad-film]');
         const copy = step.querySelector<HTMLElement>('[data-ad-copy]');
         if (!node || !copy) return;
-        // Node tengah: penanda di atas, tidak perlu bergeser horizontal
+
         const dir = step.hasAttribute('data-center') ? 0 : step.hasAttribute('data-flip') ? -1 : 1;
         const state = { s: MIN_SCALE };
+
         const apply = () => {
           gsap.set(node, { scale: state.s });
           gsap.set(copy, { x: dir * (1 - state.s) * node.offsetWidth });
           queueDraw();
         };
+
         apply();
+
         gsap.timeline({
           scrollTrigger: { trigger: step, start: 'top 90%', end: 'bottom 10%', scrub: 0.5 },
           onUpdate: apply,
@@ -248,12 +263,16 @@ const tipeLabel = (u: Unit) => (u.tipe === 'biro' ? 'Biro' : 'Departemen');
           .to(state, { s: MIN_SCALE, ease: 'power2.inOut', duration: 1 });
       });
 
+      // Sinkronisasi rAF ke ScrollTrigger & event scroll agar garis tidak ketinggalan saat sticky
       ScrollTrigger.addEventListener('refresh', queueDraw);
+      window.addEventListener('scroll', queueDraw, { passive: true });
+
       queueDraw();
 
       return () => {
         cancelAnimationFrame(raf);
         ScrollTrigger.removeEventListener('refresh', queueDraw);
+        window.removeEventListener('scroll', queueDraw);
         links.forEach((p) => p.removeAttribute('d'));
       };
     });

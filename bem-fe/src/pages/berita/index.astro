@@ -1,20 +1,13 @@
 ---
 // src/pages/berita/index.astro
 // Halaman Utama Berita Acara & Publikasi Warta BEM FASILKOM 2026 (Kabinet Aetherion).
-// Dilengkapi:
-// 1. Padding atas luas agar judul tidak tertutup floating navbar.
-// 2. Auto-Slide Carousel 3 Detik.
-// 3. Page slide indicator (dots/pill) di posisi TENGAH BAWAH.
-// 4. Tombol panah geser kanan-kiri mode HOVER ONLY (muncul saat cursor diarahkan).
-// 5. Margin aman agar tombol geser TIDAK MENUTUPI judul maupun deskripsi.
-// 6. Sinkronisasi real-time untuk warta yang diunggah dari /web-berita.
 import PageLayout from '../../layouts/PageLayout.astro';
 import { fetchArticles, formatTanggalIndonesia, type Article } from '../../data/berita';
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 const articles: Article[] = await fetchArticles(apiUrl);
 
-// Cari artikel-artikel untuk Hero Auto-Slide Carousel (minimal 3-4 artikel)
+// Cari artikel-artikel untuk Hero Auto-Slide Carousel
 let heroSlides = articles.filter((a) => a.is_featured);
 if (heroSlides.length < 3) {
   heroSlides = articles.slice(0, 4);
@@ -33,21 +26,7 @@ const categories = Object.keys(categoryCounts);
   title="Berita Acara — BEM FASILKOM UPN Veteran Jawa Timur 2026"
   description="Kumpulan berita, laporan khusus, rilis kegiatan, dan arsip publikasi resmi BEM FASILKOM 2026 Kabinet Aetherion."
 >
-  <!-- Main Container: pt-40 sm:pt-44 lg:pt-48 memastikan judul bebas dari halangan floating navbar -->
-  <div class="pt-40 sm:pt-44 lg:pt-48 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12 sm:space-y-16">
-    
-    <!-- ================= 1. HEADER SECTION ================= -->
-    <header class="space-y-2">
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-neutral-900 tracking-tight leading-none">
-        Berita Acara
-        <span class="block text-sunset-orange italic font-normal text-3xl sm:text-4xl lg:text-5xl mt-2">
-          BEM FASILKOM
-        </span>
-      </h1>
-      <p class="text-sm sm:text-base text-neutral-600 font-sans max-w-2xl pt-2">
-        Dokumentasi komprehensif dinamika pergerakan, advokasi, riset teknologi, dan harmonisasi civitas akademika Fakultas Ilmu Komputer.
-      </p>
-    </header>
+  <div class="pt-40 sm:pt-44 lg:pt-30 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12 sm:space-y-16">
 
     <!-- ================= 2. HERO AUTO-SLIDE CAROUSEL (3 DETIK) ================= -->
     <section aria-label="Berita Utama Terkini" class="relative group/carousel">
@@ -62,7 +41,6 @@ const categories = Object.keys(categoryCounts);
               data-slide-index={index}
               class={`carousel-slide absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${index === 0 ? 'opacity-100 scale-100 z-10 pointer-events-auto' : 'opacity-0 scale-98 z-0 pointer-events-none'}`}
             >
-              <!-- Slide Background Image -->
               <img
                 src={slide.image_url || '/assets/foto-kabinet/bph/RELEASE FUNGSIONARIS.webp'}
                 alt={slide.title}
@@ -71,19 +49,13 @@ const categories = Object.keys(categoryCounts);
                 decoding="async"
               />
 
-              <!-- Gradient Overlay Dramatis -->
               <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/55 via-55% to-black/25"></div>
               <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/25 to-transparent"></div>
 
-              <!-- Konten Teks di Atas Overlay:
-                   Padding horizontal px-8 sm:px-20 lg:px-24 memberi jarak aman yang luas 
-                   sehingga judul & deskripsi TIDAK AKAN PERNAH tertutupi tombol panah kanan-kiri.
-                   Padding bawah pb-14 sm:pb-16 memberi ruang bebas untuk pagination dots di tengah. -->
               <a 
                 href={`/berita/${slide.slug}`}
                 class="absolute inset-0 px-8 sm:px-20 lg:px-24 pb-14 sm:pb-16 pt-8 z-10 flex flex-col justify-end space-y-2.5 sm:space-y-4 max-w-4xl group/link"
               >
-                <!-- Badge Kategori & Tanggal -->
                 <div class="flex items-center gap-2.5 flex-wrap">
                   <span class="px-3.5 py-1 rounded-full bg-sunset-orange text-white text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase shadow-xs">
                     {slide.sub_category || slide.category}
@@ -93,12 +65,11 @@ const categories = Object.keys(categoryCounts);
                   </span>
                 </div>
 
-                <!-- Judul Utama (Bebas Halangan) -->
-                <h2 class="text-lg sm:text-2xl lg:text-4xl font-serif font-extrabold text-white tracking-tight leading-snug sm:leading-tight group-hover/link:text-amber-200 transition-colors">
+                <!-- Judul Hero: Warna kuning hover telah dihapus, tetap putih bersih -->
+                <h2 class="text-lg sm:text-2xl lg:text-4xl font-serif font-extrabold text-white tracking-tight leading-snug sm:leading-tight">
                   {slide.title}
                 </h2>
 
-                <!-- Excerpt Deskripsi (Bebas Halangan) -->
                 <p class="text-xs sm:text-sm lg:text-base text-neutral-300 font-sans line-clamp-2 leading-relaxed max-w-3xl">
                   {slide.excerpt}
                 </p>
@@ -107,10 +78,7 @@ const categories = Object.keys(categoryCounts);
           ))}
         </div>
 
-        <!-- Tombol Panah Kiri:
-             - Mode Hover Saja (opacity-0, muncul saat cursor masuk banner: group-hover/carousel:opacity-100)
-             - Transisi halus slide-in dari kiri (-translate-x-3 -> translate-x-0)
-             - Diletakkan di samping kiri tanpa menabrak teks -->
+        <!-- Tombol Panah Kiri -->
         <button
           type="button"
           id="carousel-prev-btn"
@@ -122,10 +90,7 @@ const categories = Object.keys(categoryCounts);
           </svg>
         </button>
 
-        <!-- Tombol Panah Kanan:
-             - Mode Hover Saja (opacity-0, muncul saat cursor masuk banner: group-hover/carousel:opacity-100)
-             - Transisi halus slide-in dari kanan (translate-x-3 -> translate-x-0)
-             - Diletakkan di samping kanan tanpa menabrak teks -->
+        <!-- Tombol Panah Kanan -->
         <button
           type="button"
           id="carousel-next-btn"
@@ -137,8 +102,7 @@ const categories = Object.keys(categoryCounts);
           </svg>
         </button>
 
-        <!-- Indikator Pagination Pill:
-             Ditempatkan PERSIS DI TENGAH BAWAH (left-1/2 -translate-x-1/2) -->
+        <!-- Pagination Dots -->
         <div class="absolute bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 shadow-md">
           {heroSlides.map((_, i) => (
             <button
@@ -155,22 +119,19 @@ const categories = Object.keys(categoryCounts);
     <!-- ================= 3. ARSIP WARTA & FILTER TABS ================= -->
     <section class="space-y-8 pt-4">
       
-      <!-- Sub-header & Tabs Bar -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-neutral-200 pb-6">
-        
         <div class="space-y-1">
           <div class="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sunset-orange uppercase">
             <span class="w-2.5 h-2.5 bg-sunset-orange rounded-xs inline-block"></span>
-            Arsip Warta Terkini
+            Berita BEM Fasilkom
           </div>
           <h2 class="text-2xl sm:text-3xl font-serif font-extrabold text-neutral-900 tracking-tight">
-            Indeks Publikasi Artikel
+            Fasilkom News & Publikasi
           </h2>
         </div>
 
-        <!-- Filter Tabs Interaktif -->
+        <!-- Filter Tabs -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full no-scrollbar" id="category-tabs">
-          <!-- Tab Semua -->
           <button
             type="button"
             data-category="all"
@@ -179,7 +140,6 @@ const categories = Object.keys(categoryCounts);
             Semua ({articles.length})
           </button>
 
-          <!-- Tab Per Kategori Dinamis -->
           {categories.map((cat) => (
             <button
               type="button"
@@ -190,10 +150,9 @@ const categories = Object.keys(categoryCounts);
             </button>
           ))}
         </div>
-
       </div>
 
-      <!-- ================= 4. ARTICLE GRID (3 COLUMNS) ================= -->
+      <!-- ================= 4. ARTICLE GRID: ANIMASI DARI KANAN ================= -->
       <div 
         id="articles-grid" 
         data-api-url={apiUrl}
@@ -203,11 +162,11 @@ const categories = Object.keys(categoryCounts);
           <article 
             data-article-item
             data-category={article.category.toLowerCase()}
-            class="news-card article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs flex flex-col overflow-hidden transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,107,0,0.12)] hover:border-sunset-orange/50"
+            class="news-card article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs flex flex-col overflow-hidden will-change-transform hover:border-sunset-orange/50 hover:shadow-[0_20px_40px_-15px_rgba(255,107,0,0.12)] transition-[border-color,box-shadow] duration-300"
           >
-            <!-- Card Image Container (rounded-xl & aspect 16/10) -->
+            <!-- Card Image -->
             <a 
-              href={`/berita/${article.slug}`}
+              href={`/berita/${article.slug}`} 
               class="relative aspect-[16/10] overflow-hidden rounded-xl bg-neutral-100 block m-3 sm:m-4 mb-0"
               aria-label={article.title}
             >
@@ -219,15 +178,12 @@ const categories = Object.keys(categoryCounts);
                 decoding="async"
               />
 
-              <!-- Gradient Subtil Atas & Bawah -->
               <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
 
-              <!-- Category Badge (Kiri Atas) -->
               <span class="absolute top-3 left-3 px-3 py-1 rounded-md bg-sunset-orange text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-sm">
                 {article.category}
               </span>
 
-              <!-- Date Badge (Kanan Bawah) -->
               <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-neutral-950/75 backdrop-blur-xs text-neutral-200 text-[11px] font-mono tracking-tight shadow-xs">
                 {formatTanggalIndonesia(article.published_at)}
               </span>
@@ -263,7 +219,7 @@ const categories = Object.keys(categoryCounts);
         ))}
       </div>
 
-      <!-- State Kosong jika filter tidak menemukan artikel -->
+      <!-- State Kosong Filter -->
       <div id="empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-neutral-200/80 space-y-3">
         <p class="font-serif text-lg font-bold text-neutral-800">Tidak ada artikel dalam kategori ini</p>
         <p class="text-xs font-mono text-neutral-500">Silakan pilih kategori lain atau kembali ke filter "Semua".</p>
@@ -276,6 +232,9 @@ const categories = Object.keys(categoryCounts);
 
 <script>
   import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   let autoSlideInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -290,21 +249,26 @@ const categories = Object.keys(categoryCounts);
     const grid = document.getElementById('articles-grid');
     if (!grid) return;
 
-    // ================= 1. GSAP ENTRANCE STAGGER ANIMATION =================
-    const cards = document.querySelectorAll('.news-card');
+    // ================= 1. GSAP ENTRANCE: MUNCUL DARI KANAN DENGAN SCROLLTRIGGER =================
+    const cards = document.querySelectorAll<HTMLElement>('.news-card');
     if (cards.length > 0) {
-      gsap.fromTo(
-        cards,
-        { y: 45, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.85,
-          ease: 'power2.out',
-          clearProps: 'transform,opacity',
-        }
-      );
+      // Set posisi awal di sebelah kanan dengan opasitas 0
+      gsap.set(cards, { x: 90, opacity: 0, scale: 0.96 });
+
+      gsap.to(cards, {
+        scrollTrigger: {
+          trigger: '#articles-grid',
+          start: 'top 85%', // Baru berjalan saat user men-scroll hingga grid masuk layar
+          once: true,
+        },
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.0,
+        stagger: 0.12, // Mengalir bertahap dari kartu pertama
+        ease: 'power3.out',
+        clearProps: 'transform,opacity,scale,will-change', // Bersihkan inline styles agar hover normal
+      });
     }
 
     // ================= 2. AUTO-SLIDE HERO CAROUSEL (3 DETIK) =================
@@ -354,7 +318,7 @@ const categories = Object.keys(categoryCounts);
     function startAutoSlide() {
       if (totalSlides > 1) {
         stopAutoSlide();
-        autoSlideInterval = setInterval(nextSlide, 3000); // Tepat 3 detik sekali
+        autoSlideInterval = setInterval(nextSlide, 3000);
       }
     }
 
@@ -399,13 +363,11 @@ const categories = Object.keys(categoryCounts);
       tab.onclick = () => {
         const targetCategory = tab.dataset.category || 'all';
 
-        // Update styling tab aktif
         tabs.forEach((t) => {
           t.className = 'category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-white text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 border border-neutral-200';
         });
         tab.className = 'category-tab px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all whitespace-nowrap cursor-pointer bg-sunset-orange text-white shadow-xs';
 
-        // Filter kartu dengan animasi stagger halus
         let visibleCount = 0;
         const visibleList: HTMLElement[] = [];
         articleCards.forEach((card) => {
@@ -420,14 +382,18 @@ const categories = Object.keys(categoryCounts);
         });
 
         if (visibleList.length > 0) {
-          gsap.fromTo(
-            visibleList,
-            { y: 20, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.05, duration: 0.45, ease: 'power2.out', clearProps: 'transform,opacity' }
-          );
+          gsap.set(visibleList, { x: 60, opacity: 0, scale: 0.98 });
+          gsap.to(visibleList, {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.08,
+            duration: 0.6,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,scale,will-change',
+          });
         }
 
-        // Tampilkan/sembunyikan empty state
         if (emptyState) {
           if (visibleCount === 0) {
             emptyState.classList.remove('hidden');
@@ -435,14 +401,16 @@ const categories = Object.keys(categoryCounts);
             emptyState.classList.add('hidden');
           }
         }
+
+        ScrollTrigger.refresh();
       };
     });
 
     // ================= 4. SINKRONISASI API WAKTU NYATA =================
-    const apiUrl = grid.dataset.apiUrl || import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const apiUrlCurrent = grid.dataset.apiUrl || import.meta.env.PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
     async function syncLatestFromApi() {
       try {
-        const res = await fetch(`${apiUrl}/articles`, { signal: AbortSignal.timeout(2000) });
+        const res = await fetch(`${apiUrlCurrent}/articles`, { signal: AbortSignal.timeout(2000) });
         if (!res.ok) return;
         const json = await res.json();
         if (!json.data || !Array.isArray(json.data) || json.data.length === 0) return;
@@ -462,7 +430,7 @@ const categories = Object.keys(categoryCounts);
             const articleEl = document.createElement('article');
             articleEl.setAttribute('data-article-item', '');
             articleEl.setAttribute('data-category', (article.category || '').toLowerCase());
-            articleEl.className = 'news-card article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs flex flex-col overflow-hidden transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,107,0,0.12)] hover:border-sunset-orange/50';
+            articleEl.className = 'news-card article-card group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 shadow-xs flex flex-col overflow-hidden will-change-transform hover:border-sunset-orange/50 hover:shadow-[0_20px_40px_-15px_rgba(255,107,0,0.12)] transition-[border-color,box-shadow] duration-300';
             
             const pubDate = article.published_at 
               ? new Date(article.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -496,19 +464,26 @@ const categories = Object.keys(categoryCounts);
           });
 
           if (newElements.length > 0) {
-            gsap.fromTo(
-              newElements,
-              { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, stagger: 0.1, duration: 0.6, ease: 'power2.out', clearProps: 'transform,opacity' }
-            );
+            gsap.set(newElements, { x: 80, opacity: 0, scale: 0.96 });
+            gsap.to(newElements, {
+              x: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 1.0,
+              stagger: 0.1,
+              ease: 'power3.out',
+              clearProps: 'transform,opacity,scale,will-change',
+            });
+            ScrollTrigger.refresh();
           }
         }
       } catch (_e) {
-        // Fallback hening jika API offline
+        // Fallback jika API offline
       }
     }
 
     syncLatestFromApi();
+    window.addEventListener('load', () => ScrollTrigger.refresh());
   }
 
   document.addEventListener('astro:page-load', initNewsPage);
